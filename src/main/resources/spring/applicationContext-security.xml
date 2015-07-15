@@ -21,7 +21,7 @@
 
 	<security:http
 		auto-config="true"
-		use-expressions="false"
+		use-expressions="true"
 		request-matcher="ant">
 		<security:csrf />
 		<!-- do not use default-target-url="/example/authentication/loginSuccess" -->
@@ -44,22 +44,22 @@
 		<!-- authorizing web request -->
 		<security:intercept-url
 			pattern="/logbackStatus"
-			access="ROLE_DEVELOPER" />
+			access="hasRole('DEVELOPER')" />
 		<security:intercept-url
 			pattern="/example/username/**"
-			access="ROLE_DEVELOPER" />
+			access="hasRole('DEVELOPER')" />
 		<security:intercept-url
 			pattern="/example/authentication/prepareLogin/**"
-			access="IS_AUTHENTICATED_ANONYMOUSLY" />
+			access="isAnonymous()" />
 		<security:intercept-url
 			pattern="/example/authentication/logoutSuccess/**"
-			access="IS_AUTHENTICATED_ANONYMOUSLY" />
+			access="isAnonymous()" />
 		<security:intercept-url
 			pattern="/common/**"
-			access="IS_AUTHENTICATED_ANONYMOUSLY" />
+			access="isAnonymous()" />
 		<security:intercept-url
 			pattern="/**"
-			access="IS_AUTHENTICATED_ANONYMOUSLY" />
+			access="permitAll" />
 	</security:http>
 
 	<security:authentication-manager>

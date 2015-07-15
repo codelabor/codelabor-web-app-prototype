@@ -55,6 +55,12 @@
 				<sec:authorize access="!hasRole('DEVELOPER')">
 					<li>You don't have ROLE_DEVELOPER.</li>
 				</sec:authorize>
+				<sec:authorize access="hasRole('USER')">
+					<li>You have ROLE_USER.</li>
+				</sec:authorize>
+				<sec:authorize access="!hasRole('USER')">
+					<li>You don't have ROLE_USER.</li>
+				</sec:authorize>
 				<sec:authorize access="isFullyAuthenticated()">
 					<li>You are fully authenticated.</li>
 				</sec:authorize>

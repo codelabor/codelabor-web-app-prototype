@@ -103,6 +103,7 @@
 	<mvc:view-controller path="/example/request" view-name="example/request/requestInfo" />
 	<mvc:view-controller path="/example/info/buildInfo" view-name="example/info/buildInfo" />
 	<mvc:view-controller path="/example/error/underConstruction" view-name="example/error/underConstruction" />
+	<mvc:view-controller path="/example/authorization/taglibs" view-name="example/authorization/taglibs" />
 
 	<!-- view controller (system) -->
 	<mvc:view-controller path="/system/info/buildInfo" view-name="system/info/buildInfo" />
@@ -133,8 +134,8 @@
 	<!-- 30MB = 1024 * 1024 * 30 = 31457280 Bytes -->
 	<!-- 100MB = 1024 * 1024 * 100 = 104857600 Bytes -->
 
-	<!-- servlet 2.5 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> <property name="maxUploadSize" value="20971520" 
-		/> <property name="uploadTempDir" ref="uploadDirResource" /> </bean> <bean id="uploadDirResource" class="org.springframework.core.io.FileSystemResource"> <constructor-arg> 
+	<!-- servlet 2.5 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> <property name="maxUploadSize" value="20971520"
+		/> <property name="uploadTempDir" ref="uploadDirResource" /> </bean> <bean id="uploadDirResource" class="org.springframework.core.io.FileSystemResource"> <constructor-arg>
 		<value>${attachment.temp.dir}</value> </constructor-arg> </bean> -->
 
 	<!-- servlet 3.0 -->

@@ -73,3 +73,8 @@
 	<li><a href="${pageContext.request.contextPath}/example/validation/registration/registrationUser">registration</a></li>
 	<li><a href="${pageContext.request.contextPath}/example/validation/hibernate/safeHtml/whitListType">hibernate safeHtml (whitListType)</a></li>
 </ul>
+
+<h5>Authorization</h5>
+<ul>
+	<li><a href="${pageContext.request.contextPath}/example/authorization/taglibs">spring security taglibs</a></li>
+</ul>

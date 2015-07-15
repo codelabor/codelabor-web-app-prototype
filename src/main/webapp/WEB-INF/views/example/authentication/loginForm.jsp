@@ -16,7 +16,7 @@
   - limitations under the License.
   -->
 <!--
-  - Author(s): Sang Jae Shin
+  - Author(s): SHIN Sang-jae
   -->
 <html>
 <head>

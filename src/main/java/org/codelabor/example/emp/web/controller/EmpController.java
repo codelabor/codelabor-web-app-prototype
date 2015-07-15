@@ -65,7 +65,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
- * @author Sang Jae Shin
+ * @author SHIN Sang-jae
  *
  */
 @Controller

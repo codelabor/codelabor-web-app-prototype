@@ -22,7 +22,7 @@ import org.codelabor.example.emp.dto.EmpDto;
 import org.codelabor.example.emp.dto.EmpSearchConditionDto;
 
 /**
- * @author Sang Jae Shin
+ * @author SHIN Sang-jae
  *
  */
 public interface EmpDao {

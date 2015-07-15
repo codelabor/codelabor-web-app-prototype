@@ -39,7 +39,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * @author Sang Jae Shin
+ * @author SHIN Sang-jae
  *
  */
 @ContextConfiguration(locations = { "file:src/main/resources/spring/applicationContext-root.xml",

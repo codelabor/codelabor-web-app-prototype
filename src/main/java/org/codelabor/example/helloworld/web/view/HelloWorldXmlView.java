@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.view.xml.MarshallingView;
 
 /**
- * @author Sang Jae Shin
+ * @author SHIN Sang-jae
  *
  */
 public class HelloWorldXmlView extends MarshallingView {

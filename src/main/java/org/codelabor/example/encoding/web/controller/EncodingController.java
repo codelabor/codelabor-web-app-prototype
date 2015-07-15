@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * @author Sang Jae Shin
+ * @author SHIN Sang-jae
  *
  */
 @Controller

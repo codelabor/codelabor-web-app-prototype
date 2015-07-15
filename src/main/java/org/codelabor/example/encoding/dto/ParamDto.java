@@ -17,7 +17,7 @@
 package org.codelabor.example.encoding.dto;
 
 /**
- * @author Sang Jae Shin
+ * @author SHIN Sang-jae
  *
  */
 public class ParamDto { // NOPMD by "SHIN Sang-jae"

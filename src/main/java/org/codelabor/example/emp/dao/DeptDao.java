@@ -21,7 +21,7 @@ import java.util.List;
 import org.codelabor.example.emp.dto.DeptDto;
 
 /**
- * @author Sang Jae Shin
+ * @author SHIN Sang-jae
  *
  */
 public interface DeptDao {

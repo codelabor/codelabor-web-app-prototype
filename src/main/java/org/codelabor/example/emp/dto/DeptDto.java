@@ -26,7 +26,7 @@ import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 
 /**
- * @author Sang Jae Shin
+ * @author SHIN Sang-jae
  *
  */
 public class DeptDto implements Serializable { // NOPMD by "SHIN Sang-jae"

@@ -115,8 +115,6 @@
 		<constructor-arg ref="aclCache"/> <property name="sidIdentityQuery"> <value>SELECT ACL_SID_SEQUENCE.NEXTVAL FROM DUAL</value> </property> <property name="classIdentityQuery">
 		<value>SELECT ACL_CLASS_SEQUENCE.NEXTVAL FROM DUAL</value> </property> </bean> -->
 
-	<!-- TODO: role hierarychy does not work -->
-
 	<security:authentication-manager alias="authenticationManager">
 		<security:authentication-provider ref="authenticationProvider" />
 	</security:authentication-manager>

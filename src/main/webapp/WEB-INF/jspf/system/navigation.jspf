@@ -1,1 +1,11 @@
 <!-- Navigation -->
+<h5>Account</h5>
+<ul>
+	<li><a href="${pageContext.request.contextPath}/system/account/createAccount">account</a>
+</ul>
+
+<h5>Info</h5>
+<ul>
+	<li><a href="${pageContext.request.contextPath}/system/info/buildInfo">svn build info</a></li>
+	<li><a href="${pageContext.request.contextPath}/logbackStatus">logback status</a></li>
+</ul>

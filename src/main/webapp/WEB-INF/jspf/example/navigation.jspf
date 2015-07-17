@@ -1,9 +1,4 @@
 <!-- Navigation -->
-<h5>Account</h5>
-<ul>
-	<li><a href="${pageContext.request.contextPath}/system/account/account">account</a>
-</ul>
-
 <h5>Request</h5>
 <ul>
 	<li><a href="${pageContext.request.contextPath}/example/request">request info</a></li>
@@ -48,19 +43,9 @@
 	<li><a href="${pageContext.request.contextPath}/example/helloworld/sayHelloByJson">json</a></li>
 </ul>
 
-<h5>Info</h5>
-<ul>
-	<li><a href="${pageContext.request.contextPath}/example/info/buildInfo">build info</a></li>
-</ul>
-
 <h5>JSTL</h5>
 <ul>
 	<li><a href="${pageContext.request.contextPath}/example/jstl/fn">jstl</a></li>
-</ul>
-
-<h5>Logback</h5>
-<ul>
-	<li><a href="${pageContext.request.contextPath}/logbackStatus">status</a></li>
 </ul>
 
 <h5>Properties</h5>

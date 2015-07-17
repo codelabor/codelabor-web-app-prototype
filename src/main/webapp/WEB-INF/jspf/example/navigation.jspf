@@ -1,4 +1,9 @@
 <!-- Navigation -->
+<h5>Account</h5>
+<ul>
+	<li><a href="${pageContext.request.contextPath}/system/account/account">account</a>
+</ul>
+
 <h5>Request</h5>
 <ul>
 	<li><a href="${pageContext.request.contextPath}/example/request">request info</a></li>

@@ -47,7 +47,9 @@
 				<form:form commandName="accountDto">
 					<!-- failure message area -->
 					<div class="failureMessages">
+						<!--
 						<form:errors path="*" />
+						-->
 					</div>
 					<table class="bodyTable">
 						<tr class="b">

@@ -1,26 +1,320 @@
 package org.codelabor.system.account.dto;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
 
-public class AccountDto implements Serializable {
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+public class AccountDto implements Serializable, UserDetails {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = -6177823371031883302L;
 
-	private Boolean accountEnabled;
-	private Boolean accountNonExpired;
-	private Boolean accountNonLocked;
-	private Boolean credentialsNonExpired;
+	private boolean isEnabled;
+	private boolean isAccountNonExpired;
+	private boolean isAccountNonLocked;
+	private boolean isCredentialsNonExpired;
+
+	@NotBlank
 	private String givenName;
-	private Integer graceLoginsRemainin;
+	private int graceLoginsRemainin;
 	private String mail;
 	private String mobile;
+
+	@NotBlank
+	@Pattern(regexp = "((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[~`!@#$%^&*()_+\\-=\\[\\]\\{}|;':\",./<>?\\\\])(?=\\S+$).{10,15})", message = "{errors.password.mismatched}")
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String password;
+
+	@NotBlank
+	@Pattern(regexp = "((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[~`!@#$%^&*()_+\\-=\\[\\]\\{}|;':\",./<>?\\\\])(?=\\S+$).{10,15})", message = "{errors.password.mismatched}")
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String passwordConfirm;
+	@NotBlank
 	private String surname;
+
+	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String username;
+	private Collection<? extends GrantedAuthority> authorites = Collections
+			.emptyList();
+
+	/**
+	 * @return the isEnabled
+	 */
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+
+	/**
+	 * @param isEnabled
+	 *            the isEnabled to set
+	 */
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
+	}
+
+	/**
+	 * @return the isAccountNonExpired
+	 */
+	public boolean isAccountNonExpired() {
+		return isAccountNonExpired;
+	}
+
+	/**
+	 * @param isAccountNonExpired
+	 *            the isAccountNonExpired to set
+	 */
+	public void setAccountNonExpired(boolean isAccountNonExpired) {
+		this.isAccountNonExpired = isAccountNonExpired;
+	}
+
+	/**
+	 * @return the isAccountNonLocked
+	 */
+	public boolean isAccountNonLocked() {
+		return isAccountNonLocked;
+	}
+
+	/**
+	 * @param isAccountNonLocked
+	 *            the isAccountNonLocked to set
+	 */
+	public void setAccountNonLocked(boolean isAccountNonLocked) {
+		this.isAccountNonLocked = isAccountNonLocked;
+	}
+
+	/**
+	 * @return the isCredentialsNonExpired
+	 */
+	public boolean isCredentialsNonExpired() {
+		return isCredentialsNonExpired;
+	}
+
+	/**
+	 * @param isCredentialsNonExpired
+	 *            the isCredentialsNonExpired to set
+	 */
+	public void setCredentialsNonExpired(boolean isCredentialsNonExpired) {
+		this.isCredentialsNonExpired = isCredentialsNonExpired;
+	}
+
+	/**
+	 * @return the givenName
+	 */
+	public String getGivenName() {
+		return givenName;
+	}
+
+	/**
+	 * @param givenName
+	 *            the givenName to set
+	 */
+	public void setGivenName(String givenName) {
+		this.givenName = givenName;
+	}
+
+	/**
+	 * @return the graceLoginsRemainin
+	 */
+	public int getGraceLoginsRemainin() {
+		return graceLoginsRemainin;
+	}
+
+	/**
+	 * @param graceLoginsRemainin
+	 *            the graceLoginsRemainin to set
+	 */
+	public void setGraceLoginsRemainin(int graceLoginsRemainin) {
+		this.graceLoginsRemainin = graceLoginsRemainin;
+	}
+
+	/**
+	 * @return the mail
+	 */
+	public String getMail() {
+		return mail;
+	}
+
+	/**
+	 * @param mail
+	 *            the mail to set
+	 */
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	/**
+	 * @return the mobile
+	 */
+	public String getMobile() {
+		return mobile;
+	}
+
+	/**
+	 * @param mobile
+	 *            the mobile to set
+	 */
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * @param password
+	 *            the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	/**
+	 * @return the passwordConfirm
+	 */
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+
+	/**
+	 * @param passwordConfirm
+	 *            the passwordConfirm to set
+	 */
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
+	}
+
+	/**
+	 * @return the surname
+	 */
+	public String getSurname() {
+		return surname;
+	}
+
+	/**
+	 * @param surname
+	 *            the surname to set
+	 */
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+
+	/**
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
+
+	/**
+	 * @param username
+	 *            the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	/**
+	 * @return the authorites
+	 */
+	public Collection<? extends GrantedAuthority> getAuthorites() {
+		return authorites;
+	}
+
+	/**
+	 * @param authorites
+	 *            the authorites to set
+	 */
+	public void setAuthorites(Collection<? extends GrantedAuthority> authorites) {
+		this.authorites = authorites;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return authorites;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("AccountDto [isEnabled=");
+		builder.append(isEnabled);
+		builder.append(", isAccountNonExpired=");
+		builder.append(isAccountNonExpired);
+		builder.append(", isAccountNonLocked=");
+		builder.append(isAccountNonLocked);
+		builder.append(", isCredentialsNonExpired=");
+		builder.append(isCredentialsNonExpired);
+		builder.append(", givenName=");
+		builder.append(givenName);
+		builder.append(", graceLoginsRemainin=");
+		builder.append(graceLoginsRemainin);
+		builder.append(", mail=");
+		builder.append(mail);
+		builder.append(", mobile=");
+		builder.append(mobile);
+		builder.append(", password=");
+		builder.append(password);
+		builder.append(", passwordConfirm=");
+		builder.append(passwordConfirm);
+		builder.append(", surname=");
+		builder.append(surname);
+		builder.append(", username=");
+		builder.append(username);
+		builder.append(", authorites=");
+		builder.append(authorites);
+		builder.append("]");
+		return builder.toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((authorites == null) ? 0 : authorites.hashCode());
+		result = prime * result
+				+ ((givenName == null) ? 0 : givenName.hashCode());
+		result = prime * result + graceLoginsRemainin;
+		result = prime * result + (isAccountNonExpired ? 1231 : 1237);
+		result = prime * result + (isAccountNonLocked ? 1231 : 1237);
+		result = prime * result + (isCredentialsNonExpired ? 1231 : 1237);
+		result = prime * result + (isEnabled ? 1231 : 1237);
+		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
+		result = prime * result + ((mobile == null) ? 0 : mobile.hashCode());
+		result = prime * result
+				+ ((password == null) ? 0 : password.hashCode());
+		result = prime * result
+				+ ((passwordConfirm == null) ? 0 : passwordConfirm.hashCode());
+		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
+		result = prime * result
+				+ ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -39,32 +333,11 @@ public class AccountDto implements Serializable {
 			return false;
 		}
 		AccountDto other = (AccountDto) obj;
-		if (accountEnabled == null) {
-			if (other.accountEnabled != null) {
+		if (authorites == null) {
+			if (other.authorites != null) {
 				return false;
 			}
-		} else if (!accountEnabled.equals(other.accountEnabled)) {
-			return false;
-		}
-		if (accountNonExpired == null) {
-			if (other.accountNonExpired != null) {
-				return false;
-			}
-		} else if (!accountNonExpired.equals(other.accountNonExpired)) {
-			return false;
-		}
-		if (accountNonLocked == null) {
-			if (other.accountNonLocked != null) {
-				return false;
-			}
-		} else if (!accountNonLocked.equals(other.accountNonLocked)) {
-			return false;
-		}
-		if (credentialsNonExpired == null) {
-			if (other.credentialsNonExpired != null) {
-				return false;
-			}
-		} else if (!credentialsNonExpired.equals(other.credentialsNonExpired)) {
+		} else if (!authorites.equals(other.authorites)) {
 			return false;
 		}
 		if (givenName == null) {
@@ -74,11 +347,19 @@ public class AccountDto implements Serializable {
 		} else if (!givenName.equals(other.givenName)) {
 			return false;
 		}
-		if (graceLoginsRemainin == null) {
-			if (other.graceLoginsRemainin != null) {
-				return false;
-			}
-		} else if (!graceLoginsRemainin.equals(other.graceLoginsRemainin)) {
+		if (graceLoginsRemainin != other.graceLoginsRemainin) {
+			return false;
+		}
+		if (isAccountNonExpired != other.isAccountNonExpired) {
+			return false;
+		}
+		if (isAccountNonLocked != other.isAccountNonLocked) {
+			return false;
+		}
+		if (isCredentialsNonExpired != other.isCredentialsNonExpired) {
+			return false;
+		}
+		if (isEnabled != other.isEnabled) {
 			return false;
 		}
 		if (mail == null) {
@@ -124,262 +405,6 @@ public class AccountDto implements Serializable {
 			return false;
 		}
 		return true;
-	}
-
-	/**
-	 * @return the accountEnabled
-	 */
-	public Boolean getAccountEnabled() {
-		return accountEnabled;
-	}
-
-	/**
-	 * @return the accountNonExpired
-	 */
-	public Boolean getAccountNonExpired() {
-		return accountNonExpired;
-	}
-
-	/**
-	 * @return the accountNonLocked
-	 */
-	public Boolean getAccountNonLocked() {
-		return accountNonLocked;
-	}
-
-	/**
-	 * @return the credentialsNonExpired
-	 */
-	public Boolean getCredentialsNonExpired() {
-		return credentialsNonExpired;
-	}
-
-	/**
-	 * @return the givenName
-	 */
-	public String getGivenName() {
-		return givenName;
-	}
-
-	/**
-	 * @return the graceLoginsRemainin
-	 */
-	public Integer getGraceLoginsRemainin() {
-		return graceLoginsRemainin;
-	}
-
-	/**
-	 * @return the mail
-	 */
-	public String getMail() {
-		return mail;
-	}
-
-	/**
-	 * @return the mobile
-	 */
-	public String getMobile() {
-		return mobile;
-	}
-
-	/**
-	 * @return the password
-	 */
-	public String getPassword() {
-		return password;
-	}
-
-	/**
-	 * @return the passwordConfirm
-	 */
-	public String getPasswordConfirm() {
-		return passwordConfirm;
-	}
-
-	/**
-	 * @return the surname
-	 */
-	public String getSurname() {
-		return surname;
-	}
-
-	/**
-	 * @return the username
-	 */
-	public String getUsername() {
-		return username;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((accountEnabled == null) ? 0 : accountEnabled.hashCode());
-		result = prime
-				* result
-				+ ((accountNonExpired == null) ? 0 : accountNonExpired
-						.hashCode());
-		result = prime
-				* result
-				+ ((accountNonLocked == null) ? 0 : accountNonLocked.hashCode());
-		result = prime
-				* result
-				+ ((credentialsNonExpired == null) ? 0 : credentialsNonExpired
-						.hashCode());
-		result = prime * result
-				+ ((givenName == null) ? 0 : givenName.hashCode());
-		result = prime
-				* result
-				+ ((graceLoginsRemainin == null) ? 0 : graceLoginsRemainin
-						.hashCode());
-		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
-		result = prime * result + ((mobile == null) ? 0 : mobile.hashCode());
-		result = prime * result
-				+ ((password == null) ? 0 : password.hashCode());
-		result = prime * result
-				+ ((passwordConfirm == null) ? 0 : passwordConfirm.hashCode());
-		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
-		result = prime * result
-				+ ((username == null) ? 0 : username.hashCode());
-		return result;
-	}
-
-	/**
-	 * @param accountEnabled
-	 *            the accountEnabled to set
-	 */
-	public void setAccountEnabled(Boolean accountEnabled) {
-		this.accountEnabled = accountEnabled;
-	}
-
-	/**
-	 * @param accountNonExpired
-	 *            the accountNonExpired to set
-	 */
-	public void setAccountNonExpired(Boolean accountNonExpired) {
-		this.accountNonExpired = accountNonExpired;
-	}
-
-	/**
-	 * @param accountNonLocked
-	 *            the accountNonLocked to set
-	 */
-	public void setAccountNonLocked(Boolean accountNonLocked) {
-		this.accountNonLocked = accountNonLocked;
-	}
-
-	/**
-	 * @param credentialsNonExpired
-	 *            the credentialsNonExpired to set
-	 */
-	public void setCredentialsNonExpired(Boolean credentialsNonExpired) {
-		this.credentialsNonExpired = credentialsNonExpired;
-	}
-
-	/**
-	 * @param givenName
-	 *            the givenName to set
-	 */
-	public void setGivenName(String givenName) {
-		this.givenName = givenName;
-	}
-
-	/**
-	 * @param graceLoginsRemainin
-	 *            the graceLoginsRemainin to set
-	 */
-	public void setGraceLoginsRemainin(Integer graceLoginsRemainin) {
-		this.graceLoginsRemainin = graceLoginsRemainin;
-	}
-
-	/**
-	 * @param mail
-	 *            the mail to set
-	 */
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
-
-	/**
-	 * @param mobile
-	 *            the mobile to set
-	 */
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-
-	/**
-	 * @param password
-	 *            the password to set
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	/**
-	 * @param passwordConfirm
-	 *            the passwordConfirm to set
-	 */
-	public void setPasswordConfirm(String passwordConfirm) {
-		this.passwordConfirm = passwordConfirm;
-	}
-
-	/**
-	 * @param surname
-	 *            the surname to set
-	 */
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-
-	/**
-	 * @param username
-	 *            the username to set
-	 */
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("AccountDto [mail=");
-		builder.append(mail);
-		builder.append(", mobile=");
-		builder.append(mobile);
-		builder.append(", givenName=");
-		builder.append(givenName);
-		builder.append(", surname=");
-		builder.append(surname);
-		builder.append(", password=");
-		builder.append(password);
-		builder.append(", passwordConfirm=");
-		builder.append(passwordConfirm);
-		builder.append(", username=");
-		builder.append(username);
-		builder.append(", accountNonExpired=");
-		builder.append(accountNonExpired);
-		builder.append(", accountNonLocked=");
-		builder.append(accountNonLocked);
-		builder.append(", credentialsNonExpired=");
-		builder.append(credentialsNonExpired);
-		builder.append(", accountEnabled=");
-		builder.append(accountEnabled);
-		builder.append(", graceLoginsRemainin=");
-		builder.append(graceLoginsRemainin);
-		builder.append("]");
-		return builder.toString();
 	}
 
 }

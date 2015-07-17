@@ -1,42 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans
-	xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:security="http://www.springframework.org/schema/security"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
-	<security:http
-		pattern="/css/**"
-		security="none" />
-	<security:http
-		pattern="/images/**"
-		security="none" />
-	<security:http
-		pattern="/js/**"
-		security="none" />
-	<security:http
-		pattern="/themes/**"
-		security="none" />
+	<security:http pattern="/css/**" security="none" />
+	<security:http pattern="/images/**" security="none" />
+	<security:http pattern="/js/**" security="none" />
+	<security:http pattern="/themes/**" security="none" />
 
-	<security:http
-		auto-config="true"
-		use-expressions="true"
-		request-matcher="ant"
-		authentication-manager-ref="authenticationManager"
+	<security:http auto-config="true" use-expressions="true" request-matcher="ant" authentication-manager-ref="authenticationManager"
 		access-decision-manager-ref="accessDecisionManager">
 		<security:csrf />
 		<!-- do not use default-target-url="/example/authentication/loginSuccess" -->
 		<!-- TODO org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler -->
-		<security:form-login
-			always-use-default-target="false"
-			login-page="/example/authentication/prepareLogin"
-			login-processing-url="/example/authentication/login"
-			authentication-success-handler-ref="domainAwareAuthenticationSuccessHandler"
-			authentication-failure-url="/example/authentication/loginFailure" />
-		<security:logout
-			logout-url="/example/authentication/logout"
-			logout-success-url="/example/authentication/logoutSuccess" />
+		<security:form-login always-use-default-target="false" login-page="/example/authentication/prepareLogin" login-processing-url="/example/authentication/login"
+			authentication-success-handler-ref="domainAwareAuthenticationSuccessHandler" authentication-failure-url="/example/authentication/loginFailure" />
+		<security:logout logout-url="/example/authentication/logout" logout-success-url="/example/authentication/logoutSuccess" />
 		<security:remember-me data-source-ref="dataSource" />
 		<security:session-management>
 			<!-- TODO make error page contains messages like this: This session has been expired (possibly due to multiple concurrent logins being attempted as the same user). -->
@@ -44,35 +23,17 @@
 		</security:session-management>
 
 		<!-- authorizing web request -->
-		<security:intercept-url
-			pattern="/logbackStatus"
-			access="hasRole('DEVELOPER')" />
-		<security:intercept-url
-			pattern="/example/username/**"
-			access="hasRole('DEVELOPER')" />
-		<security:intercept-url
-			pattern="/example/authentication/prepareLogin/**"
-			access="isAnonymous()" />
-		<security:intercept-url
-			pattern="/example/authentication/logoutSuccess/**"
-			access="isAnonymous()" />
-		<security:intercept-url
-			pattern="/common/**"
-			access="isAnonymous()" />
-		<security:intercept-url
-			pattern="/**"
-			access="permitAll" />
+		<security:intercept-url pattern="/logbackStatus" access="hasRole('DEVELOPER')" />
+		<security:intercept-url pattern="/example/username/**" access="hasRole('DEVELOPER')" />
+		<security:intercept-url pattern="/example/authentication/prepareLogin/**" access="isAnonymous()" />
+		<security:intercept-url pattern="/example/authentication/logoutSuccess/**" access="isAnonymous()" />
+		<security:intercept-url pattern="/common/**" access="isAnonymous()" />
+		<security:intercept-url pattern="/**" access="permitAll" />
 	</security:http>
 
-	<bean
-		id="userDetailsService"
-		class="org.springframework.security.provisioning.JdbcUserDetailsManager">
-		<property
-			name="dataSource"
-			ref="dataSource" />
-		<property
-			name="enableGroups"
-			value="true" />
+	<bean id="userDetailsService" class="org.springframework.security.provisioning.JdbcUserDetailsManager">
+		<property name="dataSource" ref="dataSource" />
+		<property name="enableGroups" value="true" />
 	</bean>
 
 	<!-- <security:user-service id="userDetailsService"> <security:user name="admin" password="1234qwer" authorities="ROLE_ADMINISTRATOR" /> <security:user name="dev1"
@@ -82,33 +43,21 @@
 	<bean class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
 
 	<!-- authentication success/failuer handler -->
-	<bean
-		id="domainAwareAuthenticationSuccessHandler"
-		class="org.codelabor.system.security.web.authentication.DomainAwareAuthenticationSuccessHandler">
+	<bean id="domainAwareAuthenticationSuccessHandler" class="org.codelabor.system.security.web.authentication.DomainAwareAuthenticationSuccessHandler">
 		<property name="domainNameRedirectUrlMap">
 			<map>
 				<!-- internal -->
-				<entry
-					key="int.codelabor.org"
-					value="/int/home" />
+				<entry key="int.codelabor.org" value="/int/home" />
 				<!-- external -->
-				<entry
-					key="ext.codelabor.org"
-					value="/ext/home" />
+				<entry key="ext.codelabor.org" value="/ext/home" />
 			</map>
 		</property>
 	</bean>
 
-	<bean
-		id="passwordEncoder"
-		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	<bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
-	<bean
-		id="jasyptTextEncryptor"
-		class="org.jasypt.util.text.BasicTextEncryptor">
-		<property
-			name="password"
-			value="1234qwer" />
+	<bean id="jasyptTextEncryptor" class="org.jasypt.util.text.BasicTextEncryptor">
+		<property name="password" value="1234qwer" />
 	</bean>
 
 	<!-- <bean id="aclService" class="org.springframework.security.acls.jdbc.JdbcMutableAclService"> <constructor-arg ref="dataSource"/> <constructor-arg ref="lookupStrategy"/>
@@ -129,15 +78,11 @@
 		<constructor-arg ref="roleHierarchy" />
 	</bean>
 
-	<bean
-		id="accessDecisionManager"
-		class="org.springframework.security.access.vote.AffirmativeBased">
+	<bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
 		<constructor-arg>
 			<list>
 				<bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
-				<bean
-					id="roleVoter"
-					class="org.springframework.security.access.vote.RoleHierarchyVoter">
+				<bean id="roleVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
 					<constructor-arg ref="roleHierarchy" />
 				</bean>
 				<bean class="org.springframework.security.web.access.expression.WebExpressionVoter" />
@@ -145,9 +90,7 @@
 		</constructor-arg>
 	</bean>
 
-	<bean
-		id="roleHierarchy"
-		class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+	<bean id="roleHierarchy" class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
 		<property name="hierarchy">
 			<value>
 				ROLE_ADMINISTRATOR > ROLE_DEVELOPER

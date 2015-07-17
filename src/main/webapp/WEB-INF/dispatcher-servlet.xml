@@ -93,7 +93,6 @@
 	</bean>
 
 	<!-- view controller (example) -->
-	<mvc:view-controller path="/example" view-name="example/index" />
 	<mvc:view-controller path="/example/home" view-name="example/index" />
 	<mvc:view-controller path="/example/encoding/get/request" view-name="example/encoding/get/request" />
 	<mvc:view-controller path="/example/encoding/get/result" view-name="example/encoding/get/result" />
@@ -101,11 +100,11 @@
 	<mvc:view-controller path="/example/error/dividedByZeroErrorPageAttribute" view-name="example/error/dividedByZeroErrorPageAttribute" />
 	<mvc:view-controller path="/example/jstl/fn" view-name="example/jstl/fn" />
 	<mvc:view-controller path="/example/request" view-name="example/request/requestInfo" />
-	<mvc:view-controller path="/example/info/buildInfo" view-name="example/info/buildInfo" />
 	<mvc:view-controller path="/example/error/underConstruction" view-name="example/error/underConstruction" />
 	<mvc:view-controller path="/example/authorization/taglibs" view-name="example/authorization/taglibs" />
 
 	<!-- view controller (system) -->
+	<mvc:view-controller path="/system/home" view-name="system/index" />
 	<mvc:view-controller path="/system/info/buildInfo" view-name="system/info/buildInfo" />
 	<mvc:view-controller path="/system/error/underConstruction" view-name="system/error/underConstruction" />
 

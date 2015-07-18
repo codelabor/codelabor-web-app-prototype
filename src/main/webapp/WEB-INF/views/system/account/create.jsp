@@ -72,6 +72,14 @@
 							<th><label for="givenName"><spring:message code="label.account.givenName" /></label></th>
 							<td><form:input path="givenName" placeholder="" /><span><form:errors path="givenName" /></span></td>
 						</tr>
+						<tr class="b">
+							<th><label for="mail"><spring:message code="label.account.mail" /></label></th>
+							<td><form:input path="mail" placeholder="xxx@xxxxx.xxx" /><span><form:errors path="mail" /></span></td>
+						</tr>
+						<tr class="b">
+							<th><label for="mobile"><spring:message code="label.account.mobile" /></label></th>
+							<td><form:input path="mobile" placeholder="" /><span><form:errors path="mobile" /></span></td>
+						</tr>
 					</table>
 					<hr />
 					<a href="${pageContext.request.contextPath}/system/account/listAccount"><spring:message code="button.list" /></a>

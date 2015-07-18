@@ -61,29 +61,30 @@
 						<td><span id="password"><c:out value="${accountDto.password}" /></td>
 					</tr>
 					<tr class="b">
-						<th><label for="givenName"><spring:message code="label.account.givenName" /></label></th>
-						<td><span id="givenName"><c:out value="${accountDto.givenName}" /></td>
+						<th><label for="surname"><spring:message code="label.account.surname" /></label></th>
+						<td><span id="surname"><c:out value="${accountDto.surname}" /></td>
 					</tr>
 					<tr class="b">
-						<th><label for="graceLoginsRemaining"><spring:message code="label.account.graceLoginsRemaining" /></label></th>
-						<td><span id="graceLoginsRemaining"><c:out value="${accountDto.graceLoginsRemaining}" /></td>
+						<th><label for="givenName"><spring:message code="label.account.givenName" /></label></th>
+						<td><span id="givenName"><c:out value="${accountDto.givenName}" /></td>
 					</tr>
 					<tr class="b">
 						<th><label for="mail"><spring:message code="label.account.mail" /></label></th>
 						<td><span id="mail"><c:out value="${accountDto.mail}" /></td>
 					</tr>
-										<tr class="b">
+					<tr class="b">
 						<th><label for="mobile"><spring:message code="label.account.mobile" /></label></th>
 						<td><span id="mobile"><c:out value="${accountDto.mobile}" /></td>
 					</tr>
-										<tr class="b">
+					<tr class="b">
 						<th><label for="graceLoginsRemaining"><spring:message code="label.account.graceLoginsRemaining" /></label></th>
 						<td><span id="graceLoginsRemaining"><c:out value="${accountDto.graceLoginsRemaining}" /></td>
 					</tr>
 				</table>
 				<hr />
 				<a href="${pageContext.request.contextPath}/system/account/listAccount"><spring:message code="button.list" /></a> <a
-					href="${pageContext.request.contextPath}/system/account/updateAccount?username=<c:out value="${accountDto.username}" />"><spring:message code="button.update" /></a>
+					href="${pageContext.request.contextPath}/system/account/updateAccount?username=<c:out value="${accountDto.username}" />"><spring:message
+						code="button.update" /></a>
 
 			</div>
 		</div>

@@ -6,12 +6,15 @@ import java.util.Collections;
 
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
+import org.hibernate.validator.constraints.ScriptAssert;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+@ScriptAssert(lang = "javascript", script = "_this.password.equals(_this.passwordConfirm)", message = "{errors.confirm.password.mismatched}")
 public class AccountDto implements Serializable, UserDetails {
 
 	/**
@@ -24,10 +27,19 @@ public class AccountDto implements Serializable, UserDetails {
 	private boolean accountNonLocked;
 	private boolean credentialsNonExpired;
 
+	// TODO: @Length
+
 	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String givenName;
+
 	private int graceLoginsRemaining;
+
+	@Email
+	@SafeHtml(whitelistType = WhiteListType.NONE, message = "{org.hibernate.validator.constraints.SafeHtml.message}")
 	private String mail;
+
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String mobile;
 
 	@NotBlank
@@ -39,12 +51,15 @@ public class AccountDto implements Serializable, UserDetails {
 	@Pattern(regexp = "((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[~`!@#$%^&*()_+\\-=\\[\\]\\{}|;':\",./<>?\\\\])(?=\\S+$).{10,15})", message = "{errors.password.mismatched}")
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String passwordConfirm;
+
 	@NotBlank
+	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String surname;
 
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String username;
+
 	private Collection<? extends GrantedAuthority> authorites = Collections
 			.emptyList();
 

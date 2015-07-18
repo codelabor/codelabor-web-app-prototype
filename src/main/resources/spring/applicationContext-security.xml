@@ -29,6 +29,8 @@
 		<security:intercept-url pattern="/example/authentication/logoutSuccess/**" access="isAnonymous()" />
 		<security:intercept-url pattern="/common/**" access="isAnonymous()" />
 		<security:intercept-url pattern="/**" access="permitAll" />
+		<!-- TODO: requires-channel="https" -->
+		<security:intercept-url pattern="/system/account/createAccount" access="permitAll" />
 	</security:http>
 
 	<bean id="userDetailsService" class="org.codelabor.system.security.provisioning.CustomUserDetailsManager">

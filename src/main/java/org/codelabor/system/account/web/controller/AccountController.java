@@ -100,7 +100,7 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 
 			// set default
 			// TODO: make constant default
-			accountDto.setEnabled(false);
+			accountDto.setEnabled(true);
 
 			// set default
 			// TODO: make constant default
@@ -112,7 +112,7 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 
 			// set default
 			// TODO: make constant default
-			accountDto.setAccountNonLocked(true);
+			accountDto.setAccountNonLocked(false);
 
 			// set default login remaining
 			// TODO: make constant default remaining

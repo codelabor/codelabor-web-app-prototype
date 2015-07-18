@@ -24,14 +24,14 @@ import java.util.Locale;
 import javax.validation.Valid;
 
 import org.codelabor.system.account.dto.AccountDto;
+import org.codelabor.system.security.provisioning.CustomUserDetailsManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -60,7 +60,10 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	private static final String EXPORT_VIEW_NAME = "accountListExcelView";
 
 	@Autowired
-	private UserDetailsManager userDetailsManager;
+	private CustomUserDetailsManager userDetailsManager;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	// @Autowired
 	// private DeptService deptService;
@@ -85,10 +88,17 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 			mav.setViewName(CREATE_VIEW_NAME);
 		} else {
 
+			// assign default ROLE
 			Collection<GrantedAuthority> authorites = new ArrayList<GrantedAuthority>();
 			authorites.add(new SimpleGrantedAuthority("ROLE_USER"));
 			accountDto.setAuthorites(authorites);
 
+			// encode password
+			accountDto.setPassword(passwordEncoder.encode(accountDto
+					.getPassword()));
+			accountDto.setPasswordConfirm(null);
+
+			// invoke service
 			userDetailsManager.createUser(accountDto);
 			int affectedRowCount = 1;
 
@@ -773,12 +783,12 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	public ModelAndView readAccount(String username) {
 		logger.debug("readAccount");
 		logger.debug("username: {}", username);
-		UserDetails userDetails = userDetailsManager
+		AccountDto accountDto = (AccountDto) userDetailsManager
 				.loadUserByUsername(username);
-		logger.debug("userDetails: {}", userDetails);
+		logger.debug("accountDto: {}", accountDto);
 
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("userDetails", userDetails);
+		mav.addObject(accountDto);
 		mav.setViewName(READ_VIEW_NAME);
 		return mav;
 	}

@@ -19,14 +19,14 @@ public class AccountDto implements Serializable, UserDetails {
 	 */
 	private static final long serialVersionUID = -6177823371031883302L;
 
-	private boolean isEnabled;
-	private boolean isAccountNonExpired;
-	private boolean isAccountNonLocked;
-	private boolean isCredentialsNonExpired;
+	private boolean enabled;
+	private boolean accountNonExpired;
+	private boolean accountNonLocked;
+	private boolean credentialsNonExpired;
 
 	@NotBlank
 	private String givenName;
-	private int graceLoginsRemainin;
+	private int graceLoginsRemaining;
 	private String mail;
 	private String mobile;
 
@@ -52,7 +52,7 @@ public class AccountDto implements Serializable, UserDetails {
 	 * @return the isEnabled
 	 */
 	public boolean isEnabled() {
-		return isEnabled;
+		return enabled;
 	}
 
 	/**
@@ -60,14 +60,14 @@ public class AccountDto implements Serializable, UserDetails {
 	 *            the isEnabled to set
 	 */
 	public void setEnabled(boolean isEnabled) {
-		this.isEnabled = isEnabled;
+		this.enabled = isEnabled;
 	}
 
 	/**
 	 * @return the isAccountNonExpired
 	 */
 	public boolean isAccountNonExpired() {
-		return isAccountNonExpired;
+		return accountNonExpired;
 	}
 
 	/**
@@ -75,14 +75,39 @@ public class AccountDto implements Serializable, UserDetails {
 	 *            the isAccountNonExpired to set
 	 */
 	public void setAccountNonExpired(boolean isAccountNonExpired) {
-		this.isAccountNonExpired = isAccountNonExpired;
+		this.accountNonExpired = isAccountNonExpired;
+	}
+
+	public AccountDto() {
+		super();
 	}
 
 	/**
 	 * @return the isAccountNonLocked
 	 */
 	public boolean isAccountNonLocked() {
-		return isAccountNonLocked;
+		return accountNonLocked;
+	}
+
+	public AccountDto(String username, String password, boolean enabled,
+			boolean accountNonExpired, boolean credentialsNonExpired,
+			boolean accountNonLocked,
+			Collection<? extends GrantedAuthority> authorites,
+			String givenName, String surname, String mail, String mobile,
+			int graceLoginsRemaining) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.enabled = enabled;
+		this.accountNonExpired = accountNonExpired;
+		this.credentialsNonExpired = credentialsNonExpired;
+		this.accountNonLocked = accountNonLocked;
+		this.authorites = authorites;
+		this.givenName = givenName;
+		this.surname = surname;
+		this.mail = mail;
+		this.mobile = mobile;
+		this.graceLoginsRemaining = graceLoginsRemaining;
 	}
 
 	/**
@@ -90,14 +115,14 @@ public class AccountDto implements Serializable, UserDetails {
 	 *            the isAccountNonLocked to set
 	 */
 	public void setAccountNonLocked(boolean isAccountNonLocked) {
-		this.isAccountNonLocked = isAccountNonLocked;
+		this.accountNonLocked = isAccountNonLocked;
 	}
 
 	/**
 	 * @return the isCredentialsNonExpired
 	 */
 	public boolean isCredentialsNonExpired() {
-		return isCredentialsNonExpired;
+		return credentialsNonExpired;
 	}
 
 	/**
@@ -105,7 +130,7 @@ public class AccountDto implements Serializable, UserDetails {
 	 *            the isCredentialsNonExpired to set
 	 */
 	public void setCredentialsNonExpired(boolean isCredentialsNonExpired) {
-		this.isCredentialsNonExpired = isCredentialsNonExpired;
+		this.credentialsNonExpired = isCredentialsNonExpired;
 	}
 
 	/**
@@ -124,18 +149,18 @@ public class AccountDto implements Serializable, UserDetails {
 	}
 
 	/**
-	 * @return the graceLoginsRemainin
+	 * @return the graceLoginsRemaining
 	 */
-	public int getGraceLoginsRemainin() {
-		return graceLoginsRemainin;
+	public int getGraceLoginsRemaining() {
+		return graceLoginsRemaining;
 	}
 
 	/**
-	 * @param graceLoginsRemainin
-	 *            the graceLoginsRemainin to set
+	 * @param graceLoginsRemaining
+	 *            the graceLoginsRemaining to set
 	 */
-	public void setGraceLoginsRemainin(int graceLoginsRemainin) {
-		this.graceLoginsRemainin = graceLoginsRemainin;
+	public void setGraceLoginsRemaining(int graceLoginsRemaining) {
+		this.graceLoginsRemaining = graceLoginsRemaining;
 	}
 
 	/**
@@ -257,17 +282,17 @@ public class AccountDto implements Serializable, UserDetails {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("AccountDto [isEnabled=");
-		builder.append(isEnabled);
+		builder.append(enabled);
 		builder.append(", isAccountNonExpired=");
-		builder.append(isAccountNonExpired);
+		builder.append(accountNonExpired);
 		builder.append(", isAccountNonLocked=");
-		builder.append(isAccountNonLocked);
+		builder.append(accountNonLocked);
 		builder.append(", isCredentialsNonExpired=");
-		builder.append(isCredentialsNonExpired);
+		builder.append(credentialsNonExpired);
 		builder.append(", givenName=");
 		builder.append(givenName);
 		builder.append(", graceLoginsRemainin=");
-		builder.append(graceLoginsRemainin);
+		builder.append(graceLoginsRemaining);
 		builder.append(", mail=");
 		builder.append(mail);
 		builder.append(", mobile=");
@@ -299,11 +324,11 @@ public class AccountDto implements Serializable, UserDetails {
 				+ ((authorites == null) ? 0 : authorites.hashCode());
 		result = prime * result
 				+ ((givenName == null) ? 0 : givenName.hashCode());
-		result = prime * result + graceLoginsRemainin;
-		result = prime * result + (isAccountNonExpired ? 1231 : 1237);
-		result = prime * result + (isAccountNonLocked ? 1231 : 1237);
-		result = prime * result + (isCredentialsNonExpired ? 1231 : 1237);
-		result = prime * result + (isEnabled ? 1231 : 1237);
+		result = prime * result + graceLoginsRemaining;
+		result = prime * result + (accountNonExpired ? 1231 : 1237);
+		result = prime * result + (accountNonLocked ? 1231 : 1237);
+		result = prime * result + (credentialsNonExpired ? 1231 : 1237);
+		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
 		result = prime * result + ((mobile == null) ? 0 : mobile.hashCode());
 		result = prime * result
@@ -347,19 +372,19 @@ public class AccountDto implements Serializable, UserDetails {
 		} else if (!givenName.equals(other.givenName)) {
 			return false;
 		}
-		if (graceLoginsRemainin != other.graceLoginsRemainin) {
+		if (graceLoginsRemaining != other.graceLoginsRemaining) {
 			return false;
 		}
-		if (isAccountNonExpired != other.isAccountNonExpired) {
+		if (accountNonExpired != other.accountNonExpired) {
 			return false;
 		}
-		if (isAccountNonLocked != other.isAccountNonLocked) {
+		if (accountNonLocked != other.accountNonLocked) {
 			return false;
 		}
-		if (isCredentialsNonExpired != other.isCredentialsNonExpired) {
+		if (credentialsNonExpired != other.credentialsNonExpired) {
 			return false;
 		}
-		if (isEnabled != other.isEnabled) {
+		if (enabled != other.enabled) {
 			return false;
 		}
 		if (mail == null) {

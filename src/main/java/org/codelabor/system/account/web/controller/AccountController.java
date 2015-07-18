@@ -89,14 +89,34 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 		} else {
 
 			// assign default ROLE
-			Collection<GrantedAuthority> authorites = new ArrayList<GrantedAuthority>();
-			authorites.add(new SimpleGrantedAuthority("ROLE_USER"));
-			accountDto.setAuthorites(authorites);
+			Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+			authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+			accountDto.setAuthorities(authorities);
 
 			// encode password
 			accountDto.setPassword(passwordEncoder.encode(accountDto
 					.getPassword()));
 			accountDto.setPasswordConfirm(null);
+
+			// set default
+			// TODO: make constant default
+			accountDto.setEnabled(false);
+
+			// set default
+			// TODO: make constant default
+			accountDto.setAccountNonExpired(true);
+
+			// set default
+			// TODO: make constant default
+			accountDto.setCredentialsNonExpired(true);
+
+			// set default
+			// TODO: make constant default
+			accountDto.setAccountNonLocked(true);
+
+			// set default login remaining
+			// TODO: make constant default remaining
+			accountDto.setGraceLoginsRemaining(3);
 
 			// invoke service
 			userDetailsManager.createUser(accountDto);

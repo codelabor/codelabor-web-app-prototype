@@ -36,6 +36,11 @@
 	<bean id="userDetailsService" class="org.codelabor.system.security.provisioning.CustomUserDetailsManager">
 		<property name="dataSource" ref="dataSource" />
 		<property name="enableGroups" value="true" />
+		<property name="createUserSql"
+			value="insert into users (username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, givenName, surname, mail, mobile, graceLoginsRemaining
+		) values (?,?,?,?,?,?,?,?,?,?,?)" />
+		<property name="usersByUsernameQuery"
+			value="select username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, givenName, surname, mail, mobile, graceLoginsRemaining from users where username = ?" />
 	</bean>
 
 	<!-- <security:user-service id="userDetailsService"> <security:user name="admin" password="1234qwer" authorities="ROLE_ADMINISTRATOR" /> <security:user name="dev1"

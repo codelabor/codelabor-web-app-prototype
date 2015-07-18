@@ -1,8 +1,10 @@
 package org.codelabor.system.security.provisioning;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,21 +12,52 @@ import java.util.Set;
 import org.codelabor.system.account.dto.AccountDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.util.Assert;
 
 public class CustomUserDetailsManager extends JdbcUserDetailsManager {
 	private final Logger logger = LoggerFactory
 			.getLogger(CustomUserDetailsManager.class);
-	protected String usersByUsernameQuery;
+	protected String usersByUsernameQuery = DEF_USERS_BY_USERNAME_QUERY;
+	protected String createUserSql = DEF_CREATE_USER_SQL;
+	protected String createAuthoritySql = DEF_INSERT_AUTHORITY_SQL;
 	protected boolean enableAuthorities = true;
 	protected boolean enableGroups;
-	private boolean usernameBasedPrimaryKey = true;
+	protected boolean usernameBasedPrimaryKey = true;
+
+	// ~ UserDetailsManager implementation
+	// ==============================================================================
+
+	public void createUser(final UserDetails user) {
+		validateUserDetails(user);
+		AccountDto accountDto = (AccountDto) user;
+		getJdbcTemplate().update(createUserSql, new PreparedStatementSetter() {
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, accountDto.getUsername());
+				ps.setString(2, accountDto.getPassword());
+				ps.setBoolean(3, accountDto.isEnabled());
+				ps.setBoolean(4, accountDto.isAccountNonExpired());
+				ps.setBoolean(5, accountDto.isCredentialsNonExpired());
+				ps.setBoolean(6, accountDto.isAccountNonLocked());
+				ps.setString(7, accountDto.getGivenName());
+				ps.setString(8, accountDto.getSurname());
+				ps.setString(9, accountDto.getMail());
+				ps.setString(10, accountDto.getMobile());
+				ps.setInt(11, accountDto.getGraceLoginsRemaining());
+			}
+
+		});
+
+		if (getEnableAuthorities()) {
+			insertUserAuthorities(user);
+		}
+	}
 
 	/**
 	 * Executes the SQL <tt>usersByUsernameQuery</tt> and returns a list of
@@ -38,11 +71,19 @@ public class CustomUserDetailsManager extends JdbcUserDetailsManager {
 						String username = rs.getString(1);
 						String password = rs.getString(2);
 						boolean enabled = rs.getBoolean(3);
+						boolean accountNonExpired = rs.getBoolean(4);
+						boolean credentialsNonExpired = rs.getBoolean(5);
+						boolean accountNonLocked = rs.getBoolean(6);
+						String givenName = rs.getString(7);
+						String surname = rs.getString(8);
+						String mail = rs.getString(9);
+						String mobile = rs.getString(10);
+						int graceLoginsRemaining = rs.getInt(11);
 						return new AccountDto(username, password, enabled,
-								true, true, true,
-								AuthorityUtils.NO_AUTHORITIES, "Sang-jae",
-								"SHIN", "codelabor@gmail.com",
-								"+82 10-6552-8086", 3);
+								accountNonExpired, credentialsNonExpired,
+								accountNonLocked,
+								AuthorityUtils.NO_AUTHORITIES, givenName,
+								surname, mail, mobile, graceLoginsRemaining);
 					}
 
 				});
@@ -108,15 +149,68 @@ public class CustomUserDetailsManager extends JdbcUserDetailsManager {
 			returnUsername = username;
 		}
 
-		return new AccountDto(returnUsername, userFromUserQuery.getPassword(),
-				userFromUserQuery.isEnabled(), true, true, true,
-				combinedAuthorities, "Sang-jae", "SHIN", "codelabor@gmail.com",
-				"+82 10-6552-8086", 3);
+		AccountDto accountDto = (AccountDto) userFromUserQuery;
+
+		return new AccountDto(returnUsername, accountDto.getPassword(),
+				accountDto.isEnabled(), accountDto.isAccountNonExpired(),
+				accountDto.isCredentialsNonExpired(),
+				accountDto.isAccountNonLocked(), combinedAuthorities,
+				accountDto.getGivenName(), accountDto.getSurname(),
+				accountDto.getMail(), accountDto.getMobile(),
+				accountDto.getGraceLoginsRemaining());
 	}
 
-	public CustomUserDetailsManager() {
-		super();
-		this.usersByUsernameQuery = JdbcDaoImpl.DEF_USERS_BY_USERNAME_QUERY;
+	protected void validateUserDetails(UserDetails user) {
+		Assert.hasText(user.getUsername(), "Username may not be empty or null");
+		validateAuthorities(user.getAuthorities());
 	}
 
+	protected void validateAuthorities(
+			Collection<? extends GrantedAuthority> authorities) {
+		Assert.notNull(authorities, "Authorities list must not be null");
+
+		for (GrantedAuthority authority : authorities) {
+			Assert.notNull(authority, "Authorities list contains a null entry");
+			Assert.hasText(authority.getAuthority(),
+					"getAuthority() method must return a non-empty string");
+		}
+	}
+
+	protected void insertUserAuthorities(UserDetails user) {
+		for (GrantedAuthority auth : user.getAuthorities()) {
+			getJdbcTemplate().update(createAuthoritySql, user.getUsername(),
+					auth.getAuthority());
+		}
+	}
+
+	/**
+	 * Allows the default query string used to retrieve users based on username
+	 * to be overridden, if default table or column names need to be changed.
+	 * The default query is {@link #DEF_USERS_BY_USERNAME_QUERY}; when modifying
+	 * this query, ensure that all returned columns are mapped back to the same
+	 * column names as in the default query. If the 'enabled' column does not
+	 * exist in the source database, a permanent true value for this column may
+	 * be returned by using a query similar to
+	 *
+	 * <pre>
+	 * &quot;select username,password,'true' as enabled from users where username = ?&quot;
+	 * </pre>
+	 *
+	 * @param usersByUsernameQueryString
+	 *            The query string to set
+	 */
+	public void setUsersByUsernameQuery(String usersByUsernameQueryString) {
+		Assert.hasText(usersByUsernameQueryString);
+		this.usersByUsernameQuery = usersByUsernameQueryString;
+	}
+
+	public void setCreateUserSql(String createUserSql) {
+		Assert.hasText(createUserSql);
+		this.createUserSql = createUserSql;
+	}
+
+	public void setCreateAuthoritySql(String createAuthoritySql) {
+		Assert.hasText(createAuthoritySql);
+		this.createAuthoritySql = createAuthoritySql;
+	}
 }

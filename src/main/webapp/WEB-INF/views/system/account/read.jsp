@@ -61,6 +61,26 @@
 						<td><span id="password"><c:out value="${accountDto.password}" /></td>
 					</tr>
 					<tr class="b">
+						<th><label for="enabled"><spring:message code="label.account.enabled" /></label></th>
+						<td><span id="enabled"><c:out value="${accountDto.enabled}" /></td>
+					</tr>
+					<tr class="b">
+						<th><label for="accountNonExpired"><spring:message code="label.account.accountNonExpired" /></label></th>
+						<td><span id="accountNonExpired"><c:out value="${accountDto.accountNonExpired}" /></td>
+					</tr>
+					<tr class="b">
+						<th><label for="credentialsNonExpired"><spring:message code="label.account.credentialsNonExpired" /></label></th>
+						<td><span id="credentialsNonExpired"><c:out value="${accountDto.credentialsNonExpired}" /></td>
+					</tr>
+					<tr class="b">
+						<th><label for="accountNonLocked"><spring:message code="label.account.accountNonLocked" /></label></th>
+						<td><span id="accountNonLocked"><c:out value="${accountDto.accountNonLocked}" /></td>
+					</tr>
+					<tr class="b">
+						<th><label for="authorities"><spring:message code="label.account.authorities" /></label></th>
+						<td><span id="authorities"><c:out value="${accountDto.authorities}" /></td>
+					</tr>
+					<tr class="b">
 						<th><label for="surname"><spring:message code="label.account.surname" /></label></th>
 						<td><span id="surname"><c:out value="${accountDto.surname}" /></td>
 					</tr>

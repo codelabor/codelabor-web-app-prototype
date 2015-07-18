@@ -60,7 +60,7 @@ public class AccountDto implements Serializable, UserDetails {
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String username;
 
-	private Collection<? extends GrantedAuthority> authorites = Collections
+	private Collection<? extends GrantedAuthority> authorities = Collections
 			.emptyList();
 
 	/**
@@ -107,7 +107,7 @@ public class AccountDto implements Serializable, UserDetails {
 	public AccountDto(String username, String password, boolean enabled,
 			boolean accountNonExpired, boolean credentialsNonExpired,
 			boolean accountNonLocked,
-			Collection<? extends GrantedAuthority> authorites,
+			Collection<? extends GrantedAuthority> authorities,
 			String givenName, String surname, String mail, String mobile,
 			int graceLoginsRemaining) {
 		super();
@@ -117,7 +117,7 @@ public class AccountDto implements Serializable, UserDetails {
 		this.accountNonExpired = accountNonExpired;
 		this.credentialsNonExpired = credentialsNonExpired;
 		this.accountNonLocked = accountNonLocked;
-		this.authorites = authorites;
+		this.authorities = authorities;
 		this.givenName = givenName;
 		this.surname = surname;
 		this.mail = mail;
@@ -269,23 +269,17 @@ public class AccountDto implements Serializable, UserDetails {
 	}
 
 	/**
-	 * @return the authorites
+	 * @param authorities
+	 *            the authorities to set
 	 */
-	public Collection<? extends GrantedAuthority> getAuthorites() {
-		return authorites;
-	}
-
-	/**
-	 * @param authorites
-	 *            the authorites to set
-	 */
-	public void setAuthorites(Collection<? extends GrantedAuthority> authorites) {
-		this.authorites = authorites;
+	public void setAuthorities(
+			Collection<? extends GrantedAuthority> authorities) {
+		this.authorities = authorities;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authorites;
+		return authorities;
 	}
 
 	/*
@@ -320,8 +314,8 @@ public class AccountDto implements Serializable, UserDetails {
 		builder.append(surname);
 		builder.append(", username=");
 		builder.append(username);
-		builder.append(", authorites=");
-		builder.append(authorites);
+		builder.append(", authorities=");
+		builder.append(authorities);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -336,7 +330,7 @@ public class AccountDto implements Serializable, UserDetails {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((authorites == null) ? 0 : authorites.hashCode());
+				+ ((authorities == null) ? 0 : authorities.hashCode());
 		result = prime * result
 				+ ((givenName == null) ? 0 : givenName.hashCode());
 		result = prime * result + graceLoginsRemaining;
@@ -373,11 +367,11 @@ public class AccountDto implements Serializable, UserDetails {
 			return false;
 		}
 		AccountDto other = (AccountDto) obj;
-		if (authorites == null) {
-			if (other.authorites != null) {
+		if (authorities == null) {
+			if (other.authorities != null) {
 				return false;
 			}
-		} else if (!authorites.equals(other.authorites)) {
+		} else if (!authorities.equals(other.authorities)) {
 			return false;
 		}
 		if (givenName == null) {

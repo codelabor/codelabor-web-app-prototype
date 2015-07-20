@@ -44,6 +44,8 @@
 					<spring:message code="heading.account.create" />
 				</h2>
 				<hr />
+				<form:form commandName="username" />
+				<form:form commandName="mail" />
 				<form:form commandName="accountDto">
 					<!-- failure message area -->
 					<div class="failureMessages">
@@ -54,7 +56,11 @@
 					<table class="bodyTable">
 						<tr class="b">
 							<th><label for="username"><spring:message code="label.account.username" /></label></th>
-							<td><form:input path="username" placeholder="User ID" /><span><form:errors path="username" /></span></td>
+							<td><form:input path="username" placeholder="User ID" form="accountDto, username" />
+								<button name="checkDuplicateUsername" type="submit" value="<spring:message code="button.account.check.duplicate.username" />" form="username"
+									formaction="${pageContext.request.contextPath}/system/account/checkDuplicateUsername" formmethod="get" formtarget="_blank">
+									<spring:message code="button.account.check.duplicate.username" />
+								</button> <span><form:errors path="username" /></span></td>
 						</tr>
 						<tr class="b">
 							<th><label for="password"><spring:message code="label.account.password" /></label></th>
@@ -78,7 +84,11 @@
 						</tr>
 						<tr class="b">
 							<th><label for="mobile"><spring:message code="label.account.mobile" /></label></th>
-							<td><form:input path="mobile" placeholder="" /><span><form:errors path="mobile" /></span></td>
+							<td><form:input path="mobile" placeholder="" form="accountDto, mail" />
+								<button name="checkDuplicateMail" type="submit" value="<spring:message code="button.account.check.duplicate.mail" />" form="mail"
+									formaction="${pageContext.request.contextPath}/system/account/checkDuplicateMail" formmethod="get" formtarget="_blank">
+									<spring:message code="button.account.check.duplicate.mail" />
+								</button> <span><form:errors path="mobile" /></span></td>
 						</tr>
 					</table>
 					<hr />

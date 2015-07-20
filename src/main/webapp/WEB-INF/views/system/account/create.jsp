@@ -80,15 +80,16 @@
 						</tr>
 						<tr class="b">
 							<th><label for="mail"><spring:message code="label.account.mail" /></label></th>
-							<td><form:input path="mail" placeholder="xxx@xxxxx.xxx" /><span><form:errors path="mail" /></span></td>
-						</tr>
-						<tr class="b">
-							<th><label for="mobile"><spring:message code="label.account.mobile" /></label></th>
-							<td><form:input path="mobile" placeholder="" form="accountDto, mail" />
+							<td><form:input path="mail" placeholder="xxx@xxxxx.xxx" form="accountDto, mail" />
 								<button name="checkDuplicateMail" type="submit" value="<spring:message code="button.account.check.duplicate.mail" />" form="mail"
 									formaction="${pageContext.request.contextPath}/system/account/checkDuplicateMail" formmethod="get" formtarget="_blank">
 									<spring:message code="button.account.check.duplicate.mail" />
-								</button> <span><form:errors path="mobile" /></span></td>
+								</button>
+								<span><form:errors path="mail" /></span></td>
+						</tr>
+						<tr class="b">
+							<th><label for="mobile"><spring:message code="label.account.mobile" /></label></th>
+							<td><form:input path="mobile" placeholder="" /> <span><form:errors path="mobile" /></span></td>
 						</tr>
 					</table>
 					<hr />

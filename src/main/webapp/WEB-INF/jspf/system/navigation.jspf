@@ -1,5 +1,5 @@
 <!-- Navigation -->
-<h5>Account</h5>
+<h5>Authentication</h5>
 <ul>
 	<li><a href="${pageContext.request.contextPath}/system/account/createAccount">account</a>
 </ul>

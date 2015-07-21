@@ -48,7 +48,7 @@
 					<input name="username" value="${accountDto.username}" placeholder="User ID" form="usernameDto" />
 					<span><form:errors path="username" /></span>
 					<button name="checkDuplicateUsername" type="submit" value="<spring:message code="button.account.check.duplicate.username" />" form="usernameDto"
-						formaction="${pageContext.request.contextPath}/system/account/checkDuplicateUsername" formmethod="get" formtarget="_blank">
+						formaction="${pageContext.request.contextPath}/system/security/authentication/account/checkDuplicateUsername" formmethod="get" formtarget="_blank">
 						<spring:message code="button.account.check.duplicate.username" />
 					</button>
 				</form:form>
@@ -57,7 +57,7 @@
 					<input name="mail" value="${accountDto.mail}" placeholder="xxx@xxxxx.xxx" form="mailDto" />
 					<span><form:errors path="mail" /></span>
 					<button name="checkDuplicateMail" type="submit" value="<spring:message code="button.account.check.duplicate.mail" />" form="mailDto"
-						formaction="${pageContext.request.contextPath}/system/account/checkDuplicateMail" formmethod="get" formtarget="_blank">
+						formaction="${pageContext.request.contextPath}/system/security/authentication/account/checkDuplicateMail" formmethod="get" formtarget="_blank">
 						<spring:message code="button.account.check.duplicate.mail" />
 					</button>
 				</form:form>
@@ -100,7 +100,7 @@
 						</tr>
 					</table>
 					<hr />
-					<a href="${pageContext.request.contextPath}/system/account/listAccount"><spring:message code="button.list" /></a>
+					<a href="${pageContext.request.contextPath}/system/security/authentication/account/listAccount"><spring:message code="button.list" /></a>
 					<input type="submit" value="<spring:message code='button.save'/>" form="accountDto" />
 					<input type="reset" value="<spring:message code='button.reset'/>" form="accountDto" />
 				</form:form>

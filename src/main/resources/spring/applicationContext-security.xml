@@ -30,10 +30,10 @@
 		<security:intercept-url pattern="/common/**" access="isAnonymous()" />
 		<security:intercept-url pattern="/**" access="permitAll" />
 		<!-- TODO: requires-channel="https" -->
-		<security:intercept-url pattern="/system/account/createAccount" access="permitAll" />
+		<security:intercept-url pattern="/system/security/authentication/account/createAccount" access="permitAll" />
 	</security:http>
 
-	<bean id="userDetailsService" class="org.codelabor.system.security.provisioning.CustomUserDetailsManager">
+	<bean id="userDetailsService" class="org.codelabor.system.authentication.account.manager.CustomUserDetailsManager">
 		<property name="dataSource" ref="dataSource" />
 		<property name="enableGroups" value="true" />
 		<property name="createUserSql"

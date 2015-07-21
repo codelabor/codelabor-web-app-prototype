@@ -1,4 +1,4 @@
-package org.codelabor.system.security.provisioning;
+package org.codelabor.system.authentication.account.manager;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.codelabor.system.account.dto.AccountDto;
+import org.codelabor.system.authentication.account.dto.AccountDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.PreparedStatementSetter;

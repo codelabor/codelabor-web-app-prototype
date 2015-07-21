@@ -57,15 +57,15 @@
 				<value>classpath:messages/system/title</value>
 
 				<!-- system -->
-				<value>classpath:messages/system/account/alternate</value>
-				<value>classpath:messages/system/account/button</value>
-				<value>classpath:messages/system/account/errors</value>
-				<value>classpath:messages/system/account/caption</value>
-				<value>classpath:messages/system/account/heading</value>
-				<value>classpath:messages/system/account/label</value>
-				<value>classpath:messages/system/account/menu</value>
-				<value>classpath:messages/system/account/messages</value>
-				<value>classpath:messages/system/account/title</value>
+				<value>classpath:messages/system/security/authentication/account/alternate</value>
+				<value>classpath:messages/system/security/authentication/account/button</value>
+				<value>classpath:messages/system/security/authentication/account/errors</value>
+				<value>classpath:messages/system/security/authentication/account/caption</value>
+				<value>classpath:messages/system/security/authentication/account/heading</value>
+				<value>classpath:messages/system/security/authentication/account/label</value>
+				<value>classpath:messages/system/security/authentication/account/menu</value>
+				<value>classpath:messages/system/security/authentication/account/messages</value>
+				<value>classpath:messages/system/security/authentication/account/title</value>
 
 				<!-- common -->
 				<value>classpath:messages/common/alternate</value>

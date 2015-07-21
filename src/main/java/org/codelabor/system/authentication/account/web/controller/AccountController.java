@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.codelabor.system.account.web.controller;
+package org.codelabor.system.authentication.account.web.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,8 +23,8 @@ import java.util.Locale;
 
 import javax.validation.Valid;
 
-import org.codelabor.system.account.dto.AccountDto;
-import org.codelabor.system.security.provisioning.CustomUserDetailsManager;
+import org.codelabor.system.authentication.account.dto.AccountDto;
+import org.codelabor.system.authentication.account.manager.CustomUserDetailsManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,18 +45,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  *
  */
 @Controller
-@RequestMapping("/system/account")
+@RequestMapping("/system/security/authentication/account/")
 public class AccountController { // NOPMD by "SHIN Sang-jae"
 
 	private final Logger logger = LoggerFactory
 			.getLogger(AccountController.class);
 
-	private static final String CREATE_VIEW_NAME = "system/account/create";
-	private static final String UPDATE_VIEW_NAME = "system/account/update";
-	private static final String LIST_VIEW_NAME = "system/account/list";
-	private static final String LIST_URL = "/system/account/listAccount";
-	private static final String READ_VIEW_NAME = "system/account/read";
-	private static final String READ_URL = "/system/account/readAccount";
+	private static final String CREATE_VIEW_NAME = "system/security/authentication/account/create";
+	private static final String UPDATE_VIEW_NAME = "system/security/authentication/account/update";
+	private static final String LIST_VIEW_NAME = "system/security/authentication/account/list";
+	private static final String LIST_URL = "/system/security/authentication/account/listAccount";
+	private static final String READ_VIEW_NAME = "system/security/authentication/account/read";
+	private static final String READ_URL = "/system/security/authentication/account/readAccount";
 	private static final String EXPORT_VIEW_NAME = "accountListExcelView";
 
 	@Autowired

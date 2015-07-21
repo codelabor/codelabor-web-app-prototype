@@ -102,8 +102,8 @@
 					</tr>
 				</table>
 				<hr />
-				<a href="${pageContext.request.contextPath}/system/account/listAccount"><spring:message code="button.list" /></a> <a
-					href="${pageContext.request.contextPath}/system/account/updateAccount?username=<c:out value="${accountDto.username}" />"><spring:message
+				<a href="${pageContext.request.contextPath}/system/security/authentication/account/listAccount"><spring:message code="button.list" /></a> <a
+					href="${pageContext.request.contextPath}/system/security/authentication/account/updateAccount?username=<c:out value="${accountDto.username}" />"><spring:message
 						code="button.update" /></a>
 
 			</div>

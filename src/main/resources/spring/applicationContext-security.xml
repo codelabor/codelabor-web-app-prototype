@@ -33,7 +33,7 @@
 		<security:intercept-url pattern="/system/security/authentication/account/createAccount" access="permitAll" />
 	</security:http>
 
-	<bean id="userDetailsService" class="org.codelabor.system.authentication.account.manager.CustomUserDetailsManager">
+	<bean id="userDetailsService" class="org.codelabor.system.authentication.account.manager.AccountManager">
 		<property name="dataSource" ref="dataSource" />
 		<property name="enableGroups" value="true" />
 		<property name="createUserSql"

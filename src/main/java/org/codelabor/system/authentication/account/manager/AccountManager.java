@@ -21,9 +21,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.util.Assert;
 
-public class CustomUserDetailsManager extends JdbcUserDetailsManager {
+public class AccountManager extends JdbcUserDetailsManager {
 	private final Logger logger = LoggerFactory
-			.getLogger(CustomUserDetailsManager.class);
+			.getLogger(AccountManager.class);
 	protected String usersByUsernameQuery = DEF_USERS_BY_USERNAME_QUERY;
 	protected String createUserSql = DEF_CREATE_USER_SQL;
 	protected String createAuthoritySql = DEF_INSERT_AUTHORITY_SQL;

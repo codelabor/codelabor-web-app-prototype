@@ -24,7 +24,7 @@ import java.util.Locale;
 import javax.validation.Valid;
 
 import org.codelabor.system.authentication.account.dto.AccountDto;
-import org.codelabor.system.authentication.account.manager.CustomUserDetailsManager;
+import org.codelabor.system.authentication.account.manager.AccountManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +60,7 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	private static final String EXPORT_VIEW_NAME = "accountListExcelView";
 
 	@Autowired
-	private CustomUserDetailsManager userDetailsManager;
+	private AccountManager accountManager;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -119,7 +119,7 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 			accountDto.setGraceLoginsRemaining(3);
 
 			// invoke service
-			userDetailsManager.createUser(accountDto);
+			accountManager.createUser(accountDto);
 			int affectedRowCount = 1;
 
 			StringBuilder sb = new StringBuilder();
@@ -790,7 +790,7 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// logger.debug("username: {}", username);
 	// ModelAndView mav = new ModelAndView();
 	//
-	// EmpDto empDto = userDetailsManager.selectEmp(username);
+	// EmpDto empDto = accountManager.selectEmp(username);
 	//
 	// mav.addObject(empDto);
 	// // mav.addObject("deptMap", this.getDeptMap());
@@ -803,7 +803,7 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	public ModelAndView readAccount(String username) {
 		logger.debug("readAccount");
 		logger.debug("username: {}", username);
-		AccountDto accountDto = (AccountDto) userDetailsManager
+		AccountDto accountDto = (AccountDto) accountManager
 				.loadUserByUsername(username);
 		logger.debug("accountDto: {}", accountDto);
 

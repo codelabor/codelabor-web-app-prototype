@@ -60,7 +60,7 @@
 						</tr>
 						<tr class="b">
 							<th><label for="deptNo"><spring:message code="label.emp.deptNo" /></label></th>
-							<td><form:select path="deptNo" items="${deptMap}" /> <span><form:errors path="deptNo" /></span></td>
+							<td><form:select path="deptNo" items="${deptMap}" /><span><form:errors path="deptNo" /></span></td>
 						</tr>
 						<tr class="b">
 							<th><label for="job"><spring:message code="label.emp.job" /></label></th>

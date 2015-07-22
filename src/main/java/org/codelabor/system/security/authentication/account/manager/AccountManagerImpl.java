@@ -1,4 +1,4 @@
-package org.codelabor.system.authentication.account.manager;
+package org.codelabor.system.security.authentication.account.manager;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.codelabor.system.authentication.account.dto.AccountDto;
+import org.codelabor.system.security.authentication.account.dto.AccountDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.PreparedStatementSetter;
@@ -21,9 +21,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.util.Assert;
 
-public class AccountManager extends JdbcUserDetailsManager {
+public class AccountManagerImpl extends JdbcUserDetailsManager implements
+		AccountManager {
 	private final Logger logger = LoggerFactory
-			.getLogger(AccountManager.class);
+			.getLogger(AccountManagerImpl.class);
 	protected String usersByUsernameQuery = DEF_USERS_BY_USERNAME_QUERY;
 	protected String createUserSql = DEF_CREATE_USER_SQL;
 	protected String createAuthoritySql = DEF_INSERT_AUTHORITY_SQL;
@@ -34,6 +35,14 @@ public class AccountManager extends JdbcUserDetailsManager {
 	// ~ UserDetailsManager implementation
 	// ==============================================================================
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.codelabor.system.security.authentication.account.manager.AccountManager
+	 * #createUser(org.springframework.security.core.userdetails.UserDetails)
+	 */
+	@Override
 	public void createUser(final UserDetails user) {
 		validateUserDetails(user);
 		AccountDto accountDto = (AccountDto) user;
@@ -89,6 +98,14 @@ public class AccountManager extends JdbcUserDetailsManager {
 				});
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.codelabor.system.security.authentication.account.manager.AccountManager
+	 * #loadUserByUsername(java.lang.String)
+	 */
+	@Override
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		List<UserDetails> users = loadUsersByUsername(username);
@@ -183,32 +200,40 @@ public class AccountManager extends JdbcUserDetailsManager {
 		}
 	}
 
-	/**
-	 * Allows the default query string used to retrieve users based on username
-	 * to be overridden, if default table or column names need to be changed.
-	 * The default query is {@link #DEF_USERS_BY_USERNAME_QUERY}; when modifying
-	 * this query, ensure that all returned columns are mapped back to the same
-	 * column names as in the default query. If the 'enabled' column does not
-	 * exist in the source database, a permanent true value for this column may
-	 * be returned by using a query similar to
-	 *
-	 * <pre>
-	 * &quot;select username,password,'true' as enabled from users where username = ?&quot;
-	 * </pre>
-	 *
-	 * @param usersByUsernameQueryString
-	 *            The query string to set
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.codelabor.system.security.authentication.account.manager.AccountManager
+	 * #setUsersByUsernameQuery(java.lang.String)
 	 */
+	@Override
 	public void setUsersByUsernameQuery(String usersByUsernameQueryString) {
 		Assert.hasText(usersByUsernameQueryString);
 		this.usersByUsernameQuery = usersByUsernameQueryString;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.codelabor.system.security.authentication.account.manager.AccountManager
+	 * #setCreateUserSql(java.lang.String)
+	 */
+	@Override
 	public void setCreateUserSql(String createUserSql) {
 		Assert.hasText(createUserSql);
 		this.createUserSql = createUserSql;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.codelabor.system.security.authentication.account.manager.AccountManager
+	 * #setCreateAuthoritySql(java.lang.String)
+	 */
+	@Override
 	public void setCreateAuthoritySql(String createAuthoritySql) {
 		Assert.hasText(createAuthoritySql);
 		this.createAuthoritySql = createAuthoritySql;

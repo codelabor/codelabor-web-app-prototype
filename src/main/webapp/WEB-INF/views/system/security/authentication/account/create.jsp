@@ -98,6 +98,36 @@
 							<th><label for="mobile"><spring:message code="label.account.mobile" /></label></th>
 							<td><form:input path="mobile" placeholder="" /><span><form:errors path="mobile" /></span></td>
 						</tr>
+						<sec:authorize access="hasRole('ADMINISTRATOR')">
+							<tr class="b">
+								<th><label for="authorities"><spring:message code="label.account.authorities" /></label></th>
+								<td><form:select path="authorities" items="{authoritiesMap}" /><span><form:errors path="authorities" /></span></td>
+							</tr>
+							<tr class="b">
+								<th><label for="enabled"><spring:message code="label.account.enabled" /></label></th>
+								<td><spring:message code="label.account.enabled" /> <form:radiobutton path="enabled" value="true" />&nbsp; <spring:message
+										code="label.account.disabled" /> <form:radiobutton path="enabled" value="false" /> <span><form:errors path="enabled" /></span></td>
+							</tr>
+							<tr class="b">
+								<th><label for="accountNonExpired"><spring:message code="label.account.accountNonExpired" /></label></th>
+								<td><spring:message code="label.account.enabled" /> <form:radiobutton path="accountNonExpired" value="true" />&nbsp; <spring:message
+										code="label.account.disabled" /> <form:radiobutton path="accountNonExpired" value="false" /> <span><form:errors path="accountNonExpired" /></span></td>
+							</tr>
+							<tr class="b">
+								<th><label for="credentialsNonExpired"><spring:message code="label.account.credentialsNonExpired" /></label></th>
+								<td><spring:message code="label.account.enabled" /> <form:radiobutton path="credentialsNonExpired" value="true" />&nbsp; <spring:message
+										code="label.account.disabled" /> <form:radiobutton path="credentialsNonExpired" value="false" /> <span><form:errors path="credentialsNonExpired" /></span></td>
+							</tr>
+							<tr class="b">
+								<th><label for="accountNonLocked"><spring:message code="label.account.accountNonLocked" /></label></th>
+								<td><spring:message code="label.account.enabled" /> <form:radiobutton path="accountNonLocked" value="true" />&nbsp; <spring:message
+										code="label.account.disabled" /> <form:radiobutton path="accountNonLocked" value="false" /> <span><form:errors path="accountNonLocked" /></span></td>
+							</tr>
+							<tr class="b">
+								<th><label for="graceLoginsRemaining"><spring:message code="label.account.graceLoginsRemaining" /></label></th>
+								<td><span id="graceLoginsRemaining"><c:out value="${accountDto.graceLoginsRemaining}" /></td>
+							</tr>
+						</sec:authorize>
 					</table>
 					<hr />
 					<a href="${pageContext.request.contextPath}/system/security/authentication/account/listAccount"><spring:message code="button.list" /></a>

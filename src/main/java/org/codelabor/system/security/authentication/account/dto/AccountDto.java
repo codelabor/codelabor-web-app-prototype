@@ -1,4 +1,4 @@
-package org.codelabor.system.authentication.account.dto;
+package org.codelabor.system.security.authentication.account.dto;
 
 import java.io.Serializable;
 import java.util.Collection;

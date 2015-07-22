@@ -33,14 +33,14 @@
 		<security:intercept-url pattern="/system/security/authentication/account/createAccount" access="permitAll" />
 	</security:http>
 
-	<bean id="userDetailsService" class="org.codelabor.system.authentication.account.manager.AccountManager">
+	<bean id="userDetailsService" class="org.codelabor.system.security.authentication.account.manager.AccountManagerImpl">
 		<property name="dataSource" ref="dataSource" />
 		<property name="enableGroups" value="true" />
 		<property name="createUserSql"
-			value="insert into users (username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, givenName, surname, mail, mobile, graceLoginsRemaining
-		) values (?,?,?,?,?,?,?,?,?,?,?)" />
+			value="INSERT INTO USERS (USERNAME, PASSWORD, ENABLED, ACCOUNT_NON_EXPIRED, CREDENTIALS_NON_EXPIRED, ACCOUNT_NON_LOCKED, GIVEN_NAME, SURNAME, MAIL, MOBILE, GRACE_LOGINS_REMAINING
+		) VALUES (?,?,?,?,?,?,?,?,?,?,?)" />
 		<property name="usersByUsernameQuery"
-			value="select username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, givenName, surname, mail, mobile, graceLoginsRemaining from users where username = ?" />
+			value="SELECT USERNAME, PASSWORD, ENABLED, ACCOUNT_NON_EXPIRED, CREDENTIALS_NON_EXPIRED, ACCOUNT_NON_LOCKED, GIVEN_NAME, SURNAME, MAIL, MOBILE, GRACE_LOGINS_REMAINING FROM USERS WHERE USERNAME = ?" />
 	</bean>
 
 	<!-- <security:user-service id="userDetailsService"> <security:user name="admin" password="1234qwer" authorities="ROLE_ADMINISTRATOR" /> <security:user name="dev1"

@@ -14,17 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.codelabor.system.authentication.account.web.controller;
+package org.codelabor.system.security.authentication.account.web.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.validation.Valid;
 
-import org.codelabor.system.authentication.account.dto.AccountDto;
-import org.codelabor.system.authentication.account.manager.AccountManager;
+import org.codelabor.system.security.authentication.account.dto.AccountDto;
+import org.codelabor.system.security.authentication.account.manager.AccountManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,8 +84,7 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 			for (ObjectError error : result.getAllErrors()) {
 				logger.error(error.getDefaultMessage());
 			}
-			/* mav.addObject("deptMap", this.getDeptMap()); */
-			// mav.addObject("mgrMap", this.getMgrMap());
+			mav.addObject("authoritiesMap", this.getAuthoritiesMap());
 			mav.setViewName(CREATE_VIEW_NAME);
 		} else {
 
@@ -461,24 +461,18 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// return empDtoList;
 	// }
 
-	/*
-	 * private Map<Integer, String> getDeptMap() { List<DeptDto> deptDtoList =
-	 * deptService.selectDeptList(); LinkedHashMap<Integer, String> deptMap =
-	 * new LinkedHashMap<Integer, String>(); for (DeptDto deptDto : deptDtoList)
-	 * { deptMap.put(deptDto.getDeptNo(), deptDto.getDname()); } return deptMap;
-	 * }
-	 */
+	private Map<Integer, String> getAuthoritiesMap() {
+		return null;
+		// TODO
+		// List<DeptDto> authoritiesList = accountManager. .selectDeptList();
+		// LinkedHashMap<Integer, String> authoritiesMap = new
+		// LinkedHashMap<Integer, String>();
+		// for (DeptDto deptDto : authoritiesList) {
+		// authoritiesMap.put(deptDto.getDeptNo(), deptDto.getDname());
+		// }
+		// return authoritiesMap;
 
-	// @Cacheable(value = "mgrMap")
-	// private Map<Integer, String> getMgrMap() {
-	// List<EmpDto> empDtoList = serDetailsManager.selectEmpList();
-	// LinkedHashMap<Integer, String> mgrMap = new LinkedHashMap<Integer,
-	// String>();
-	// for (EmpDto empDto : empDtoList) {
-	// mgrMap.put(empDto.getEmpNo(), empDto.getEname());
-	// }
-	// return mgrMap;
-	// }
+	}
 
 	// servlet 2.5
 	// @RequestMapping(value = "/importEmpList", method = RequestMethod.POST)
@@ -778,26 +772,25 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 		AccountDto accountDto = new AccountDto();
 		ModelAndView mav = new ModelAndView();
 		mav.addObject(accountDto);
-		// mav.addObject("deptMap", this.getDeptMap());
-		// mav.addObject("mgrMap", this.getMgrMap());
+		mav.addObject("authoritiesMap", this.getAuthoritiesMap());
 		mav.setViewName(CREATE_VIEW_NAME);
 		return mav;
 	}
 
-	// @RequestMapping(value = "/updateAccount", method = RequestMethod.GET)
-	// public ModelAndView prepareUpdateAccount(String username) {
-	// logger.debug("prepareUpdateAccount");
-	// logger.debug("username: {}", username);
-	// ModelAndView mav = new ModelAndView();
-	//
-	// EmpDto empDto = accountManager.selectEmp(username);
-	//
-	// mav.addObject(empDto);
-	// // mav.addObject("deptMap", this.getDeptMap());
-	// mav.addObject("mgrMap", this.getMgrMap());
-	// mav.setViewName(UPDATE_VIEW_NAME);
-	// return mav;
-	// }
+	@RequestMapping(value = "/updateAccount", method = RequestMethod.GET)
+	public ModelAndView prepareUpdateAccount(String username) {
+		logger.debug("prepareUpdateAccount");
+		logger.debug("username: {}", username);
+		ModelAndView mav = new ModelAndView();
+
+		AccountDto accountDto = (AccountDto) accountManager
+				.loadUserByUsername(username);
+
+		mav.addObject(accountDto);
+		mav.addObject("authoritiesMap", this.getAuthoritiesMap());
+		mav.setViewName(UPDATE_VIEW_NAME);
+		return mav;
+	}
 
 	@RequestMapping(value = "/readAccount", method = RequestMethod.GET)
 	public ModelAndView readAccount(String username) {
@@ -812,39 +805,42 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 		mav.setViewName(READ_VIEW_NAME);
 		return mav;
 	}
-	//
-	// @RequestMapping(value = "/updateAccount", method = RequestMethod.POST)
-	// public ModelAndView updateEmp(@Valid EmpDto empDto, BindingResult result,
-	// RedirectAttributes redirectAttributes, Locale locale) {
-	// logger.debug("updateAccount");
-	//
-	// ModelAndView mav = new ModelAndView();
-	// if (result.hasErrors()) {
-	// for (ObjectError error : result.getAllErrors()) {
-	// logger.error(error.getDefaultMessage());
-	// }
-	// mav.setViewName(UPDATE_VIEW_NAME);
-	// } else {
-	// int affectedRowCount = empService.updateEmp(empDto);
-	//
-	// StringBuilder sb = new StringBuilder();
-	// sb.append("redirect:");
-	// sb.append(READ_URL).append("?empNo=").append(empDto.getEmpNo());
-	// logger.debug("view name: {}", sb.toString());
-	// mav.setViewName(sb.toString());
-	//
-	// // set message
-	// String message = messageSource.getMessage(
-	// "success.update.completed.with.count",
-	// new Object[] { affectedRowCount }, locale);
-	// logger.debug("message: {}", message);
-	//
-	// List<String> successMessages = new ArrayList<String>();
-	// successMessages.add(message);
-	//
-	// redirectAttributes.addFlashAttribute("successMessages",
-	// successMessages);
-	// }
-	// return mav;
-	// }
+
+	@RequestMapping(value = "/updateAccount", method = RequestMethod.POST)
+	public ModelAndView updateAccount(@Valid AccountDto accountDto,
+			BindingResult result, RedirectAttributes redirectAttributes,
+			Locale locale) {
+		logger.debug("updateAccount");
+
+		ModelAndView mav = new ModelAndView();
+		if (result.hasErrors()) {
+			for (ObjectError error : result.getAllErrors()) {
+				logger.error(error.getDefaultMessage());
+			}
+			mav.setViewName(UPDATE_VIEW_NAME);
+		} else {
+			accountManager.createUser(accountDto);
+			int affectedRowCount = 1;
+
+			StringBuilder sb = new StringBuilder();
+			sb.append("redirect:");
+			sb.append(READ_URL).append("?username=")
+					.append(accountDto.getUsername());
+			logger.debug("view name: {}", sb.toString());
+			mav.setViewName(sb.toString());
+
+			// set message
+			String message = messageSource.getMessage(
+					"success.update.completed.with.count",
+					new Object[] { affectedRowCount }, locale);
+			logger.debug("message: {}", message);
+
+			List<String> successMessages = new ArrayList<String>();
+			successMessages.add(message);
+
+			redirectAttributes.addFlashAttribute("successMessages",
+					successMessages);
+		}
+		return mav;
+	}
 }

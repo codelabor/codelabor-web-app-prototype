@@ -18,15 +18,37 @@ import org.springframework.security.core.userdetails.UserDetails;
 @ScriptAssert(lang = "javascript", script = "_this.password.equals(_this.passwordConfirm)", message = "{errors.confirm.password.mismatched}")
 public class AccountDto implements Serializable, UserDetails {
 
+	public AccountDto(String username, String password, String givenName, String surname, String mail, String mobile,
+			Collection<? extends GrantedAuthority> authorities, Boolean enabled, Boolean accountNonLocked, Boolean accountNonExpired,
+			Boolean credentialsNonExpired, Integer graceLoginsRemaining) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.givenName = givenName;
+		this.surname = surname;
+		this.mail = mail;
+		this.mobile = mobile;
+		this.enabled = enabled;
+		this.authorities = authorities;
+		this.accountNonExpired = accountNonExpired;
+		this.accountNonLocked = accountNonLocked;
+		this.credentialsNonExpired = credentialsNonExpired;
+		this.graceLoginsRemaining = graceLoginsRemaining;
+	}
+
+	public AccountDto() {
+		super();
+	}
+
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = -6177823371031883302L;
 
-	private boolean enabled = SecurityConstants.DEFAULT_ENABLED;
-	private boolean accountNonExpired = SecurityConstants.DEFAULT_ACCOUNT_NON_EXPIRED;
-	private boolean accountNonLocked = SecurityConstants.DEFAULT_ACCOUNT_NON_LOCKED;
-	private boolean credentialsNonExpired = SecurityConstants.DEFAULT_CREDENTIALS_NON_EXPIRED;
+	private Boolean enabled = SecurityConstants.DEFAULT_ENABLED;
+	private Boolean accountNonExpired = SecurityConstants.DEFAULT_ACCOUNT_NON_EXPIRED;
+	private Boolean accountNonLocked = SecurityConstants.DEFAULT_ACCOUNT_NON_LOCKED;
+	private Boolean credentialsNonExpired = SecurityConstants.DEFAULT_CREDENTIALS_NON_EXPIRED;
 
 	// TODO: @Length
 
@@ -34,7 +56,7 @@ public class AccountDto implements Serializable, UserDetails {
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String givenName;
 
-	private int graceLoginsRemaining;
+	private Integer graceLoginsRemaining;
 
 	@Email
 	@SafeHtml(whitelistType = WhiteListType.NONE, message = "{org.hibernate.validator.constraints.SafeHtml.message}")
@@ -61,92 +83,66 @@ public class AccountDto implements Serializable, UserDetails {
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	private String username;
 
-	private Collection<? extends GrantedAuthority> authorities = Collections
-			.emptyList();
+	private Collection<? extends GrantedAuthority> authorities = Collections.emptyList();
 
 	/**
-	 * @return the isEnabled
+	 * @return the enabled
 	 */
-	public boolean isEnabled() {
+	public Boolean getEnabled() {
 		return enabled;
 	}
 
 	/**
-	 * @param isEnabled
-	 *            the isEnabled to set
+	 * @param enabled
+	 *            the enabled to set
 	 */
-	public void setEnabled(boolean isEnabled) {
-		this.enabled = isEnabled;
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	/**
-	 * @return the isAccountNonExpired
+	 * @return the accountNonExpired
 	 */
-	public boolean isAccountNonExpired() {
+	public Boolean getAccountNonExpired() {
 		return accountNonExpired;
 	}
 
 	/**
-	 * @param isAccountNonExpired
-	 *            the isAccountNonExpired to set
+	 * @param accountNonExpired
+	 *            the accountNonExpired to set
 	 */
-	public void setAccountNonExpired(boolean isAccountNonExpired) {
-		this.accountNonExpired = isAccountNonExpired;
-	}
-
-	public AccountDto() {
-		super();
+	public void setAccountNonExpired(Boolean accountNonExpired) {
+		this.accountNonExpired = accountNonExpired;
 	}
 
 	/**
-	 * @return the isAccountNonLocked
+	 * @return the accountNonLocked
 	 */
-	public boolean isAccountNonLocked() {
+	public Boolean getAccountNonLocked() {
 		return accountNonLocked;
 	}
 
-	public AccountDto(String username, String password, boolean enabled,
-			boolean accountNonExpired, boolean credentialsNonExpired,
-			boolean accountNonLocked,
-			Collection<? extends GrantedAuthority> authorities,
-			String givenName, String surname, String mail, String mobile,
-			int graceLoginsRemaining) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.enabled = enabled;
-		this.accountNonExpired = accountNonExpired;
-		this.credentialsNonExpired = credentialsNonExpired;
+	/**
+	 * @param accountNonLocked
+	 *            the accountNonLocked to set
+	 */
+	public void setAccountNonLocked(Boolean accountNonLocked) {
 		this.accountNonLocked = accountNonLocked;
-		this.authorities = authorities;
-		this.givenName = givenName;
-		this.surname = surname;
-		this.mail = mail;
-		this.mobile = mobile;
-		this.graceLoginsRemaining = graceLoginsRemaining;
 	}
 
 	/**
-	 * @param isAccountNonLocked
-	 *            the isAccountNonLocked to set
+	 * @return the credentialsNonExpired
 	 */
-	public void setAccountNonLocked(boolean isAccountNonLocked) {
-		this.accountNonLocked = isAccountNonLocked;
-	}
-
-	/**
-	 * @return the isCredentialsNonExpired
-	 */
-	public boolean isCredentialsNonExpired() {
+	public Boolean getCredentialsNonExpired() {
 		return credentialsNonExpired;
 	}
 
 	/**
-	 * @param isCredentialsNonExpired
-	 *            the isCredentialsNonExpired to set
+	 * @param credentialsNonExpired
+	 *            the credentialsNonExpired to set
 	 */
-	public void setCredentialsNonExpired(boolean isCredentialsNonExpired) {
-		this.credentialsNonExpired = isCredentialsNonExpired;
+	public void setCredentialsNonExpired(Boolean credentialsNonExpired) {
+		this.credentialsNonExpired = credentialsNonExpired;
 	}
 
 	/**
@@ -167,7 +163,7 @@ public class AccountDto implements Serializable, UserDetails {
 	/**
 	 * @return the graceLoginsRemaining
 	 */
-	public int getGraceLoginsRemaining() {
+	public Integer getGraceLoginsRemaining() {
 		return graceLoginsRemaining;
 	}
 
@@ -175,7 +171,7 @@ public class AccountDto implements Serializable, UserDetails {
 	 * @param graceLoginsRemaining
 	 *            the graceLoginsRemaining to set
 	 */
-	public void setGraceLoginsRemaining(int graceLoginsRemaining) {
+	public void setGraceLoginsRemaining(Integer graceLoginsRemaining) {
 		this.graceLoginsRemaining = graceLoginsRemaining;
 	}
 
@@ -270,17 +266,54 @@ public class AccountDto implements Serializable, UserDetails {
 	}
 
 	/**
+	 * @return the authorities
+	 */
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return authorities;
+	}
+
+	/**
 	 * @param authorities
 	 *            the authorities to set
 	 */
-	public void setAuthorities(
-			Collection<? extends GrantedAuthority> authorities) {
+	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
 		this.authorities = authorities;
 	}
 
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authorities;
+	public boolean isAccountNonExpired() {
+		if (this.accountNonExpired != null) {
+			return this.accountNonExpired.booleanValue();
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		if (this.accountNonLocked != null) {
+			return this.accountNonLocked.booleanValue();
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		if (this.credentialsNonExpired != null) {
+			return this.credentialsNonExpired.booleanValue();
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isEnabled() {
+		if (this.enabled != null) {
+			return this.enabled.booleanValue();
+		} else {
+			return false;
+		}
 	}
 
 	/*
@@ -291,17 +324,17 @@ public class AccountDto implements Serializable, UserDetails {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("AccountDto [isEnabled=");
+		builder.append("AccountDto [enabled=");
 		builder.append(enabled);
-		builder.append(", isAccountNonExpired=");
+		builder.append(", accountNonExpired=");
 		builder.append(accountNonExpired);
-		builder.append(", isAccountNonLocked=");
+		builder.append(", accountNonLocked=");
 		builder.append(accountNonLocked);
-		builder.append(", isCredentialsNonExpired=");
+		builder.append(", credentialsNonExpired=");
 		builder.append(credentialsNonExpired);
 		builder.append(", givenName=");
 		builder.append(givenName);
-		builder.append(", graceLoginsRemainin=");
+		builder.append(", graceLoginsRemaining=");
 		builder.append(graceLoginsRemaining);
 		builder.append(", mail=");
 		builder.append(mail);
@@ -330,24 +363,19 @@ public class AccountDto implements Serializable, UserDetails {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((authorities == null) ? 0 : authorities.hashCode());
-		result = prime * result
-				+ ((givenName == null) ? 0 : givenName.hashCode());
-		result = prime * result + graceLoginsRemaining;
-		result = prime * result + (accountNonExpired ? 1231 : 1237);
-		result = prime * result + (accountNonLocked ? 1231 : 1237);
-		result = prime * result + (credentialsNonExpired ? 1231 : 1237);
-		result = prime * result + (enabled ? 1231 : 1237);
+		result = prime * result + ((accountNonExpired == null) ? 0 : accountNonExpired.hashCode());
+		result = prime * result + ((accountNonLocked == null) ? 0 : accountNonLocked.hashCode());
+		result = prime * result + ((authorities == null) ? 0 : authorities.hashCode());
+		result = prime * result + ((credentialsNonExpired == null) ? 0 : credentialsNonExpired.hashCode());
+		result = prime * result + ((enabled == null) ? 0 : enabled.hashCode());
+		result = prime * result + ((givenName == null) ? 0 : givenName.hashCode());
+		result = prime * result + ((graceLoginsRemaining == null) ? 0 : graceLoginsRemaining.hashCode());
 		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
 		result = prime * result + ((mobile == null) ? 0 : mobile.hashCode());
-		result = prime * result
-				+ ((password == null) ? 0 : password.hashCode());
-		result = prime * result
-				+ ((passwordConfirm == null) ? 0 : passwordConfirm.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((passwordConfirm == null) ? 0 : passwordConfirm.hashCode());
 		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
-		result = prime * result
-				+ ((username == null) ? 0 : username.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
 
@@ -368,11 +396,39 @@ public class AccountDto implements Serializable, UserDetails {
 			return false;
 		}
 		AccountDto other = (AccountDto) obj;
+		if (accountNonExpired == null) {
+			if (other.accountNonExpired != null) {
+				return false;
+			}
+		} else if (!accountNonExpired.equals(other.accountNonExpired)) {
+			return false;
+		}
+		if (accountNonLocked == null) {
+			if (other.accountNonLocked != null) {
+				return false;
+			}
+		} else if (!accountNonLocked.equals(other.accountNonLocked)) {
+			return false;
+		}
 		if (authorities == null) {
 			if (other.authorities != null) {
 				return false;
 			}
 		} else if (!authorities.equals(other.authorities)) {
+			return false;
+		}
+		if (credentialsNonExpired == null) {
+			if (other.credentialsNonExpired != null) {
+				return false;
+			}
+		} else if (!credentialsNonExpired.equals(other.credentialsNonExpired)) {
+			return false;
+		}
+		if (enabled == null) {
+			if (other.enabled != null) {
+				return false;
+			}
+		} else if (!enabled.equals(other.enabled)) {
 			return false;
 		}
 		if (givenName == null) {
@@ -382,19 +438,11 @@ public class AccountDto implements Serializable, UserDetails {
 		} else if (!givenName.equals(other.givenName)) {
 			return false;
 		}
-		if (graceLoginsRemaining != other.graceLoginsRemaining) {
-			return false;
-		}
-		if (accountNonExpired != other.accountNonExpired) {
-			return false;
-		}
-		if (accountNonLocked != other.accountNonLocked) {
-			return false;
-		}
-		if (credentialsNonExpired != other.credentialsNonExpired) {
-			return false;
-		}
-		if (enabled != other.enabled) {
+		if (graceLoginsRemaining == null) {
+			if (other.graceLoginsRemaining != null) {
+				return false;
+			}
+		} else if (!graceLoginsRemaining.equals(other.graceLoginsRemaining)) {
 			return false;
 		}
 		if (mail == null) {

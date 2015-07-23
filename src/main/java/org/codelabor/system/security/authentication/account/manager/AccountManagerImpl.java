@@ -21,10 +21,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.util.Assert;
 
-public class AccountManagerImpl extends JdbcUserDetailsManager implements
-		AccountManager {
-	private final Logger logger = LoggerFactory
-			.getLogger(AccountManagerImpl.class);
+public class AccountManagerImpl extends JdbcUserDetailsManager implements AccountManager {
+	private final Logger logger = LoggerFactory.getLogger(AccountManagerImpl.class);
 	protected String usersByUsernameQuery = DEF_USERS_BY_USERNAME_QUERY;
 	protected String createUserSql = DEF_CREATE_USER_SQL;
 	protected String createAuthoritySql = DEF_INSERT_AUTHORITY_SQL;
@@ -38,9 +36,7 @@ public class AccountManagerImpl extends JdbcUserDetailsManager implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.codelabor.system.security.authentication.account.manager.AccountManager
-	 * #createUser(org.springframework.security.core.userdetails.UserDetails)
+	 * @see org.codelabor.system.security.authentication.account.manager.AccountManager #createUser(org.springframework.security.core.userdetails.UserDetails)
 	 */
 	@Override
 	public void createUser(final UserDetails user) {
@@ -69,52 +65,42 @@ public class AccountManagerImpl extends JdbcUserDetailsManager implements
 	}
 
 	/**
-	 * Executes the SQL <tt>usersByUsernameQuery</tt> and returns a list of
-	 * UserDetails objects. There should normally only be one matching user.
+	 * Executes the SQL <tt>usersByUsernameQuery</tt> and returns a list of UserDetails objects. There should normally only be one matching user.
 	 */
 	protected List<UserDetails> loadUsersByUsername(String username) {
-		return getJdbcTemplate().query(usersByUsernameQuery,
-				new String[] { username }, new RowMapper<UserDetails>() {
-					public UserDetails mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						String username = rs.getString(1);
-						String password = rs.getString(2);
-						boolean enabled = rs.getBoolean(3);
-						boolean accountNonExpired = rs.getBoolean(4);
-						boolean credentialsNonExpired = rs.getBoolean(5);
-						boolean accountNonLocked = rs.getBoolean(6);
-						String givenName = rs.getString(7);
-						String surname = rs.getString(8);
-						String mail = rs.getString(9);
-						String mobile = rs.getString(10);
-						int graceLoginsRemaining = rs.getInt(11);
-						return new AccountDto(username, password, enabled,
-								accountNonExpired, credentialsNonExpired,
-								accountNonLocked,
-								AuthorityUtils.NO_AUTHORITIES, givenName,
-								surname, mail, mobile, graceLoginsRemaining);
-					}
+		return getJdbcTemplate().query(usersByUsernameQuery, new String[] { username }, new RowMapper<UserDetails>() {
+			public UserDetails mapRow(ResultSet rs, int rowNum) throws SQLException {
+				String username = rs.getString(1);
+				String password = rs.getString(2);
+				boolean enabled = rs.getBoolean(3);
+				boolean accountNonExpired = rs.getBoolean(4);
+				boolean credentialsNonExpired = rs.getBoolean(5);
+				boolean accountNonLocked = rs.getBoolean(6);
+				String givenName = rs.getString(7);
+				String surname = rs.getString(8);
+				String mail = rs.getString(9);
+				String mobile = rs.getString(10);
+				int graceLoginsRemaining = rs.getInt(11);
+				return new AccountDto(username, password, givenName, surname, mail, mobile, AuthorityUtils.NO_AUTHORITIES, Boolean.valueOf(enabled), Boolean
+						.valueOf(accountNonLocked), Boolean.valueOf(accountNonExpired), Boolean.valueOf(credentialsNonExpired), Integer
+						.valueOf(graceLoginsRemaining));
+			}
 
-				});
+		});
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.codelabor.system.security.authentication.account.manager.AccountManager
-	 * #loadUserByUsername(java.lang.String)
+	 * @see org.codelabor.system.security.authentication.account.manager.AccountManager #loadUserByUsername(java.lang.String)
 	 */
 	@Override
-	public UserDetails loadUserByUsername(String username)
-			throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		List<UserDetails> users = loadUsersByUsername(username);
 
 		if (users.size() == 0) {
 			logger.debug("Query returned no results for user '{}'", username);
-			throw new UsernameNotFoundException(messages.getMessage(
-					"JdbcDaoImpl.notFound", new Object[] { username },
-					"Username {0} not found"));
+			throw new UsernameNotFoundException(messages.getMessage("JdbcDaoImpl.notFound", new Object[] { username }, "Username {0} not found"));
 		}
 
 		UserDetails user = users.get(0); // contains no GrantedAuthority[]
@@ -128,38 +114,28 @@ public class AccountManagerImpl extends JdbcUserDetailsManager implements
 			dbAuthsSet.addAll(loadGroupAuthorities(user.getUsername()));
 		}
 
-		List<GrantedAuthority> dbAuths = new ArrayList<GrantedAuthority>(
-				dbAuthsSet);
+		List<GrantedAuthority> dbAuths = new ArrayList<GrantedAuthority>(dbAuthsSet);
 		addCustomAuthorities(user.getUsername(), dbAuths);
 
 		if (dbAuths.size() == 0) {
-			logger.debug(
-					"User '{}' has no authorities and will be treated as 'not found'",
-					username);
-			throw new UsernameNotFoundException(messages.getMessage(
-					"JdbcDaoImpl.noAuthority", new Object[] { username },
-					"User {0} has no GrantedAuthority"));
+			logger.debug("User '{}' has no authorities and will be treated as 'not found'", username);
+			throw new UsernameNotFoundException(messages.getMessage("JdbcDaoImpl.noAuthority", new Object[] { username }, "User {0} has no GrantedAuthority"));
 		}
 		return createUserDetails(username, user, dbAuths);
 	}
 
 	/**
-	 * Can be overridden to customize the creation of the final
-	 * UserDetailsObject which is returned by the <tt>loadUserByUsername</tt>
-	 * method.
+	 * Can be overridden to customize the creation of the final UserDetailsObject which is returned by the <tt>loadUserByUsername</tt> method.
 	 *
 	 * @param username
 	 *            the name originally passed to loadUserByUsername
 	 * @param userFromUserQuery
 	 *            the object returned from the execution of the
 	 * @param combinedAuthorities
-	 *            the combined array of authorities from all the authority
-	 *            loading queries.
+	 *            the combined array of authorities from all the authority loading queries.
 	 * @return the final UserDetails which should be used in the system.
 	 */
-	protected UserDetails createUserDetails(String username,
-			UserDetails userFromUserQuery,
-			List<GrantedAuthority> combinedAuthorities) {
+	protected UserDetails createUserDetails(String username, UserDetails userFromUserQuery, List<GrantedAuthority> combinedAuthorities) {
 		String returnUsername = userFromUserQuery.getUsername();
 
 		if (!usernameBasedPrimaryKey) {
@@ -168,13 +144,9 @@ public class AccountManagerImpl extends JdbcUserDetailsManager implements
 
 		AccountDto accountDto = (AccountDto) userFromUserQuery;
 
-		return new AccountDto(returnUsername, accountDto.getPassword(),
-				accountDto.isEnabled(), accountDto.isAccountNonExpired(),
-				accountDto.isCredentialsNonExpired(),
-				accountDto.isAccountNonLocked(), combinedAuthorities,
-				accountDto.getGivenName(), accountDto.getSurname(),
-				accountDto.getMail(), accountDto.getMobile(),
-				accountDto.getGraceLoginsRemaining());
+		return new AccountDto(returnUsername, accountDto.getPassword(), accountDto.getGivenName(), accountDto.getSurname(), accountDto.getMail(),
+				accountDto.getMobile(), combinedAuthorities, accountDto.getEnabled(), accountDto.getAccountNonExpired(), accountDto.getCredentialsNonExpired(),
+				accountDto.getAccountNonLocked(), accountDto.getGraceLoginsRemaining());
 	}
 
 	protected void validateUserDetails(UserDetails user) {
@@ -182,30 +154,25 @@ public class AccountManagerImpl extends JdbcUserDetailsManager implements
 		validateAuthorities(user.getAuthorities());
 	}
 
-	protected void validateAuthorities(
-			Collection<? extends GrantedAuthority> authorities) {
+	protected void validateAuthorities(Collection<? extends GrantedAuthority> authorities) {
 		Assert.notNull(authorities, "Authorities list must not be null");
 
 		for (GrantedAuthority authority : authorities) {
 			Assert.notNull(authority, "Authorities list contains a null entry");
-			Assert.hasText(authority.getAuthority(),
-					"getAuthority() method must return a non-empty string");
+			Assert.hasText(authority.getAuthority(), "getAuthority() method must return a non-empty string");
 		}
 	}
 
 	protected void insertUserAuthorities(UserDetails user) {
 		for (GrantedAuthority auth : user.getAuthorities()) {
-			getJdbcTemplate().update(createAuthoritySql, user.getUsername(),
-					auth.getAuthority());
+			getJdbcTemplate().update(createAuthoritySql, user.getUsername(), auth.getAuthority());
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.codelabor.system.security.authentication.account.manager.AccountManager
-	 * #setUsersByUsernameQuery(java.lang.String)
+	 * @see org.codelabor.system.security.authentication.account.manager.AccountManager #setUsersByUsernameQuery(java.lang.String)
 	 */
 	@Override
 	public void setUsersByUsernameQuery(String usersByUsernameQueryString) {
@@ -216,9 +183,7 @@ public class AccountManagerImpl extends JdbcUserDetailsManager implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.codelabor.system.security.authentication.account.manager.AccountManager
-	 * #setCreateUserSql(java.lang.String)
+	 * @see org.codelabor.system.security.authentication.account.manager.AccountManager #setCreateUserSql(java.lang.String)
 	 */
 	@Override
 	public void setCreateUserSql(String createUserSql) {
@@ -229,9 +194,7 @@ public class AccountManagerImpl extends JdbcUserDetailsManager implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.codelabor.system.security.authentication.account.manager.AccountManager
-	 * #setCreateAuthoritySql(java.lang.String)
+	 * @see org.codelabor.system.security.authentication.account.manager.AccountManager #setCreateAuthoritySql(java.lang.String)
 	 */
 	@Override
 	public void setCreateAuthoritySql(String createAuthoritySql) {

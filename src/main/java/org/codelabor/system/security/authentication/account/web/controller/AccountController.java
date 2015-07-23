@@ -100,6 +100,28 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 			accountDto.setPassword(passwordEncoder.encode(accountDto.getPassword()));
 			accountDto.setPasswordConfirm(null);
 
+			// use default value or not
+			if (accountDto.getAuthorities().isEmpty()) {
+				Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+				authorities.add(new SimpleGrantedAuthority(SecurityConstants.DEFAULT_ROLE));
+				accountDto.setAuthorities(authorities);
+			}
+			if (accountDto.getEnabled() == null) {
+				accountDto.setEnabled(SecurityConstants.DEFAULT_ENABLED);
+			}
+			if (accountDto.getAccountNonExpired() == null) {
+				accountDto.setAccountNonExpired(SecurityConstants.DEFAULT_ACCOUNT_NON_EXPIRED);
+			}
+			if (accountDto.getCredentialsNonExpired() == null) {
+				accountDto.setCredentialsNonExpired(SecurityConstants.DEFAULT_CREDENTIALS_NON_EXPIRED);
+			}
+			if (accountDto.getAccountNonLocked() == null) {
+				accountDto.setAccountNonLocked(SecurityConstants.DEFAULT_ACCOUNT_NON_LOCKED);
+			}
+			if (accountDto.getGraceLoginsRemaining() == null) {
+				accountDto.setGraceLoginsRemaining(SecurityConstants.DEFAULT_GRACE_LOGINS_REMAINING);
+			}
+
 			// invoke service
 			accountManager.createUser(accountDto);
 			int affectedRowCount = 1;

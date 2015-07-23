@@ -4,7 +4,7 @@
 	<sec:authorize access="isAuthenticated()">
 		| <span id="username">Username: <sec:authentication property="principal.username" /></span>
 	</sec:authorize>
-	<br/>
+	<br />
 	<c:url var="exampleUrl" value="/example/home" />
 	<a href="${exampleUrl}"><spring:message code="menu.example" /></a> |
 	<c:url var="systemUrl" value="/system/home" />
@@ -22,6 +22,8 @@
 		<a href="${loginUrl}"><spring:message code="button.login" /></a>
 	</sec:authorize>
 	<sec:authorize access="isAuthenticated()">
+		<c:url var="accountPreferencesUrl" value="/system/security/authentication/account/updateAccount?username=" />
+		<a href="${accountPreferencesUrl}<sec:authentication property='principal.username' />"><spring:message code="button.account.update" /></a> |
 		<c:url var="logoutUrl" value="/example/security/authentication/logout" />
 		<form action="${logoutUrl}" method="post">
 			<input type="submit" value="<spring:message code="button.logout"/>" /> <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />

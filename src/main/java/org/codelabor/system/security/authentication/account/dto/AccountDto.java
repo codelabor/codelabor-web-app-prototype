@@ -6,6 +6,7 @@ import java.util.Collections;
 
 import javax.validation.constraints.Pattern;
 
+import org.codelabor.system.security.SecurityConstants;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -22,10 +23,10 @@ public class AccountDto implements Serializable, UserDetails {
 	 */
 	private static final long serialVersionUID = -6177823371031883302L;
 
-	private boolean enabled;
-	private boolean accountNonExpired;
-	private boolean accountNonLocked;
-	private boolean credentialsNonExpired;
+	private boolean enabled = SecurityConstants.DEFAULT_ENABLED;
+	private boolean accountNonExpired = SecurityConstants.DEFAULT_ACCOUNT_NON_EXPIRED;
+	private boolean accountNonLocked = SecurityConstants.DEFAULT_ACCOUNT_NON_LOCKED;
+	private boolean credentialsNonExpired = SecurityConstants.DEFAULT_CREDENTIALS_NON_EXPIRED;
 
 	// TODO: @Length
 

@@ -18,24 +18,30 @@ package org.codelabor.system.security.authentication.account.web.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.codelabor.system.security.SecurityConstants;
 import org.codelabor.system.security.authentication.account.dto.AccountDto;
 import org.codelabor.system.security.authentication.account.manager.AccountManager;
+import org.codelabor.system.security.propertyeditors.SimpleGrantedAuthoritiesPropertiesEditor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -49,8 +55,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/system/security/authentication/account/")
 public class AccountController { // NOPMD by "SHIN Sang-jae"
 
-	private final Logger logger = LoggerFactory
-			.getLogger(AccountController.class);
+	private final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
 	private static final String CREATE_VIEW_NAME = "system/security/authentication/account/create";
 	private static final String UPDATE_VIEW_NAME = "system/security/authentication/account/update";
@@ -71,10 +76,13 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	@Autowired
 	private MessageSource messageSource;
 
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(GrantedAuthority.class, new SimpleGrantedAuthoritiesPropertiesEditor());
+	}
+
 	@RequestMapping(value = "/createAccount", method = RequestMethod.POST)
-	public ModelAndView createAccount(@Valid AccountDto accountDto,
-			BindingResult result, RedirectAttributes redirectAttributes,
-			Locale locale) {
+	public ModelAndView createAccount(@Valid AccountDto accountDto, BindingResult result, RedirectAttributes redirectAttributes, Locale locale) {
 		logger.debug("createAccount");
 
 		List<String> successMessages = new ArrayList<String>();
@@ -88,35 +96,9 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 			mav.setViewName(CREATE_VIEW_NAME);
 		} else {
 
-			// assign default ROLE
-			Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-			authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-			accountDto.setAuthorities(authorities);
-
 			// encode password
-			accountDto.setPassword(passwordEncoder.encode(accountDto
-					.getPassword()));
+			accountDto.setPassword(passwordEncoder.encode(accountDto.getPassword()));
 			accountDto.setPasswordConfirm(null);
-
-			// set default
-			// TODO: make constant default
-			accountDto.setEnabled(true);
-
-			// set default
-			// TODO: make constant default
-			accountDto.setAccountNonExpired(true);
-
-			// set default
-			// TODO: make constant default
-			accountDto.setCredentialsNonExpired(true);
-
-			// set default
-			// TODO: make constant default
-			accountDto.setAccountNonLocked(false);
-
-			// set default login remaining
-			// TODO: make constant default remaining
-			accountDto.setGraceLoginsRemaining(3);
 
 			// invoke service
 			accountManager.createUser(accountDto);
@@ -124,20 +106,16 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 
 			StringBuilder sb = new StringBuilder();
 			sb.append("redirect:");
-			sb.append(READ_URL).append("?username=")
-					.append(accountDto.getUsername());
+			sb.append(READ_URL).append("?username=").append(accountDto.getUsername());
 
 			logger.debug("view name: {}", sb.toString());
 			mav.setViewName(sb.toString());
 
-			String message = messageSource.getMessage(
-					"success.create.completed.with.count",
-					new Object[] { affectedRowCount }, locale);
+			String message = messageSource.getMessage("success.create.completed.with.count", new Object[] { affectedRowCount }, locale);
 			logger.debug("message: {}", message);
 			successMessages.add(message);
 
-			redirectAttributes.addFlashAttribute("successMessages",
-					successMessages);
+			redirectAttributes.addFlashAttribute("successMessages", successMessages);
 		}
 		return mav;
 	}
@@ -461,17 +439,13 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// return empDtoList;
 	// }
 
-	private Map<Integer, String> getAuthoritiesMap() {
-		return null;
-		// TODO
-		// List<DeptDto> authoritiesList = accountManager. .selectDeptList();
-		// LinkedHashMap<Integer, String> authoritiesMap = new
-		// LinkedHashMap<Integer, String>();
-		// for (DeptDto deptDto : authoritiesList) {
-		// authoritiesMap.put(deptDto.getDeptNo(), deptDto.getDname());
-		// }
-		// return authoritiesMap;
-
+	private Map<String, String> getAuthoritiesMap() {
+		Map<String, String> authoritiesMap = new LinkedHashMap<String, String>();
+		authoritiesMap.put(SecurityConstants.ROLE_ADMINISTRATOR, messageSource.getMessage("label.role.administrator", null, LocaleContextHolder.getLocale()));
+		authoritiesMap.put(SecurityConstants.ROLE_MANAGER, messageSource.getMessage("label.role.manager", null, LocaleContextHolder.getLocale()));
+		authoritiesMap.put(SecurityConstants.ROLE_USER, messageSource.getMessage("label.role.user", null, LocaleContextHolder.getLocale()));
+		logger.debug("authoritiesMap: {}", authoritiesMap);
+		return authoritiesMap;
 	}
 
 	// servlet 2.5
@@ -769,7 +743,17 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	public ModelAndView prepareCreateAccount() {
 		logger.debug("prepareCreateAccount");
 
+		// set default value
 		AccountDto accountDto = new AccountDto();
+		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		authorities.add(new SimpleGrantedAuthority(SecurityConstants.DEFAULT_ROLE));
+		accountDto.setAuthorities(authorities);
+		accountDto.setEnabled(SecurityConstants.DEFAULT_ENABLED);
+		accountDto.setAccountNonExpired(SecurityConstants.DEFAULT_ACCOUNT_NON_EXPIRED);
+		accountDto.setCredentialsNonExpired(SecurityConstants.DEFAULT_CREDENTIALS_NON_EXPIRED);
+		accountDto.setAccountNonLocked(SecurityConstants.DEFAULT_ACCOUNT_NON_LOCKED);
+		accountDto.setGraceLoginsRemaining(SecurityConstants.DEFAULT_GRACE_LOGINS_REMAINING);
+
 		ModelAndView mav = new ModelAndView();
 		mav.addObject(accountDto);
 		mav.addObject("authoritiesMap", this.getAuthoritiesMap());
@@ -783,8 +767,7 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 		logger.debug("username: {}", username);
 		ModelAndView mav = new ModelAndView();
 
-		AccountDto accountDto = (AccountDto) accountManager
-				.loadUserByUsername(username);
+		AccountDto accountDto = (AccountDto) accountManager.loadUserByUsername(username);
 
 		mav.addObject(accountDto);
 		mav.addObject("authoritiesMap", this.getAuthoritiesMap());
@@ -796,8 +779,7 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	public ModelAndView readAccount(String username) {
 		logger.debug("readAccount");
 		logger.debug("username: {}", username);
-		AccountDto accountDto = (AccountDto) accountManager
-				.loadUserByUsername(username);
+		AccountDto accountDto = (AccountDto) accountManager.loadUserByUsername(username);
 		logger.debug("accountDto: {}", accountDto);
 
 		ModelAndView mav = new ModelAndView();
@@ -807,9 +789,7 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	}
 
 	@RequestMapping(value = "/updateAccount", method = RequestMethod.POST)
-	public ModelAndView updateAccount(@Valid AccountDto accountDto,
-			BindingResult result, RedirectAttributes redirectAttributes,
-			Locale locale) {
+	public ModelAndView updateAccount(@Valid AccountDto accountDto, BindingResult result, RedirectAttributes redirectAttributes, Locale locale) {
 		logger.debug("updateAccount");
 
 		ModelAndView mav = new ModelAndView();
@@ -824,22 +804,18 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 
 			StringBuilder sb = new StringBuilder();
 			sb.append("redirect:");
-			sb.append(READ_URL).append("?username=")
-					.append(accountDto.getUsername());
+			sb.append(READ_URL).append("?username=").append(accountDto.getUsername());
 			logger.debug("view name: {}", sb.toString());
 			mav.setViewName(sb.toString());
 
 			// set message
-			String message = messageSource.getMessage(
-					"success.update.completed.with.count",
-					new Object[] { affectedRowCount }, locale);
+			String message = messageSource.getMessage("success.update.completed.with.count", new Object[] { affectedRowCount }, locale);
 			logger.debug("message: {}", message);
 
 			List<String> successMessages = new ArrayList<String>();
 			successMessages.add(message);
 
-			redirectAttributes.addFlashAttribute("successMessages",
-					successMessages);
+			redirectAttributes.addFlashAttribute("successMessages", successMessages);
 		}
 		return mav;
 	}

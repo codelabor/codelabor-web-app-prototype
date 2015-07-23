@@ -16,6 +16,8 @@
 		href="?theme=maven-default">default</a> | <a href="?theme=maven-fluido">fluido</a> | <a href="?theme=maven-stylus">stylus</a>
 	</span> <br />
 	<sec:authorize access="isAnonymous()">
+		<c:url var="createAccountUrl" value="/system/security/authentication/account/createAccount" />
+		<a href="${createAccountUrl}"><spring:message code="button.account.create" /></a> |
 		<c:url var="loginUrl" value="/example/authentication/prepareLogin" />
 		<a href="${loginUrl}"><spring:message code="button.login" /></a>
 	</sec:authorize>

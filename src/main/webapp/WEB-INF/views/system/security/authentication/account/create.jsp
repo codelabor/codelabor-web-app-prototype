@@ -44,24 +44,6 @@
 					<spring:message code="heading.account.create" />
 				</h2>
 
-				<form:form commandName="usernameDto">
-					<input name="username" value="${accountDto.username}" placeholder="User ID" form="usernameDto" />
-					<span><form:errors path="username" /></span>
-					<button name="checkDuplicateUsername" type="submit" value="<spring:message code="button.account.check.duplicate.username" />" form="usernameDto"
-						formaction="${pageContext.request.contextPath}/system/security/authentication/account/checkDuplicateUsername" formmethod="get" formtarget="_blank">
-						<spring:message code="button.account.check.duplicate.username" />
-					</button>
-				</form:form>
-
-				<form:form commandName="mailDto">
-					<input name="mail" value="${accountDto.mail}" placeholder="xxx@xxxxx.xxx" form="mailDto" />
-					<span><form:errors path="mail" /></span>
-					<button name="checkDuplicateMail" type="submit" value="<spring:message code="button.account.check.duplicate.mail" />" form="mailDto"
-						formaction="${pageContext.request.contextPath}/system/security/authentication/account/checkDuplicateMail" formmethod="get" formtarget="_blank">
-						<spring:message code="button.account.check.duplicate.mail" />
-					</button>
-				</form:form>
-
 				<form:form commandName="accountDto">
 					<!-- failure message area -->
 					<div class="failureMessages">
@@ -101,12 +83,17 @@
 						<sec:authorize access="hasRole('ADMINISTRATOR')">
 							<tr class="b">
 								<th><label for="authorities"><spring:message code="label.account.authorities" /></label></th>
-								<td><form:select path="authorities" items="{authoritiesMap}" /><span><form:errors path="authorities" /></span></td>
+								<td><form:select path="authorities" items="${authoritiesMap}" /><span><form:errors path="authorities" /></span></td>
 							</tr>
 							<tr class="b">
 								<th><label for="enabled"><spring:message code="label.account.enabled" /></label></th>
 								<td><spring:message code="label.account.enabled" /> <form:radiobutton path="enabled" value="true" />&nbsp; <spring:message
 										code="label.account.disabled" /> <form:radiobutton path="enabled" value="false" /> <span><form:errors path="enabled" /></span></td>
+							</tr>
+							<tr class="b">
+								<th><label for="accountNonLocked"><spring:message code="label.account.accountNonLocked" /></label></th>
+								<td><spring:message code="label.account.enabled" /> <form:radiobutton path="accountNonLocked" value="true" />&nbsp; <spring:message
+										code="label.account.disabled" /> <form:radiobutton path="accountNonLocked" value="false" /> <span><form:errors path="accountNonLocked" /></span></td>
 							</tr>
 							<tr class="b">
 								<th><label for="accountNonExpired"><spring:message code="label.account.accountNonExpired" /></label></th>
@@ -117,11 +104,6 @@
 								<th><label for="credentialsNonExpired"><spring:message code="label.account.credentialsNonExpired" /></label></th>
 								<td><spring:message code="label.account.enabled" /> <form:radiobutton path="credentialsNonExpired" value="true" />&nbsp; <spring:message
 										code="label.account.disabled" /> <form:radiobutton path="credentialsNonExpired" value="false" /> <span><form:errors path="credentialsNonExpired" /></span></td>
-							</tr>
-							<tr class="b">
-								<th><label for="accountNonLocked"><spring:message code="label.account.accountNonLocked" /></label></th>
-								<td><spring:message code="label.account.enabled" /> <form:radiobutton path="accountNonLocked" value="true" />&nbsp; <spring:message
-										code="label.account.disabled" /> <form:radiobutton path="accountNonLocked" value="false" /> <span><form:errors path="accountNonLocked" /></span></td>
 							</tr>
 							<tr class="b">
 								<th><label for="graceLoginsRemaining"><spring:message code="label.account.graceLoginsRemaining" /></label></th>

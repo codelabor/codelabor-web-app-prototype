@@ -43,7 +43,6 @@
 				<h2>
 					<spring:message code="heading.account.read" />
 				</h2>
-				<hr />
 
 				<!-- success message area -->
 				<div class="successMessages">
@@ -61,26 +60,6 @@
 						<td><span id="password"><c:out value="${accountDto.password}" /></td>
 					</tr>
 					<tr class="b">
-						<th><label for="enabled"><spring:message code="label.account.enabled" /></label></th>
-						<td><span id="enabled"><c:out value="${accountDto.enabled}" /></td>
-					</tr>
-					<tr class="b">
-						<th><label for="accountNonExpired"><spring:message code="label.account.accountNonExpired" /></label></th>
-						<td><span id="accountNonExpired"><c:out value="${accountDto.accountNonExpired}" /></td>
-					</tr>
-					<tr class="b">
-						<th><label for="credentialsNonExpired"><spring:message code="label.account.credentialsNonExpired" /></label></th>
-						<td><span id="credentialsNonExpired"><c:out value="${accountDto.credentialsNonExpired}" /></td>
-					</tr>
-					<tr class="b">
-						<th><label for="accountNonLocked"><spring:message code="label.account.accountNonLocked" /></label></th>
-						<td><span id="accountNonLocked"><c:out value="${accountDto.accountNonLocked}" /></td>
-					</tr>
-					<tr class="b">
-						<th><label for="authorities"><spring:message code="label.account.authorities" /></label></th>
-						<td><span id="authorities"><c:out value="${accountDto.authorities}" /></td>
-					</tr>
-					<tr class="b">
 						<th><label for="surname"><spring:message code="label.account.surname" /></label></th>
 						<td><span id="surname"><c:out value="${accountDto.surname}" /></td>
 					</tr>
@@ -96,10 +75,32 @@
 						<th><label for="mobile"><spring:message code="label.account.mobile" /></label></th>
 						<td><span id="mobile"><c:out value="${accountDto.mobile}" /></td>
 					</tr>
-					<tr class="b">
-						<th><label for="graceLoginsRemaining"><spring:message code="label.account.graceLoginsRemaining" /></label></th>
-						<td><span id="graceLoginsRemaining"><c:out value="${accountDto.graceLoginsRemaining}" /></td>
-					</tr>
+					<sec:authorize access="hasRole('ADMINISTRATOR')">
+						<tr class="b">
+							<th><label for="authorities"><spring:message code="label.account.authorities" /></label></th>
+							<td><span id="authorities"><c:out value="${accountDto.authorities}" /></td>
+						</tr>
+						<tr class="b">
+							<th><label for="enabled"><spring:message code="label.account.enabled" /></label></th>
+							<td><span id="enabled"><c:out value="${accountDto.enabled}" /></td>
+						</tr>
+						<tr class="b">
+							<th><label for="accountNonLocked"><spring:message code="label.account.accountNonLocked" /></label></th>
+							<td><span id="accountNonLocked"><c:out value="${accountDto.accountNonLocked}" /></td>
+						</tr>
+						<tr class="b">
+							<th><label for="accountNonExpired"><spring:message code="label.account.accountNonExpired" /></label></th>
+							<td><span id="accountNonExpired"><c:out value="${accountDto.accountNonExpired}" /></td>
+						</tr>
+						<tr class="b">
+							<th><label for="credentialsNonExpired"><spring:message code="label.account.credentialsNonExpired" /></label></th>
+							<td><span id="credentialsNonExpired"><c:out value="${accountDto.credentialsNonExpired}" /></td>
+						</tr>
+						<tr class="b">
+							<th><label for="graceLoginsRemaining"><spring:message code="label.account.graceLoginsRemaining" /></label></th>
+							<td><span id="graceLoginsRemaining"><c:out value="${accountDto.graceLoginsRemaining}" /></td>
+						</tr>
+					</sec:authorize>
 				</table>
 				<hr />
 				<a href="${pageContext.request.contextPath}/system/security/authentication/account/listAccount"><spring:message code="button.list" /></a> <a

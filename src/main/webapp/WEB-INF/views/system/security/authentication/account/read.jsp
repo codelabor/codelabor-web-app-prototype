@@ -43,7 +43,7 @@
 				<h2>
 					<spring:message code="heading.account.read" />
 				</h2>
-
+				<hr />
 				<!-- success message area -->
 				<div class="successMessages">
 					<c:forEach var="message" items="${messages}">
@@ -62,12 +62,12 @@
 						</tr>
 					</sec:authorize>
 					<tr class="b">
-						<th><label for="surname"><spring:message code="label.account.surname" /></label></th>
-						<td><span id="surname"><c:out value="${accountDto.surname}" /></td>
-					</tr>
-					<tr class="b">
 						<th><label for="givenName"><spring:message code="label.account.givenName" /></label></th>
 						<td><span id="givenName"><c:out value="${accountDto.givenName}" /></td>
+					</tr>
+					<tr class="b">
+						<th><label for="surname"><spring:message code="label.account.surname" /></label></th>
+						<td><span id="surname"><c:out value="${accountDto.surname}" /></td>
 					</tr>
 					<tr class="b">
 						<th><label for="mail"><spring:message code="label.account.mail" /></label></th>

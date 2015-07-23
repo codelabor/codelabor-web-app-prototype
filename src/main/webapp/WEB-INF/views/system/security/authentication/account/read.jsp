@@ -55,10 +55,12 @@
 						<th><label for="username"><spring:message code="label.account.username" /></label></th>
 						<td><span id="username"><c:out value="${accountDto.username}" /></span></td>
 					</tr>
-					<tr class="b">
-						<th><label for="password"><spring:message code="label.account.password" /></label></th>
-						<td><span id="password"><c:out value="${accountDto.password}" /></td>
-					</tr>
+					<sec:authorize access="hasRole('ADMINISTRATOR')">
+						<tr class="b">
+							<th><label for="password"><spring:message code="label.account.password" /></label></th>
+							<td><span id="password"><c:out value="${accountDto.password}" /></td>
+						</tr>
+					</sec:authorize>
 					<tr class="b">
 						<th><label for="surname"><spring:message code="label.account.surname" /></label></th>
 						<td><span id="surname"><c:out value="${accountDto.surname}" /></td>

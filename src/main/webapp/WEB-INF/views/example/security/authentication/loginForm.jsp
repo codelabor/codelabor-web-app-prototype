@@ -50,7 +50,7 @@
 					<legend>
 						<spring:message code="label.login" />
 					</legend>
-					<c:url var="loginUrl" value="/example/authentication/login" />
+					<c:url var="loginUrl" value="/example/security/authentication/login" />
 					<form action="${loginUrl}" method="post" autocomplete="off">
 						<table class="bodyTable">
 							<tr class="b">

@@ -101,7 +101,7 @@
 	<mvc:view-controller path="/example/jstl/fn" view-name="example/jstl/fn" />
 	<mvc:view-controller path="/example/request" view-name="example/request/requestInfo" />
 	<mvc:view-controller path="/example/error/underConstruction" view-name="example/error/underConstruction" />
-	<mvc:view-controller path="/example/authorization/taglibs" view-name="example/authorization/taglibs" />
+	<mvc:view-controller path="/example/security/authorization/taglibs" view-name="example/security/authorization/taglibs" />
 
 	<!-- view controller (system) -->
 	<mvc:view-controller path="/system/home" view-name="system/index" />

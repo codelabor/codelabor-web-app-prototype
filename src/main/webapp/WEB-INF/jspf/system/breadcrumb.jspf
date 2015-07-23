@@ -18,11 +18,11 @@
 	<sec:authorize access="isAnonymous()">
 		<c:url var="createAccountUrl" value="/system/security/authentication/account/createAccount" />
 		<a href="${createAccountUrl}"><spring:message code="button.account.create" /></a> |
-		<c:url var="loginUrl" value="/example/authentication/prepareLogin" />
+		<c:url var="loginUrl" value="/example/security/authentication/prepareLogin" />
 		<a href="${loginUrl}"><spring:message code="button.login" /></a>
 	</sec:authorize>
 	<sec:authorize access="isAuthenticated()">
-		<c:url var="logoutUrl" value="/example/authentication/logout" />
+		<c:url var="logoutUrl" value="/example/security/authentication/logout" />
 		<form action="${logoutUrl}" method="post">
 			<input type="submit" value="<spring:message code="button.logout"/>" /> <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		</form>

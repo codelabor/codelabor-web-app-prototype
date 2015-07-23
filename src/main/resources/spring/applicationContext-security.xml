@@ -11,22 +11,22 @@
 	<security:http auto-config="true" use-expressions="true" request-matcher="ant" authentication-manager-ref="authenticationManager"
 		access-decision-manager-ref="accessDecisionManager">
 		<security:csrf />
-		<!-- do not use default-target-url="/example/authentication/loginSuccess" -->
+		<!-- do not use default-target-url="/example/security/authentication/loginSuccess" -->
 		<!-- TODO org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler -->
-		<security:form-login always-use-default-target="false" login-page="/example/authentication/prepareLogin" login-processing-url="/example/authentication/login"
-			authentication-success-handler-ref="domainAwareAuthenticationSuccessHandler" authentication-failure-url="/example/authentication/loginFailure" />
-		<security:logout logout-url="/example/authentication/logout" logout-success-url="/example/authentication/logoutSuccess" />
+		<security:form-login always-use-default-target="false" login-page="/example/security/authentication/prepareLogin" login-processing-url="/example/security/authentication/login"
+			authentication-success-handler-ref="domainAwareAuthenticationSuccessHandler" authentication-failure-url="/example/security/authentication/loginFailure" />
+		<security:logout logout-url="/example/security/authentication/logout" logout-success-url="/example/security/authentication/logoutSuccess" />
 		<security:remember-me data-source-ref="dataSource" />
 		<security:session-management>
 			<!-- TODO make error page contains messages like this: This session has been expired (possibly due to multiple concurrent logins being attempted as the same user). -->
-			<security:concurrency-control expired-url="/example/authentication/prepareLogin" />
+			<security:concurrency-control expired-url="/example/security/authentication/prepareLogin" />
 		</security:session-management>
 
 		<!-- authorizing web request -->
 		<security:intercept-url pattern="/logbackStatus" access="hasRole('DEVELOPER')" />
 		<security:intercept-url pattern="/example/username/**" access="hasRole('DEVELOPER')" />
-		<security:intercept-url pattern="/example/authentication/prepareLogin/**" access="isAnonymous()" />
-		<security:intercept-url pattern="/example/authentication/logoutSuccess/**" access="isAnonymous()" />
+		<security:intercept-url pattern="/example/security/authentication/prepareLogin/**" access="isAnonymous()" />
+		<security:intercept-url pattern="/example/security/authentication/logoutSuccess/**" access="isAnonymous()" />
 		<security:intercept-url pattern="/common/**" access="isAnonymous()" />
 		<security:intercept-url pattern="/**" access="permitAll" />
 		<!-- TODO: requires-channel="https" -->

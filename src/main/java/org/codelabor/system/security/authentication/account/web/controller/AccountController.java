@@ -791,6 +791,10 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 
 		AccountDto accountDto = (AccountDto) accountManager.loadUserByUsername(username);
 
+		// clear password
+		accountDto.setPassword(null);
+		accountDto.setPasswordConfirm(null);
+
 		mav.addObject(accountDto);
 		mav.addObject("authoritiesMap", this.getAuthoritiesMap());
 		mav.setViewName(UPDATE_VIEW_NAME);
@@ -821,7 +825,7 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 			}
 			mav.setViewName(UPDATE_VIEW_NAME);
 		} else {
-			accountManager.createUser(accountDto);
+			accountManager.updateUser(accountDto);
 			int affectedRowCount = 1;
 
 			StringBuilder sb = new StringBuilder();

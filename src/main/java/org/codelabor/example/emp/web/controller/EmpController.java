@@ -441,7 +441,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 
 	private Map<Integer, String> getDeptMap() {
 		List<DeptDto> deptDtoList = deptService.selectDeptList();
-		LinkedHashMap<Integer, String> deptMap = new LinkedHashMap<Integer, String>();
+		Map<Integer, String> deptMap = new LinkedHashMap<Integer, String>();
 		for (DeptDto deptDto : deptDtoList) {
 			deptMap.put(deptDto.getDeptNo(), deptDto.getDname());
 		}
@@ -451,7 +451,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 	@Cacheable(value = "mgrMap")
 	private Map<Integer, String> getMgrMap() {
 		List<EmpDto> empDtoList = empService.selectEmpList();
-		LinkedHashMap<Integer, String> mgrMap = new LinkedHashMap<Integer, String>();
+		Map<Integer, String> mgrMap = new LinkedHashMap<Integer, String>();
 		for (EmpDto empDto : empDtoList) {
 			mgrMap.put(empDto.getEmpNo(), empDto.getEname());
 		}

@@ -100,7 +100,8 @@
 	<bean id="roleHierarchy" class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
 		<property name="hierarchy">
 			<value>
-				ROLE_ADMINISTRATOR > ROLE_DEVELOPER
+				ROLE_ADMINISTRATOR > ROLE_MANAGER
+				ROLE_MANAGER > ROLE_DEVELOPER
 				ROLE_DEVELPER > ROLE_USER
 			</value>
 		</property>

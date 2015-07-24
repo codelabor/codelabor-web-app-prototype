@@ -8,7 +8,7 @@
 		<!-- <setting name="defaultExecutorType" value="BATCH"/> -->
 	</settings>
 	<typeAliases>
-		<package name="org.codelabor.example.emp.dto" />
+		<package name="org.codelabor.example.crud.emp.dto" />
 		<package name="org.codelabor.example.encoding.dto" />
 		<package name="org.codelabor.example.username.dto" />
 		<package name="org.codelabor.example.validation.dto" />

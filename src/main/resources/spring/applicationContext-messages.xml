@@ -23,15 +23,15 @@
 				<value>classpath:messages/example/messages</value>
 				<value>classpath:messages/example/title</value>
 
-				<!-- example emp -->
-				<value>classpath:messages/example/emp/button</value>
-				<value>classpath:messages/example/emp/errors</value>
-				<value>classpath:messages/example/emp/caption</value>
-				<value>classpath:messages/example/emp/heading</value>
-				<value>classpath:messages/example/emp/label</value>
-				<value>classpath:messages/example/emp/menu</value>
-				<value>classpath:messages/example/emp/messages</value>
-				<value>classpath:messages/example/emp/title</value>
+				<!-- example crud -->
+				<value>classpath:messages/example/crud/emp/button</value>
+				<value>classpath:messages/example/crud/emp/errors</value>
+				<value>classpath:messages/example/crud/emp/caption</value>
+				<value>classpath:messages/example/crud/emp/heading</value>
+				<value>classpath:messages/example/crud/emp/label</value>
+				<value>classpath:messages/example/crud/emp/menu</value>
+				<value>classpath:messages/example/crud/emp/messages</value>
+				<value>classpath:messages/example/crud/emp/title</value>
 
 				<!-- example validation -->
 				<value>classpath:messages/example/validation/button</value>

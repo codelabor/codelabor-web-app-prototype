@@ -67,8 +67,8 @@
 								<list>
 									<value>java.util.ArrayList</value>
 									<value>java.util.LinkedList</value>
-									<value>org.codelabor.example.emp.dto.EmpSearchConditionDto</value>
-									<value>org.codelabor.example.emp.dto.EmpDto</value>
+									<value>org.codelabor.example.crud.emp.dto.EmpSearchConditionDto</value>
+									<value>org.codelabor.example.crud.emp.dto.EmpDto</value>
 								</list>
 							</property>
 						</bean>

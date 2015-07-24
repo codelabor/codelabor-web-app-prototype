@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -92,8 +93,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 	private MessageSource messageSource;
 
 	@RequestMapping(value = "/createEmp", method = RequestMethod.POST)
-	public ModelAndView createEmp(@Valid EmpDto empDto, BindingResult result,
-			RedirectAttributes redirectAttributes, Locale locale) {
+	public ModelAndView createEmp(@Valid EmpDto empDto, BindingResult result, RedirectAttributes redirectAttributes, Locale locale) {
 		logger.debug("createEmp");
 
 		List<String> successMessages = new ArrayList<String>();
@@ -116,21 +116,17 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 			logger.debug("view name: {}", sb.toString());
 			mav.setViewName(sb.toString());
 
-			String message = messageSource.getMessage(
-					"success.create.completed.with.count",
-					new Object[] { affectedRowCount }, locale);
+			String message = messageSource.getMessage("success.create.completed.with.count", new Object[] { affectedRowCount }, locale);
 			logger.debug("message: {}", message);
 			successMessages.add(message);
 
-			redirectAttributes.addFlashAttribute("successMessages",
-					successMessages);
+			redirectAttributes.addFlashAttribute("successMessages", successMessages);
 		}
 		return mav;
 	}
 
 	@RequestMapping(value = "/deleteEmpList", method = RequestMethod.POST)
-	public ModelAndView deleteEmpList(@Valid IntegerIdListDto integerIdListDto,
-			BindingResult result, EmpSearchConditionDto empSearchConditionDto,
+	public ModelAndView deleteEmpList(@Valid IntegerIdListDto integerIdListDto, BindingResult result, EmpSearchConditionDto empSearchConditionDto,
 			RedirectAttributes redirectAttributes, Locale locale) {
 		logger.debug("deleteEmp");
 		logger.debug("integerIdListDto: {}", integerIdListDto);
@@ -149,40 +145,34 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 
 			List<EmpDto> empDtoList = null;
 			if ((pageNo != null) && (pageNo > 0)) {
-				empDtoList = empService
-						.selectEmpListByConditionWithPagination(empSearchConditionDto);
+				empDtoList = empService.selectEmpListByConditionWithPagination(empSearchConditionDto);
 			} else {
-				empDtoList = empService
-						.selectEmpListByCondition(empSearchConditionDto);
+				empDtoList = empService.selectEmpListByCondition(empSearchConditionDto);
 			}
 			mav.addObject(empDtoList);
 			mav.addObject(empSearchConditionDto);
 			mav.setViewName(LIST_VIEW_NAME);
 		} else {
-			int affectedRowCount = empService.deleteEmpList(integerIdListDto
-					.getId());
+			int affectedRowCount = empService.deleteEmpList(integerIdListDto.getId());
 			StringBuilder sb = new StringBuilder();
 			sb.append("redirect:").append(LIST_URL);
 			logger.debug("view name: {}", sb.toString());
 			mav.setViewName(sb.toString());
 
-			String message = messageSource.getMessage(
-					"success.delete.completed.with.count",
-					new Object[] { affectedRowCount }, locale);
+			String message = messageSource.getMessage("success.delete.completed.with.count", new Object[] { affectedRowCount }, locale);
 			logger.debug("message: {}", message);
 			successMessages.add(message);
 
-			redirectAttributes.addFlashAttribute("successMessages",
-					successMessages);
+			redirectAttributes.addFlashAttribute("successMessages", successMessages);
 			redirectAttributes.addFlashAttribute(empSearchConditionDto);
 		}
 		return mav;
 	}
 
 	// servlet 2.5
-	private List<EmpDto> fileToDtoList(MultipartFile file,
-			List<String> failureMessages) throws IllegalArgumentException,
-			InvalidFormatException, IOException { // NOPMD by "SHIN Sang-jae"
+	private List<EmpDto> fileToDtoList(MultipartFile file, List<String> failureMessages) throws IllegalArgumentException, InvalidFormatException, IOException { // NOPMD
+																																								// by
+																																								// "SHIN Sang-jae"
 
 		Workbook wb = WorkbookFactory.create(file.getInputStream());
 		int numberOfSheets = wb.getNumberOfSheets();
@@ -203,8 +193,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 			logger.debug("sheetName: {}", sheetName);
 			int firstRowNum = sheet.getFirstRowNum();
 			int lastRowNum = sheet.getLastRowNum();
-			logger.debug("firstRowNum: {},  lastRowNum: {}", firstRowNum,
-					lastRowNum);
+			logger.debug("firstRowNum: {},  lastRowNum: {}", firstRowNum, lastRowNum);
 
 			// set effective position
 			int effectiveFirstRowIndex = 1; // header row: 0
@@ -219,8 +208,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 				int rowNum = row.getRowNum();
 				int firstCellNum = row.getFirstCellNum();
 				int lastCellNum = row.getLastCellNum();
-				logger.debug("rowNum: {}, firstCellNum: {},  lastCellNum: {}",
-						rowNum, firstCellNum, lastCellNum);
+				logger.debug("rowNum: {}, firstCellNum: {},  lastCellNum: {}", rowNum, firstCellNum, lastCellNum);
 
 				// set effective position
 				int effectiveFirstCellIndex = firstCellNum;
@@ -232,46 +220,36 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 					if (cell != null) {
 						int rowIndex = cell.getRowIndex();
 						int columnIndex = cell.getColumnIndex();
-						CellReference cellRef = new CellReference(rowIndex,
-								columnIndex); // NOPMD by "SHIN Sang-jae"
+						CellReference cellRef = new CellReference(rowIndex, columnIndex); // NOPMD by "SHIN Sang-jae"
 
-						logger.debug(
-								"cellRef: {}, rowIndex: {}, columnIndex: {}",
-								cellRef, rowIndex, columnIndex);
+						logger.debug("cellRef: {}, rowIndex: {}, columnIndex: {}", cellRef, rowIndex, columnIndex);
 						// populate dto
 						switch (k) {
 						case 0: // EMPNO
-							empDto.setEmpNo(((Double) cell
-									.getNumericCellValue()).intValue());
+							empDto.setEmpNo(((Double) cell.getNumericCellValue()).intValue());
 							break;
 						case 1: // ENAME
-							empDto.setEname(cell.getRichStringCellValue()
-									.toString());
+							empDto.setEname(cell.getRichStringCellValue().toString());
 							break;
 						case 2: // JOB
-							empDto.setJob(cell.getRichStringCellValue()
-									.toString());
+							empDto.setJob(cell.getRichStringCellValue().toString());
 							break;
 						case 3: // MGR
-							empDto.setMgr(((Double) cell.getNumericCellValue())
-									.intValue());
+							empDto.setMgr(((Double) cell.getNumericCellValue()).intValue());
 							break;
 						case 4: // HIREDATE
 							empDto.setHireDate(cell.getDateCellValue());
 							break;
 						case 5: // SAL
 							// http://stackoverflow.com/questions/12395281/convert-double-to-bigdecimal-and-set-bigdecimal-precision
-							empDto.setSal(BigDecimal.valueOf(cell
-									.getNumericCellValue()));
+							empDto.setSal(BigDecimal.valueOf(cell.getNumericCellValue()));
 							break;
 						case 6: // COMM
 							// http://stackoverflow.com/questions/12395281/convert-double-to-bigdecimal-and-set-bigdecimal-precision
-							empDto.setComm(BigDecimal.valueOf(cell
-									.getNumericCellValue()));
+							empDto.setComm(BigDecimal.valueOf(cell.getNumericCellValue()));
 							break;
 						case 7: // DEPTNO
-							empDto.setDeptNo(((Double) cell
-									.getNumericCellValue()).intValue());
+							empDto.setDeptNo(((Double) cell.getNumericCellValue()).intValue());
 							break;
 						default:
 							break;
@@ -281,10 +259,8 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 				logger.debug("empDto: {}", empDto);
 
 				// validate
-				Validator validator = Validation.buildDefaultValidatorFactory()
-						.getValidator();
-				Set<ConstraintViolation<EmpDto>> violations = validator
-						.validate(empDto);
+				Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+				Set<ConstraintViolation<EmpDto>> violations = validator.validate(empDto);
 
 				if (violations.isEmpty()) {
 					// do all or nothing
@@ -293,12 +269,10 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 					// add failure message
 					sb.setLength(0); // init StringBuilder for reuse
 					for (ConstraintViolation<EmpDto> violation : violations) {
-						String propertyPath = violation.getPropertyPath()
-								.toString();
+						String propertyPath = violation.getPropertyPath().toString();
 						String message = violation.getMessage();
 						sb.append(message);
-						sb.append(" (row: ").append(j).append(", property: ")
-								.append(propertyPath).append(')');
+						sb.append(" (row: ").append(j).append(", property: ").append(propertyPath).append(')');
 						failureMessages.add(sb.toString());
 						logger.error(sb.toString());
 						sb.setLength(0);
@@ -310,9 +284,9 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 	}
 
 	// servlet 3.0
-	private List<EmpDto> fileToDtoList(Part file, List<String> failureMessages)
-			throws IllegalArgumentException, InvalidFormatException,
-			IOException { // NOPMD by "SHIN Sang-jae"
+	private List<EmpDto> fileToDtoList(Part file, List<String> failureMessages) throws IllegalArgumentException, InvalidFormatException, IOException { // NOPMD
+																																						// by
+																																						// "SHIN Sang-jae"
 
 		Workbook wb = WorkbookFactory.create(file.getInputStream());
 		int numberOfSheets = wb.getNumberOfSheets();
@@ -333,8 +307,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 			logger.debug("sheetName: {}", sheetName);
 			int firstRowNum = sheet.getFirstRowNum();
 			int lastRowNum = sheet.getLastRowNum();
-			logger.debug("firstRowNum: {},  lastRowNum: {}", firstRowNum,
-					lastRowNum);
+			logger.debug("firstRowNum: {},  lastRowNum: {}", firstRowNum, lastRowNum);
 
 			// set effective position
 			int effectiveFirstRowIndex = 1; // header row: 0
@@ -349,8 +322,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 				int rowNum = row.getRowNum();
 				int firstCellNum = row.getFirstCellNum();
 				int lastCellNum = row.getLastCellNum();
-				logger.debug("rowNum: {}, firstCellNum: {},  lastCellNum: {}",
-						rowNum, firstCellNum, lastCellNum);
+				logger.debug("rowNum: {}, firstCellNum: {},  lastCellNum: {}", rowNum, firstCellNum, lastCellNum);
 
 				// set effective position
 				int effectiveFirstCellIndex = firstCellNum;
@@ -362,46 +334,36 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 					if (cell != null) {
 						int rowIndex = cell.getRowIndex();
 						int columnIndex = cell.getColumnIndex();
-						CellReference cellRef = new CellReference(rowIndex,
-								columnIndex); // NOPMD by "SHIN Sang-jae"
+						CellReference cellRef = new CellReference(rowIndex, columnIndex); // NOPMD by "SHIN Sang-jae"
 
-						logger.debug(
-								"cellRef: {}, rowIndex: {}, columnIndex: {}",
-								cellRef, rowIndex, columnIndex);
+						logger.debug("cellRef: {}, rowIndex: {}, columnIndex: {}", cellRef, rowIndex, columnIndex);
 						// populate dto
 						switch (k) {
 						case 0: // EMPNO
-							empDto.setEmpNo(((Double) cell
-									.getNumericCellValue()).intValue());
+							empDto.setEmpNo(((Double) cell.getNumericCellValue()).intValue());
 							break;
 						case 1: // ENAME
-							empDto.setEname(cell.getRichStringCellValue()
-									.toString());
+							empDto.setEname(cell.getRichStringCellValue().toString());
 							break;
 						case 2: // JOB
-							empDto.setJob(cell.getRichStringCellValue()
-									.toString());
+							empDto.setJob(cell.getRichStringCellValue().toString());
 							break;
 						case 3: // MGR
-							empDto.setMgr(((Double) cell.getNumericCellValue())
-									.intValue());
+							empDto.setMgr(((Double) cell.getNumericCellValue()).intValue());
 							break;
 						case 4: // HIREDATE
 							empDto.setHireDate(cell.getDateCellValue());
 							break;
 						case 5: // SAL
 							// http://stackoverflow.com/questions/12395281/convert-double-to-bigdecimal-and-set-bigdecimal-precision
-							empDto.setSal(BigDecimal.valueOf(cell
-									.getNumericCellValue()));
+							empDto.setSal(BigDecimal.valueOf(cell.getNumericCellValue()));
 							break;
 						case 6: // COMM
 							// http://stackoverflow.com/questions/12395281/convert-double-to-bigdecimal-and-set-bigdecimal-precision
-							empDto.setComm(BigDecimal.valueOf(cell
-									.getNumericCellValue()));
+							empDto.setComm(BigDecimal.valueOf(cell.getNumericCellValue()));
 							break;
 						case 7: // DEPTNO
-							empDto.setDeptNo(((Double) cell
-									.getNumericCellValue()).intValue());
+							empDto.setDeptNo(((Double) cell.getNumericCellValue()).intValue());
 							break;
 						default:
 							break;
@@ -411,10 +373,8 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 				logger.debug("empDto: {}", empDto);
 
 				// validate
-				Validator validator = Validation.buildDefaultValidatorFactory()
-						.getValidator();
-				Set<ConstraintViolation<EmpDto>> violations = validator
-						.validate(empDto);
+				Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+				Set<ConstraintViolation<EmpDto>> violations = validator.validate(empDto);
 
 				if (violations.isEmpty()) {
 					// do all or nothing
@@ -423,12 +383,10 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 					// add failure message
 					sb.setLength(0); // init StringBuilder for reuse
 					for (ConstraintViolation<EmpDto> violation : violations) {
-						String propertyPath = violation.getPropertyPath()
-								.toString();
+						String propertyPath = violation.getPropertyPath().toString();
 						String message = violation.getMessage();
 						sb.append(message);
-						sb.append(" (row: ").append(j).append(", property: ")
-								.append(propertyPath).append(')');
+						sb.append(" (row: ").append(j).append(", property: ").append(propertyPath).append(')');
 						failureMessages.add(sb.toString());
 						logger.error(sb.toString());
 						sb.setLength(0);
@@ -460,8 +418,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 
 	// servlet 2.5
 	@RequestMapping(value = "/importEmpList", method = RequestMethod.POST)
-	public ModelAndView importEmpListMultipartFile(MultipartFile file,
-			RedirectAttributes redirectAttributes, Locale locale) {
+	public ModelAndView importEmpListMultipartFile(MultipartFile file, RedirectAttributes redirectAttributes, Locale locale) {
 		logger.debug("importEmp");
 
 		List<String> successMessages = new ArrayList<String>();
@@ -470,9 +427,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 		int affectedRowCount = 0;
 
 		if ((file == null) || file.isEmpty()) {
-			String message = messageSource.getMessage(
-					"errors.file.does.not.exist",
-					new Object[] { affectedRowCount }, locale);
+			String message = messageSource.getMessage("errors.file.does.not.exist", new Object[] { affectedRowCount }, locale);
 			logger.debug("message: {}", message);
 			failureMessages.add(message);
 
@@ -492,9 +447,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 				logger.debug("empDtoList: {}", empDtoList);
 			} catch (InvalidFormatException e) {
 				// set errror message
-				String message = messageSource.getMessage(
-						"errors.file.format.invalid",
-						new Object[] { affectedRowCount }, locale);
+				String message = messageSource.getMessage("errors.file.format.invalid", new Object[] { affectedRowCount }, locale);
 				logger.debug("message: {}", message);
 				failureMessages.add(message);
 
@@ -502,9 +455,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 				logger.error(message);
 			} catch (IOException e) {
 				// set error message
-				String message = messageSource.getMessage(
-						"errors.file.io.failed",
-						new Object[] { affectedRowCount }, locale);
+				String message = messageSource.getMessage("errors.file.io.failed", new Object[] { affectedRowCount }, locale);
 				logger.debug("message: {}", message);
 				failureMessages.add(message);
 
@@ -512,9 +463,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 				logger.error(message);
 			} catch (IllegalArgumentException e) {
 				// set error message
-				String message = messageSource.getMessage(
-						"errors.file.type.unsupported",
-						new Object[] { affectedRowCount }, locale);
+				String message = messageSource.getMessage("errors.file.type.unsupported", new Object[] { affectedRowCount }, locale);
 				logger.debug("message: {}", message);
 				failureMessages.add(message);
 
@@ -527,18 +476,14 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 				try {
 					affectedRowCount = empService.insertEmpList(empDtoList);
 					// set success message
-					String message = messageSource.getMessage(
-							"success.import.completed.with.count",
-							new Object[] { affectedRowCount }, locale);
+					String message = messageSource.getMessage("success.import.completed.with.count", new Object[] { affectedRowCount }, locale);
 					successMessages.add(message);
 
 					// log info
 					logger.info("message: {}", message);
 				} catch (DuplicateKeyException e) {
 					// set error message
-					String message = messageSource.getMessage(
-							"errors.data.duplicated",
-							new Object[] { affectedRowCount }, locale);
+					String message = messageSource.getMessage("errors.data.duplicated", new Object[] { affectedRowCount }, locale);
 					logger.debug("message: {}", message);
 					failureMessages.add(message);
 
@@ -549,10 +494,8 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 		}
 
 		// set messages
-		redirectAttributes
-				.addFlashAttribute("successMessages", successMessages);
-		redirectAttributes
-				.addFlashAttribute("failureMessages", failureMessages);
+		redirectAttributes.addFlashAttribute("successMessages", successMessages);
+		redirectAttributes.addFlashAttribute("failureMessages", failureMessages);
 
 		// redirect
 		StringBuilder sb = new StringBuilder();
@@ -564,8 +507,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 
 	// servlet 3.0
 	@RequestMapping(value = "/importEmpList2", method = RequestMethod.POST)
-	public ModelAndView importEmpListMultipartFile2(Part file,
-			RedirectAttributes redirectAttributes, Locale locale) {
+	public ModelAndView importEmpListMultipartFile2(Part file, RedirectAttributes redirectAttributes, Locale locale) {
 		logger.debug("importEmp");
 
 		List<String> successMessages = new ArrayList<String>();
@@ -574,9 +516,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 		int affectedRowCount = 0;
 
 		if ((file == null) || (file.getSize() <= 0)) {
-			String message = messageSource.getMessage(
-					"errors.file.does.not.exist",
-					new Object[] { affectedRowCount }, locale);
+			String message = messageSource.getMessage("errors.file.does.not.exist", new Object[] { affectedRowCount }, locale);
 			logger.debug("message: {}", message);
 			failureMessages.add(message);
 
@@ -591,8 +531,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 			Iterator<String> iter = names.iterator();
 			while (iter.hasNext()) {
 				String headerName = iter.next();
-				logger.debug("header name: {}, value: {}", headerName,
-						file.getHeader(headerName));
+				logger.debug("header name: {}, value: {}", headerName, file.getHeader(headerName));
 			}
 
 			List<EmpDto> empDtoList = null;
@@ -603,9 +542,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 				logger.debug("empDtoList: {}", empDtoList);
 			} catch (InvalidFormatException e) {
 				// set errror message
-				String message = messageSource.getMessage(
-						"errors.file.format.invalid",
-						new Object[] { affectedRowCount }, locale);
+				String message = messageSource.getMessage("errors.file.format.invalid", new Object[] { affectedRowCount }, locale);
 				logger.debug("message: {}", message);
 				failureMessages.add(message);
 
@@ -613,9 +550,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 				logger.error(message);
 			} catch (IOException e) {
 				// set error message
-				String message = messageSource.getMessage(
-						"errors.file.io.failed",
-						new Object[] { affectedRowCount }, locale);
+				String message = messageSource.getMessage("errors.file.io.failed", new Object[] { affectedRowCount }, locale);
 				logger.debug("message: {}", message);
 				failureMessages.add(message);
 
@@ -623,9 +558,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 				logger.error(message);
 			} catch (IllegalArgumentException e) {
 				// set error message
-				String message = messageSource.getMessage(
-						"errors.file.type.unsupported",
-						new Object[] { affectedRowCount }, locale);
+				String message = messageSource.getMessage("errors.file.type.unsupported", new Object[] { affectedRowCount }, locale);
 				logger.debug("message: {}", message);
 				failureMessages.add(message);
 
@@ -638,18 +571,14 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 				try {
 					affectedRowCount = empService.insertEmpList(empDtoList);
 					// set success message
-					String message = messageSource.getMessage(
-							"success.import.completed.with.count",
-							new Object[] { affectedRowCount }, locale);
+					String message = messageSource.getMessage("success.import.completed.with.count", new Object[] { affectedRowCount }, locale);
 					successMessages.add(message);
 
 					// log info
 					logger.info("message: {}", message);
 				} catch (DuplicateKeyException e) {
 					// set error message
-					String message = messageSource.getMessage(
-							"errors.data.duplicated",
-							new Object[] { affectedRowCount }, locale);
+					String message = messageSource.getMessage("errors.data.duplicated", new Object[] { affectedRowCount }, locale);
 					logger.debug("message: {}", message);
 					failureMessages.add(message);
 
@@ -660,10 +589,8 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 		}
 
 		// set messages
-		redirectAttributes
-				.addFlashAttribute("successMessages", successMessages);
-		redirectAttributes
-				.addFlashAttribute("failureMessages", failureMessages);
+		redirectAttributes.addFlashAttribute("successMessages", successMessages);
+		redirectAttributes.addFlashAttribute("failureMessages", failureMessages);
 
 		// redirect
 		StringBuilder sb = new StringBuilder();
@@ -673,18 +600,12 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 		return mav;
 	}
 
-	@RequestMapping(value = { "/listEmp", "/exportEmpList",
-			"/exportEmpListOnCurrentPage" }, method = RequestMethod.GET)
-	public ModelAndView listEmp(
-			@Valid EmpSearchConditionDto empSearchConditionDto,
-			BindingResult result,
-			HttpServletRequest request,
-			@ModelAttribute("successMessages") ArrayList<String> successMessages,
-			RedirectAttributes redirectAttributes, Locale locale) { // NOPMD by
-																	// "SHIN Sang-jae"
+	@RequestMapping(value = { "/listEmp", "/exportEmpList", "/exportEmpListOnCurrentPage" }, method = RequestMethod.GET)
+	public ModelAndView listEmp(@Valid EmpSearchConditionDto empSearchConditionDto, BindingResult result, HttpServletRequest request,
+			@ModelAttribute("successMessages") ArrayList<String> successMessages, RedirectAttributes redirectAttributes, Locale locale) { // NOPMD by
+																																			// "SHIN Sang-jae"
 		logger.debug("listEmp");
-		String pathWithinHandlerMapping = (String) request
-				.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+		String pathWithinHandlerMapping = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 		logger.debug("pathWithinHandlerMapping: {}", pathWithinHandlerMapping);
 
 		ModelAndView mav = new ModelAndView();
@@ -697,9 +618,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 			Integer numberOfRow = 0;
 
 			// set message
-			String message = messageSource.getMessage(
-					"success.search.completed.with.count",
-					new Object[] { numberOfRow }, locale);
+			String message = messageSource.getMessage("success.search.completed.with.count", new Object[] { numberOfRow }, locale);
 			logger.debug("message: {}", message);
 
 			// add message
@@ -718,20 +637,18 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 
 			List<EmpDto> empDtoList = null;
 			if ((pageNo != null) && (pageNo > 0)) {
-				empDtoList = empService
-						.selectEmpListByConditionWithPagination(empSearchConditionDto);
+				empDtoList = empService.selectEmpListByConditionWithPagination(empSearchConditionDto);
 			} else {
-				empDtoList = empService
-						.selectEmpListByCondition(empSearchConditionDto);
+				empDtoList = empService.selectEmpListByCondition(empSearchConditionDto);
+			}
+			if (empDtoList == null) {
+				empDtoList = Collections.emptyList();
 			}
 
-			Integer numberOfRow = empService
-					.getNumberOfRow(empSearchConditionDto);
+			Integer numberOfRow = empService.getNumberOfRow(empSearchConditionDto);
 
 			// set message
-			String message = messageSource.getMessage(
-					"success.search.completed.with.count",
-					new Object[] { numberOfRow }, locale);
+			String message = messageSource.getMessage("success.search.completed.with.count", new Object[] { numberOfRow }, locale);
 			logger.debug("message: {}", message);
 
 			// add message
@@ -793,8 +710,7 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 	}
 
 	@RequestMapping(value = "/updateEmp", method = RequestMethod.POST)
-	public ModelAndView updateEmp(@Valid EmpDto empDto, BindingResult result,
-			RedirectAttributes redirectAttributes, Locale locale) {
+	public ModelAndView updateEmp(@Valid EmpDto empDto, BindingResult result, RedirectAttributes redirectAttributes, Locale locale) {
 		logger.debug("updateEmp");
 
 		ModelAndView mav = new ModelAndView();
@@ -813,16 +729,13 @@ public class EmpController { // NOPMD by "SHIN Sang-jae"
 			mav.setViewName(sb.toString());
 
 			// set message
-			String message = messageSource.getMessage(
-					"success.update.completed.with.count",
-					new Object[] { affectedRowCount }, locale);
+			String message = messageSource.getMessage("success.update.completed.with.count", new Object[] { affectedRowCount }, locale);
 			logger.debug("message: {}", message);
 
 			List<String> successMessages = new ArrayList<String>();
 			successMessages.add(message);
 
-			redirectAttributes.addFlashAttribute("successMessages",
-					successMessages);
+			redirectAttributes.addFlashAttribute("successMessages", successMessages);
 		}
 		return mav;
 	}

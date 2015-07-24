@@ -18,6 +18,7 @@ package org.codelabor.system.security.authentication.account.web.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -724,6 +725,9 @@ public class AccountController {
 				accountDtoList = accountManager.selectAccountListByConditionWithPagination(accountSearchConditionDto);
 			} else {
 				accountDtoList = accountManager.selectAccountListByCondition(accountSearchConditionDto);
+			}
+			if (accountDtoList == null) {
+				accountDtoList = Collections.emptyList();
 			}
 
 			Integer numberOfRow = accountManager.getNumberOfRow(accountSearchConditionDto);

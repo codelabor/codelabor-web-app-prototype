@@ -128,7 +128,9 @@
 						</sec:authorize>
 					</table>
 					<hr />
-					<a href="${pageContext.request.contextPath}/system/security/authentication/account/listAccount"><spring:message code="button.list" /></a>
+					<sec:authorize access="hasRole('ADMINISTRATOR')">
+						<a href="${pageContext.request.contextPath}/system/security/authentication/account/listAccount"><spring:message code="button.list" /></a>
+					</sec:authorize>
 					<input type="submit" value="<spring:message code='button.save'/>" form="accountDto" />
 					<input type="reset" value="<spring:message code='button.reset'/>" form="accountDto" />
 				</form:form>

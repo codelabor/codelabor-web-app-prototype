@@ -105,8 +105,10 @@
 					</sec:authorize>
 				</table>
 				<hr />
-				<a href="${pageContext.request.contextPath}/system/security/authentication/account/listAccount"><spring:message code="button.list" /></a> <a
-					href="${pageContext.request.contextPath}/system/security/authentication/account/updateAccount?username=<c:out value="${accountDto.username}" />"><spring:message
+				<sec:authorize access="hasRole('ADMINISTRATOR')">
+					<a href="${pageContext.request.contextPath}/system/security/authentication/account/listAccount"><spring:message code="button.list" /></a>
+				</sec:authorize>
+				<a href="${pageContext.request.contextPath}/system/security/authentication/account/updateAccount?username=<c:out value="${accountDto.username}" />"><spring:message
 						code="button.update" /></a>
 
 			</div>

@@ -99,9 +99,8 @@
 							</tr>
 							<tr class="b">
 								<th><label for="accountNonLocked"><spring:message code="label.account.accountNonLocked" /></label></th>
-								<td><spring:message code="label.account.enabled" />
-									<form:radiobutton path="accountNonLocked" value="true" />&nbsp; <spring:message code="label.account.disabled" />
-									<form:radiobutton path="accountNonLocked" value="false" /> <span><form:errors path="accountNonLocked" /></span></td>
+								<td><spring:message code="label.account.enabled" /> <form:radiobutton path="accountNonLocked" value="true" />&nbsp; <spring:message
+										code="label.account.disabled" /> <form:radiobutton path="accountNonLocked" value="false" /> <span><form:errors path="accountNonLocked" /></span></td>
 							</tr>
 							<tr class="b">
 								<th><label for="accountNonExpired"><spring:message code="label.account.accountNonExpired" /></label></th>
@@ -122,7 +121,9 @@
 						</sec:authorize>
 					</table>
 					<hr />
-					<a href="${pageContext.request.contextPath}/system/security/authentication/account/listAccount"><spring:message code="button.list" /></a>
+					<sec:authorize access="hasRole('ADMINISTRATOR')">
+						<a href="${pageContext.request.contextPath}/system/security/authentication/account/listAccount"><spring:message code="button.list" /></a>
+					</sec:authorize>
 					<input type="submit" value="<spring:message code='button.save'/>" form="accountDto" />
 					<input type="reset" value="<spring:message code='button.reset'/>" form="accountDto" />
 				</form:form>

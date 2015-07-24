@@ -22,7 +22,7 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title><spring:message code="title.emp.read" /> <system:properties key="servlet.container.id" /></title>
+<title><spring:message code="title.example.crud.emp.read" /> <system:properties key="servlet.container.id" /></title>
 <%@ include file="/WEB-INF/jspf/script.jspf"%>
 <%@ include file="/WEB-INF/jspf/style.jspf"%>
 <%@ include file="/WEB-INF/jspf/example/favicon.jspf"%>

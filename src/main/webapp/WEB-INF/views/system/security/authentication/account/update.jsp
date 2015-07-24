@@ -22,7 +22,7 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title><spring:message code="title.account.update" /> <system:properties key="servlet.container.id" /></title>
+<title><spring:message code="title.system.security.authentication.account.update" /> <system:properties key="servlet.container.id" /></title>
 <%@ include file="/WEB-INF/jspf/script.jspf"%>
 <%@ include file="/WEB-INF/jspf/style.jspf"%>
 <%@ include file="/WEB-INF/jspf/system/favicon.jspf"%>
@@ -41,7 +41,7 @@
 		<div id="contentBox">
 			<div class="section">
 				<h2>
-					<spring:message code="heading.account.update" />
+					<spring:message code="heading.system.security.authentication.account.update" />
 				</h2>
 				<hr />
 				<form:form commandName="accountDto">
@@ -53,36 +53,36 @@
 					</div>
 					<table class="bodyTable">
 						<tr class="b">
-							<th><label for="username"><spring:message code="label.account.username" /></label></th>
+							<th><label for="username"><spring:message code="label.system.security.authentication.account.username" /></label></th>
 							<td><c:out value="${accountDto.username}" /></td>
 						</tr>
 						<tr class="b">
-							<th><label for="password"><spring:message code="label.account.password" /></label></th>
+							<th><label for="password"><spring:message code="label.system.security.authentication.account.password" /></label></th>
 							<td><input type="password" name="password" value="${accountDto.password}" placeholder="" required="required" form="accountDto" /><span><form:errors
 										path="password" /></span></td>
 						</tr>
 						<tr class="b">
-							<th><label for="passwordConfirm"><spring:message code="label.account.passwordConfirm" /></label></th>
+							<th><label for="passwordConfirm"><spring:message code="label.system.security.authentication.account.passwordConfirm" /></label></th>
 							<td><input type="password" name="passwordConfirm" value="${accountDto.passwordConfirm}" placeholder="" required="required" form="accountDto" /><span><form:errors
 										path="passwordConfirm" /></span></td>
 						</tr>
 						<tr class="b">
-							<th><label for="givenName"><spring:message code="label.account.givenName" /></label></th>
+							<th><label for="givenName"><spring:message code="label.system.security.authentication.account.givenName" /></label></th>
 							<td><input name="givenName" value="${accountDto.givenName}" placeholder="" required="required" form="accountDto" /><span><form:errors
 										path="givenName" /></span></td>
 						</tr>
 						<tr class="b">
-							<th><label for="surname"><spring:message code="label.account.surname" /></label></th>
+							<th><label for="surname"><spring:message code="label.system.security.authentication.account.surname" /></label></th>
 							<td><input name="surname" value="${accountDto.surname}" placeholder="" required="required" form="accountDto" /><span><form:errors
 										path="surname" /></span></td>
 						</tr>
 						<tr class="b">
-							<th><label for="mail"><spring:message code="label.account.mail" /></label></th>
+							<th><label for="mail"><spring:message code="label.system.security.authentication.account.mail" /></label></th>
 							<td><input name="mail" value="${accountDto.mail}" placeholder="xxxx@xxxx.xxxx" required="required" form="accountDto" /><span><form:errors
 										path="mail" /></span></td>
 						</tr>
 						<tr class="b">
-							<th><label for="mobile"><spring:message code="label.account.mobile" /></label></th>
+							<th><label for="mobile"><spring:message code="label.system.security.authentication.account.mobile" /></label></th>
 							<td><input name="mobile" value="${accountDto.mobile}" placeholder="" required="required" form="accountDto" /><span><form:errors
 										path="mobile" /></span></td>
 						</tr>
@@ -96,32 +96,32 @@
 						</sec:authorize>
 						<sec:authorize access="hasRole('ADMINISTRATOR')">
 							<tr class="b">
-								<th><label for="authorities"><spring:message code="label.account.authorities" /></label></th>
+								<th><label for="authorities"><spring:message code="label.system.security.authentication.account.authorities" /></label></th>
 								<td><form:select path="authorities" items="${authoritiesMap}" /><span><form:errors path="authorities" /></span></td>
 							</tr>
 							<tr class="b">
-								<th><label for="enabled"><spring:message code="label.account.enabled" /></label></th>
-								<td><spring:message code="label.account.enabled" /> <form:radiobutton path="enabled" value="true" />&nbsp; <spring:message
-										code="label.account.disabled" /> <form:radiobutton path="enabled" value="false" /> <span><form:errors path="enabled" /></span></td>
+								<th><label for="enabled"><spring:message code="label.system.security.authentication.account.enabled" /></label></th>
+								<td><spring:message code="label.system.security.authentication.account.enabled" /> <form:radiobutton path="enabled" value="true" />&nbsp; <spring:message
+										code="label.system.security.authentication.account.disabled" /> <form:radiobutton path="enabled" value="false" /> <span><form:errors path="enabled" /></span></td>
 							</tr>
 							<tr class="b">
-								<th><label for="accountNonLocked"><spring:message code="label.account.accountNonLocked" /></label></th>
-								<td><spring:message code="label.account.enabled" /> <form:radiobutton path="accountNonLocked" value="true" />&nbsp; <spring:message
-										code="label.account.disabled" /> <form:radiobutton path="accountNonLocked" value="false" /> <span><form:errors path="accountNonLocked" /></span></td>
+								<th><label for="accountNonLocked"><spring:message code="label.system.security.authentication.account.accountNonLocked" /></label></th>
+								<td><spring:message code="label.system.security.authentication.account.enabled" /> <form:radiobutton path="accountNonLocked" value="true" />&nbsp; <spring:message
+										code="label.system.security.authentication.account.disabled" /> <form:radiobutton path="accountNonLocked" value="false" /> <span><form:errors path="accountNonLocked" /></span></td>
 							</tr>
 							<tr class="b">
-								<th><label for="accountNonExpired"><spring:message code="label.account.accountNonExpired" /></label></th>
-								<td><spring:message code="label.account.enabled" /> <form:radiobutton path="accountNonExpired" value="true" />&nbsp; <spring:message
-										code="label.account.disabled" /> <form:radiobutton path="accountNonExpired" value="false" /> <span><form:errors path="accountNonExpired" /></span></td>
+								<th><label for="accountNonExpired"><spring:message code="label.system.security.authentication.account.accountNonExpired" /></label></th>
+								<td><spring:message code="label.system.security.authentication.account.enabled" /> <form:radiobutton path="accountNonExpired" value="true" />&nbsp; <spring:message
+										code="label.system.security.authentication.account.disabled" /> <form:radiobutton path="accountNonExpired" value="false" /> <span><form:errors path="accountNonExpired" /></span></td>
 							</tr>
 							<tr class="b">
-								<th><label for="credentialsNonExpired"><spring:message code="label.account.credentialsNonExpired" /></label></th>
-								<td><spring:message code="label.account.enabled" /> <form:radiobutton path="credentialsNonExpired" value="true" />&nbsp; <spring:message
-										code="label.account.disabled" /> <form:radiobutton path="credentialsNonExpired" value="false" /> <span><form:errors
+								<th><label for="credentialsNonExpired"><spring:message code="label.system.security.authentication.account.credentialsNonExpired" /></label></th>
+								<td><spring:message code="label.system.security.authentication.account.enabled" /> <form:radiobutton path="credentialsNonExpired" value="true" />&nbsp; <spring:message
+										code="label.system.security.authentication.account.disabled" /> <form:radiobutton path="credentialsNonExpired" value="false" /> <span><form:errors
 											path="credentialsNonExpired" /></span></td>
 							</tr>
 							<tr class="b">
-								<th><label for="graceLoginsRemaining"><spring:message code="label.account.graceLoginsRemaining" /></label></th>
+								<th><label for="graceLoginsRemaining"><spring:message code="label.system.security.authentication.account.graceLoginsRemaining" /></label></th>
 								<td><input name="graceLoginsRemaining" value="${accountDto.graceLoginsRemaining}" placeholder="User ID" required="required" form="accountDto" /><span><form:errors
 											path="graceLoginsRemaining" /></span></td>
 							</tr>

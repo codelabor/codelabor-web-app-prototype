@@ -23,10 +23,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.codelabor.system.dto.IntegerIdListDto;
 import org.codelabor.system.security.SecurityConstants;
 import org.codelabor.system.security.authentication.account.dto.AccountDto;
+import org.codelabor.system.security.authentication.account.dto.AccountSearchConditionDto;
 import org.codelabor.system.security.authentication.account.manager.AccountManager;
 import org.codelabor.system.security.propertyeditors.SimpleGrantedAuthoritiesPropertiesEditor;
 import org.slf4j.Logger;
@@ -42,8 +45,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -53,7 +58,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 @RequestMapping("/system/security/authentication/account/")
-public class AccountController { // NOPMD by "SHIN Sang-jae"
+public class AccountController {
 
 	private final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
@@ -142,14 +147,12 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 		return mav;
 	}
 
-	// @RequestMapping(value = "/deleteEmpList", method = RequestMethod.POST)
-	// public ModelAndView deleteEmpList(@Valid IntegerIdListDto
-	// integerIdListDto,
-	// BindingResult result, EmpSearchConditionDto empSearchConditionDto,
+	// @RequestMapping(value = "/deleteAccountList", method = RequestMethod.POST)
+	// public ModelAndView deleteAccountList(@Valid IntegerIdListDto integerIdListDto, BindingResult result, EmpSearchConditionDto accountSearchConditionDto,
 	// RedirectAttributes redirectAttributes, Locale locale) {
 	// logger.debug("deleteAccount");
 	// logger.debug("integerIdListDto: {}", integerIdListDto);
-	// logger.debug("empSearchConditionDto: {}", empSearchConditionDto);
+	// logger.debug("accountSearchConditionDto: {}", accountSearchConditionDto);
 	// logger.debug("result: {}", result);
 	//
 	// List<String> successMessages = new ArrayList<String>();
@@ -160,39 +163,34 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// logger.error("error: {}", error.getDefaultMessage());
 	// }
 	//
-	// Integer pageNo = empSearchConditionDto.getPageNo();
+	// Integer pageNo = accountSearchConditionDto.getPageNo();
 	//
-	// List<EmpDto> empDtoList = null;
+	// List<EmpDto> accountDtoList = null;
 	// if ((pageNo != null) && (pageNo > 0)) {
-	// empDtoList = empService
-	// .selectEmpListByConditionWithPagination(empSearchConditionDto);
+	// accountDtoList = accountService.selectAccountListByConditionWithPagination(accountSearchConditionDto);
 	// } else {
-	// empDtoList = empService
-	// .selectEmpListByCondition(empSearchConditionDto);
+	// accountDtoList = accountService.selectAccountListByCondition(accountSearchConditionDto);
 	// }
-	// mav.addObject(empDtoList);
-	// mav.addObject(empSearchConditionDto);
+	// mav.addObject(accountDtoList);
+	// mav.addObject(accountSearchConditionDto);
 	// mav.setViewName(LIST_VIEW_NAME);
 	// } else {
-	// int affectedRowCount = empService.deleteEmpList(integerIdListDto
-	// .getId());
+	// int affectedRowCount = accountService.deleteAccountList(integerIdListDto.getId());
 	// StringBuilder sb = new StringBuilder();
 	// sb.append("redirect:").append(LIST_URL);
 	// logger.debug("view name: {}", sb.toString());
 	// mav.setViewName(sb.toString());
 	//
-	// String message = messageSource.getMessage(
-	// "success.delete.completed.with.count",
-	// new Object[] { affectedRowCount }, locale);
+	// String message = messageSource.getMessage("success.delete.completed.with.count", new Object[] { affectedRowCount }, locale);
 	// logger.debug("message: {}", message);
 	// successMessages.add(message);
 	//
-	// redirectAttributes.addFlashAttribute("successMessages",
-	// successMessages);
-	// redirectAttributes.addFlashAttribute(empSearchConditionDto);
+	// redirectAttributes.addFlashAttribute("successMessages", successMessages);
+	// redirectAttributes.addFlashAttribute(accountSearchConditionDto);
 	// }
 	// return mav;
 	// }
+
 	//
 	// // servlet 2.5
 	// private List<EmpDto> fileToDtoList(MultipartFile file,
@@ -204,7 +202,7 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// logger.debug("numberOfSheets: {}", numberOfSheets);
 	//
 	// // prepare model
-	// List<EmpDto> empDtoList = new ArrayList<EmpDto>();
+	// List<EmpDto> accountDtoList = new ArrayList<EmpDto>();
 	//
 	// // set effective position
 	// int effectiveFirstSheetIndex = 0;
@@ -229,7 +227,7 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// // traverse row
 	// for (int j = effectiveFirstRowIndex; j <= effectiveLastRowIndex; j++) {
 	// // prepare model
-	// EmpDto empDto = new EmpDto(); // NOPMD by "SHIN Sang-jae"
+	// EmpDto accountDto = new EmpDto(); // NOPMD by "SHIN Sang-jae"
 	//
 	// Row row = sheet.getRow(j);
 	// int rowNum = row.getRowNum();
@@ -257,38 +255,38 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// // populate dto
 	// switch (k) {
 	// case 0: // EMPNO
-	// empDto.setEmpNo(((Double) cell
+	// accountDto.setEmpNo(((Double) cell
 	// .getNumericCellValue()).intValue());
 	// break;
 	// case 1: // ENAME
-	// empDto.setEname(cell.getRichStringCellValue()
+	// accountDto.setEname(cell.getRichStringCellValue()
 	// .toString());
 	// break;
 	// case 2: // JOB
-	// empDto.setJob(cell.getRichStringCellValue()
+	// accountDto.setJob(cell.getRichStringCellValue()
 	// .toString());
 	// break;
 	// case 3: // MGR
-	// empDto.setMgr(((Double) cell.getNumericCellValue())
+	// accountDto.setMgr(((Double) cell.getNumericCellValue())
 	// .intValue());
 	// break;
 	// case 4: // HIREDATE
-	// empDto.setHireDate(cell.getDateCellValue());
+	// accountDto.setHireDate(cell.getDateCellValue());
 	// break;
 	// case 5: // SAL
 	// //
 	// http://stackoverflow.com/questions/12395281/convert-double-to-bigdecimal-and-set-bigdecimal-precision
-	// empDto.setSal(BigDecimal.valueOf(cell
+	// accountDto.setSal(BigDecimal.valueOf(cell
 	// .getNumericCellValue()));
 	// break;
 	// case 6: // COMM
 	// //
 	// http://stackoverflow.com/questions/12395281/convert-double-to-bigdecimal-and-set-bigdecimal-precision
-	// empDto.setComm(BigDecimal.valueOf(cell
+	// accountDto.setComm(BigDecimal.valueOf(cell
 	// .getNumericCellValue()));
 	// break;
 	// case 7: // DEPTNO
-	// empDto.setDeptNo(((Double) cell
+	// accountDto.setDeptNo(((Double) cell
 	// .getNumericCellValue()).intValue());
 	// break;
 	// default:
@@ -296,17 +294,17 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// }
 	// }
 	// }
-	// logger.debug("empDto: {}", empDto);
+	// logger.debug("accountDto: {}", accountDto);
 	//
 	// // validate
 	// Validator validator = Validation.buildDefaultValidatorFactory()
 	// .getValidator();
 	// Set<ConstraintViolation<EmpDto>> violations = validator
-	// .validate(empDto);
+	// .validate(accountDto);
 	//
 	// if (violations.isEmpty()) {
 	// // do all or nothing
-	// empDtoList.add(empDto);
+	// accountDtoList.add(accountDto);
 	// } else {
 	// // add failure message
 	// sb.setLength(0); // init StringBuilder for reuse
@@ -324,7 +322,7 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// }
 	// }
 	// }
-	// return empDtoList;
+	// return accountDtoList;
 	// }
 	//
 	// // servlet 3.0
@@ -338,7 +336,7 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// logger.debug("numberOfSheets: {}", numberOfSheets);
 	//
 	// // prepare model
-	// List<EmpDto> empDtoList = new ArrayList<EmpDto>();
+	// List<EmpDto> accountDtoList = new ArrayList<EmpDto>();
 	//
 	// // set effective position
 	// int effectiveFirstSheetIndex = 0;
@@ -363,7 +361,7 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// // traverse row
 	// for (int j = effectiveFirstRowIndex; j <= effectiveLastRowIndex; j++) {
 	// // prepare model
-	// EmpDto empDto = new EmpDto(); // NOPMD by "SHIN Sang-jae"
+	// EmpDto accountDto = new EmpDto(); // NOPMD by "SHIN Sang-jae"
 	//
 	// Row row = sheet.getRow(j);
 	// int rowNum = row.getRowNum();
@@ -391,38 +389,38 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// // populate dto
 	// switch (k) {
 	// case 0: // EMPNO
-	// empDto.setEmpNo(((Double) cell
+	// accountDto.setEmpNo(((Double) cell
 	// .getNumericCellValue()).intValue());
 	// break;
 	// case 1: // ENAME
-	// empDto.setEname(cell.getRichStringCellValue()
+	// accountDto.setEname(cell.getRichStringCellValue()
 	// .toString());
 	// break;
 	// case 2: // JOB
-	// empDto.setJob(cell.getRichStringCellValue()
+	// accountDto.setJob(cell.getRichStringCellValue()
 	// .toString());
 	// break;
 	// case 3: // MGR
-	// empDto.setMgr(((Double) cell.getNumericCellValue())
+	// accountDto.setMgr(((Double) cell.getNumericCellValue())
 	// .intValue());
 	// break;
 	// case 4: // HIREDATE
-	// empDto.setHireDate(cell.getDateCellValue());
+	// accountDto.setHireDate(cell.getDateCellValue());
 	// break;
 	// case 5: // SAL
 	// //
 	// http://stackoverflow.com/questions/12395281/convert-double-to-bigdecimal-and-set-bigdecimal-precision
-	// empDto.setSal(BigDecimal.valueOf(cell
+	// accountDto.setSal(BigDecimal.valueOf(cell
 	// .getNumericCellValue()));
 	// break;
 	// case 6: // COMM
 	// //
 	// http://stackoverflow.com/questions/12395281/convert-double-to-bigdecimal-and-set-bigdecimal-precision
-	// empDto.setComm(BigDecimal.valueOf(cell
+	// accountDto.setComm(BigDecimal.valueOf(cell
 	// .getNumericCellValue()));
 	// break;
 	// case 7: // DEPTNO
-	// empDto.setDeptNo(((Double) cell
+	// accountDto.setDeptNo(((Double) cell
 	// .getNumericCellValue()).intValue());
 	// break;
 	// default:
@@ -430,17 +428,17 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// }
 	// }
 	// }
-	// logger.debug("empDto: {}", empDto);
+	// logger.debug("accountDto: {}", accountDto);
 	//
 	// // validate
 	// Validator validator = Validation.buildDefaultValidatorFactory()
 	// .getValidator();
 	// Set<ConstraintViolation<EmpDto>> violations = validator
-	// .validate(empDto);
+	// .validate(accountDto);
 	//
 	// if (violations.isEmpty()) {
 	// // do all or nothing
-	// empDtoList.add(empDto);
+	// accountDtoList.add(accountDto);
 	// } else {
 	// // add failure message
 	// sb.setLength(0); // init StringBuilder for reuse
@@ -458,21 +456,25 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// }
 	// }
 	// }
-	// return empDtoList;
+	// return accountDtoList;
 	// }
 
 	private Map<String, String> getAuthoritiesMap() {
 		Map<String, String> authoritiesMap = new LinkedHashMap<String, String>();
-		authoritiesMap.put(SecurityConstants.ROLE_ADMINISTRATOR, messageSource.getMessage("label.role.administrator", null, LocaleContextHolder.getLocale()));
-		authoritiesMap.put(SecurityConstants.ROLE_MANAGER, messageSource.getMessage("label.role.manager", null, LocaleContextHolder.getLocale()));
-		authoritiesMap.put(SecurityConstants.ROLE_USER, messageSource.getMessage("label.role.user", null, LocaleContextHolder.getLocale()));
+		authoritiesMap.put(SecurityConstants.ROLE_DEVELOPER,
+				messageSource.getMessage("label.system.security.role.developer", null, LocaleContextHolder.getLocale()));
+		authoritiesMap.put(SecurityConstants.ROLE_ADMINISTRATOR,
+				messageSource.getMessage("label.system.security.role.administrator", null, LocaleContextHolder.getLocale()));
+		authoritiesMap.put(SecurityConstants.ROLE_MANAGER,
+				messageSource.getMessage("label.system.security.role.manager", null, LocaleContextHolder.getLocale()));
+		authoritiesMap.put(SecurityConstants.ROLE_USER, messageSource.getMessage("label.system.security.role.user", null, LocaleContextHolder.getLocale()));
 		logger.debug("authoritiesMap: {}", authoritiesMap);
 		return authoritiesMap;
 	}
 
 	// servlet 2.5
-	// @RequestMapping(value = "/importEmpList", method = RequestMethod.POST)
-	// public ModelAndView importEmpListMultipartFile(MultipartFile file,
+	// @RequestMapping(value = "/importAccountList", method = RequestMethod.POST)
+	// public ModelAndView importAccountListMultipartFile(MultipartFile file,
 	// RedirectAttributes redirectAttributes, Locale locale) {
 	// logger.debug("importAccount");
 	//
@@ -496,12 +498,12 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// logger.debug("originalFileName: {}", file.getOriginalFilename());
 	// logger.debug("size: {}", file.getSize());
 	//
-	// List<EmpDto> empDtoList = null;
+	// List<EmpDto> accountDtoList = null;
 	//
 	// // convert excel file to dto list
 	// try {
-	// empDtoList = fileToDtoList(file, failureMessages);
-	// logger.debug("empDtoList: {}", empDtoList);
+	// accountDtoList = fileToDtoList(file, failureMessages);
+	// logger.debug("accountDtoList: {}", accountDtoList);
 	// } catch (InvalidFormatException e) {
 	// // set errror message
 	// String message = messageSource.getMessage(
@@ -537,7 +539,7 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// if (failureMessages.isEmpty()) {
 	// // insert dto list
 	// try {
-	// affectedRowCount = empService.insertEmpList(empDtoList);
+	// affectedRowCount = accountService.insertAccountList(accountDtoList);
 	// // set success message
 	// String message = messageSource.getMessage(
 	// "success.import.completed.with.count",
@@ -574,8 +576,8 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// return mav;
 	// }
 	// servlet 3.0
-	// @RequestMapping(value = "/importEmpList2", method = RequestMethod.POST)
-	// public ModelAndView importEmpListMultipartFile2(Part file,
+	// @RequestMapping(value = "/importAccountList2", method = RequestMethod.POST)
+	// public ModelAndView importAccountListMultipartFile2(Part file,
 	// RedirectAttributes redirectAttributes, Locale locale) {
 	// logger.debug("importAccount");
 	//
@@ -606,12 +608,12 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// file.getHeader(headerName));
 	// }
 	//
-	// List<EmpDto> empDtoList = null;
+	// List<EmpDto> accountDtoList = null;
 	//
 	// // convert excel file to dto list
 	// try {
-	// empDtoList = fileToDtoList(file, failureMessages);
-	// logger.debug("empDtoList: {}", empDtoList);
+	// accountDtoList = fileToDtoList(file, failureMessages);
+	// logger.debug("accountDtoList: {}", accountDtoList);
 	// } catch (InvalidFormatException e) {
 	// // set errror message
 	// String message = messageSource.getMessage(
@@ -647,7 +649,7 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// if (failureMessages.isEmpty()) {
 	// // insert dto list
 	// try {
-	// affectedRowCount = empService.insertEmpList(empDtoList);
+	// affectedRowCount = accountService.insertAccountList(accountDtoList);
 	// // set success message
 	// String message = messageSource.getMessage(
 	// "success.import.completed.with.count",
@@ -683,83 +685,69 @@ public class AccountController { // NOPMD by "SHIN Sang-jae"
 	// mav.setViewName(sb.toString());
 	// return mav;
 	// }
-	// @RequestMapping(value = { "/listAccount", "/exportEmpList",
-	// "/exportEmpListOnCurrentPage" }, method = RequestMethod.GET)
-	// public ModelAndView listEmp(
-	// @Valid EmpSearchConditionDto empSearchConditionDto,
-	// BindingResult result,
-	// HttpServletRequest request,
-	// @ModelAttribute("successMessages") ArrayList<String> successMessages,
-	// RedirectAttributes redirectAttributes, Locale locale) { // NOPMD by
-	// // "SHIN Sang-jae"
-	// logger.debug("listAccount");
-	// String pathWithinHandlerMapping = (String) request
-	// .getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
-	// logger.debug("pathWithinHandlerMapping: {}", pathWithinHandlerMapping);
-	//
-	// ModelAndView mav = new ModelAndView();
-	//
-	// if (result.hasErrors()) {
-	// for (ObjectError error : result.getAllErrors()) {
-	// logger.error(error.getDefaultMessage());
-	// }
-	//
-	// Integer numberOfRow = 0;
-	//
-	// // set message
-	// String message = messageSource.getMessage(
-	// "success.search.completed.with.count",
-	// new Object[] { numberOfRow }, locale);
-	// logger.debug("message: {}", message);
-	//
-	// // add message
-	// successMessages.add(message);
-	// mav.setViewName(LIST_VIEW_NAME);
-	// } else {
-	//
-	// // export all data
-	// // set up pageNo = 0 (user input cannot set pageNo = 0)
-	// if (pathWithinHandlerMapping.endsWith("exportEmpList")) {
-	// empSearchConditionDto.setPageNo(0);
-	// }
-	//
-	// logger.debug("empSearchConditionDto: {}", empSearchConditionDto);
-	// Integer pageNo = empSearchConditionDto.getPageNo();
-	//
-	// List<EmpDto> empDtoList = null;
-	// if ((pageNo != null) && (pageNo > 0)) {
-	// empDtoList = empService
-	// .selectEmpListByConditionWithPagination(empSearchConditionDto);
-	// } else {
-	// empDtoList = empService
-	// .selectEmpListByCondition(empSearchConditionDto);
-	// }
-	//
-	// Integer numberOfRow = empService
-	// .getNumberOfRow(empSearchConditionDto);
-	//
-	// // set message
-	// String message = messageSource.getMessage(
-	// "success.search.completed.with.count",
-	// new Object[] { numberOfRow }, locale);
-	// logger.debug("message: {}", message);
-	//
-	// // add message
-	// successMessages.add(message);
-	//
-	// mav.addObject(empDtoList);
-	// if (pathWithinHandlerMapping.equals(LIST_URL)) {
-	// mav.addObject(new IntegerIdListDto());
-	// mav.addObject("numberOfRow", numberOfRow);
-	// mav.addObject("successMessages", successMessages);
-	// mav.setViewName(LIST_VIEW_NAME);
-	// } else {
-	// mav.addObject("filename", "emp-list.xls");
-	// mav.setViewName(EXPORT_VIEW_NAME);
-	// }
-	// }
-	// return mav;
-	// }
+
+	@RequestMapping(value = { "/listAccount", "/exportAccountList", "/exportAccountListOnCurrentPage" }, method = RequestMethod.GET)
+	public ModelAndView listAccount(@Valid AccountSearchConditionDto accountSearchConditionDto, BindingResult result, HttpServletRequest request,
+			@ModelAttribute("successMessages") ArrayList<String> successMessages, RedirectAttributes redirectAttributes, Locale locale) {
+		logger.debug("listAccount");
+		String pathWithinHandlerMapping = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+		logger.debug("pathWithinHandlerMapping: {}", pathWithinHandlerMapping);
+
+		ModelAndView mav = new ModelAndView();
+
+		if (result.hasErrors()) {
+			for (ObjectError error : result.getAllErrors()) {
+				logger.error(error.getDefaultMessage());
+			}
+
+			Integer numberOfRow = 0;
+
+			// set message
+			String message = messageSource.getMessage("success.search.completed.with.count", new Object[] { numberOfRow }, locale);
+			logger.debug("message: {}", message);
+
+			// add message
+			successMessages.add(message);
+			mav.setViewName(LIST_VIEW_NAME);
+		} else {
+			// export all data
+			// set up pageNo = 0 (user input cannot set pageNo = 0)
+			if (pathWithinHandlerMapping.endsWith("exportAccountList")) {
+				accountSearchConditionDto.setPageNo(0);
+			}
+
+			logger.debug("accountSearchConditionDto: {}", accountSearchConditionDto);
+			Integer pageNo = accountSearchConditionDto.getPageNo();
+
+			List<AccountDto> accountDtoList = null;
+			if ((pageNo != null) && (pageNo > 0)) {
+				accountDtoList = accountManager.selectAccountListByConditionWithPagination(accountSearchConditionDto);
+			} else {
+				accountDtoList = accountManager.selectAccountListByCondition(accountSearchConditionDto);
+			}
+
+			Integer numberOfRow = accountManager.getNumberOfRow(accountSearchConditionDto);
+
+			// set message
+			String message = messageSource.getMessage("success.search.completed.with.count", new Object[] { numberOfRow }, locale);
+			logger.debug("message: {}", message);
+
+			// add message
+			successMessages.add(message);
+
+			mav.addObject(accountDtoList);
+			if (pathWithinHandlerMapping.equals(LIST_URL)) {
+				mav.addObject(new IntegerIdListDto());
+				mav.addObject("numberOfRow", numberOfRow);
+				mav.addObject("successMessages", successMessages);
+				mav.setViewName(LIST_VIEW_NAME);
+			} else {
+				mav.addObject("filename", "account-list.xls");
+				mav.setViewName(EXPORT_VIEW_NAME);
+			}
+		}
+		return mav;
+	}
 
 	@RequestMapping(value = "/createAccount", method = RequestMethod.GET)
 	public ModelAndView prepareCreateAccount() {

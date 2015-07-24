@@ -22,8 +22,8 @@
 		<a href="${loginUrl}"><spring:message code="button.login" /></a>
 	</sec:authorize>
 	<sec:authorize access="isAuthenticated()">
-		<c:url var="accountPreferencesUrl" value="/system/security/authentication/account/updateAccount?username=" />
-		<a href="${accountPreferencesUrl}<sec:authentication property='principal.username' />"><spring:message code="button.account.update" /></a> |
+		<c:url var="accountPreferencesUrl" value="/system/security/authentication/account/readAccount?username=" />
+		<a href="${accountPreferencesUrl}<sec:authentication property='principal.username' />"><spring:message code="button.account.personalInfo" /></a> |
 		<c:url var="logoutUrl" value="/example/security/authentication/logout" />
 		<form action="${logoutUrl}" method="post">
 			<input type="submit" value="<spring:message code="button.logout"/>" /> <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />

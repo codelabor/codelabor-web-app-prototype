@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.codelabor.system.dto.IntegerIdListDto;
+import org.codelabor.system.dto.StringIdListDto;
 import org.codelabor.system.security.SecurityConstants;
 import org.codelabor.system.security.authentication.account.dto.AccountDto;
 import org.codelabor.system.security.authentication.account.dto.AccountSearchConditionDto;
@@ -148,49 +149,49 @@ public class AccountController {
 		return mav;
 	}
 
-	// @RequestMapping(value = "/deleteAccountList", method = RequestMethod.POST)
-	// public ModelAndView deleteAccountList(@Valid IntegerIdListDto integerIdListDto, BindingResult result, EmpSearchConditionDto accountSearchConditionDto,
-	// RedirectAttributes redirectAttributes, Locale locale) {
-	// logger.debug("deleteAccount");
-	// logger.debug("integerIdListDto: {}", integerIdListDto);
-	// logger.debug("accountSearchConditionDto: {}", accountSearchConditionDto);
-	// logger.debug("result: {}", result);
-	//
-	// List<String> successMessages = new ArrayList<String>();
-	// ModelAndView mav = new ModelAndView();
-	//
-	// if (result.hasErrors()) {
-	// for (ObjectError error : result.getAllErrors()) {
-	// logger.error("error: {}", error.getDefaultMessage());
-	// }
-	//
-	// Integer pageNo = accountSearchConditionDto.getPageNo();
-	//
-	// List<EmpDto> accountDtoList = null;
-	// if ((pageNo != null) && (pageNo > 0)) {
-	// accountDtoList = accountService.selectAccountListByConditionWithPagination(accountSearchConditionDto);
-	// } else {
-	// accountDtoList = accountService.selectAccountListByCondition(accountSearchConditionDto);
-	// }
-	// mav.addObject(accountDtoList);
-	// mav.addObject(accountSearchConditionDto);
-	// mav.setViewName(LIST_VIEW_NAME);
-	// } else {
-	// int affectedRowCount = accountService.deleteAccountList(integerIdListDto.getId());
-	// StringBuilder sb = new StringBuilder();
-	// sb.append("redirect:").append(LIST_URL);
-	// logger.debug("view name: {}", sb.toString());
-	// mav.setViewName(sb.toString());
-	//
-	// String message = messageSource.getMessage("success.delete.completed.with.count", new Object[] { affectedRowCount }, locale);
-	// logger.debug("message: {}", message);
-	// successMessages.add(message);
-	//
-	// redirectAttributes.addFlashAttribute("successMessages", successMessages);
-	// redirectAttributes.addFlashAttribute(accountSearchConditionDto);
-	// }
-	// return mav;
-	// }
+	@RequestMapping(value = "/deleteAccountList", method = RequestMethod.POST)
+	public ModelAndView deleteAccountList(@Valid StringIdListDto stringIdListDto, BindingResult result, AccountSearchConditionDto accountSearchConditionDto,
+			RedirectAttributes redirectAttributes, Locale locale) {
+		logger.debug("deleteAccount");
+		logger.debug("stringIdListDto: {}", stringIdListDto);
+		logger.debug("accountSearchConditionDto: {}", accountSearchConditionDto);
+		logger.debug("result: {}", result);
+
+		List<String> successMessages = new ArrayList<String>();
+		ModelAndView mav = new ModelAndView();
+
+		if (result.hasErrors()) {
+			for (ObjectError error : result.getAllErrors()) {
+				logger.error("error: {}", error.getDefaultMessage());
+			}
+
+			Integer pageNo = accountSearchConditionDto.getPageNo();
+
+			List<AccountDto> accountDtoList = null;
+			if ((pageNo != null) && (pageNo > 0)) {
+				accountDtoList = accountManager.selectAccountListByConditionWithPagination(accountSearchConditionDto);
+			} else {
+				accountDtoList = accountManager.selectAccountListByCondition(accountSearchConditionDto);
+			}
+			mav.addObject(accountDtoList);
+			mav.addObject(accountSearchConditionDto);
+			mav.setViewName(LIST_VIEW_NAME);
+		} else {
+			int affectedRowCount = accountManager.deleteAccountList(stringIdListDto.getId());
+			StringBuilder sb = new StringBuilder();
+			sb.append("redirect:").append(LIST_URL);
+			logger.debug("view name: {}", sb.toString());
+			mav.setViewName(sb.toString());
+
+			String message = messageSource.getMessage("success.delete.completed.with.count", new Object[] { affectedRowCount }, locale);
+			logger.debug("message: {}", message);
+			successMessages.add(message);
+
+			redirectAttributes.addFlashAttribute("successMessages", successMessages);
+			redirectAttributes.addFlashAttribute(accountSearchConditionDto);
+		}
+		return mav;
+	}
 
 	//
 	// // servlet 2.5

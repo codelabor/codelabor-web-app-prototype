@@ -247,6 +247,7 @@
 		name="jsp"
 		level="${log.level.application}"
 		additivity="false">
+		<appender-ref ref="STDOUT-DEFAULT" />
 		<appender-ref ref="FILE-ERROR-JSP" />
 	</logger>
 

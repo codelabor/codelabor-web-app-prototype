@@ -39,6 +39,10 @@
 		<listener-class>org.codelabor.system.sniffer.web.listener.RequestContextGenerationListener</listener-class>
 	</listener>
 
+	<listener>
+	    <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+  	</listener>
+
 	<!-- encoding filter -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>

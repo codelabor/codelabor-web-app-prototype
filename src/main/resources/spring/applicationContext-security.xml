@@ -19,7 +19,7 @@
 		<security:remember-me data-source-ref="dataSource" />
 		<security:session-management>
 			<!-- TODO make error page contains messages like this: This session has been expired (possibly due to multiple concurrent logins being attempted as the same user). -->
-			<security:concurrency-control expired-url="/example/security/authentication/prepareLogin" />
+			<security:concurrency-control max-sessions="1" expired-url="/example/security/authentication/prepareLogin" />
 		</security:session-management>
 
 		<!-- authorizing web request -->

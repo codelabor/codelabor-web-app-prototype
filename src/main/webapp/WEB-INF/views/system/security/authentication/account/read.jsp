@@ -22,7 +22,7 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title><spring:message code="title.account.create" /> <system:properties key="servlet.container.id" /></title>
+<title><spring:message code="title.system.security.authentication.account.create" /> <system:properties key="servlet.container.id" /></title>
 <%@ include file="/WEB-INF/jspf/script.jspf"%>
 <%@ include file="/WEB-INF/jspf/style.jspf"%>
 <%@ include file="/WEB-INF/jspf/system/favicon.jspf"%>
@@ -41,7 +41,7 @@
 		<div id="contentBox">
 			<div class="section">
 				<h2>
-					<spring:message code="heading.account.read" />
+					<spring:message code="heading.system.security.authentication.account.read" />
 				</h2>
 				<hr />
 				<!-- success message area -->
@@ -52,54 +52,54 @@
 				</div>
 				<table class="bodyTable">
 					<tr class="b">
-						<th><label for="username"><spring:message code="label.account.username" /></label></th>
+						<th><label for="username"><spring:message code="label.system.security.authentication.account.username" /></label></th>
 						<td><span id="username"><c:out value="${accountDto.username}" /></span></td>
 					</tr>
 					<sec:authorize access="hasRole('ADMINISTRATOR')">
 						<tr class="b">
-							<th><label for="password"><spring:message code="label.account.password" /></label></th>
+							<th><label for="password"><spring:message code="label.system.security.authentication.account.password" /></label></th>
 							<td><span id="password"><c:out value="${accountDto.password}" /></td>
 						</tr>
 					</sec:authorize>
 					<tr class="b">
-						<th><label for="givenName"><spring:message code="label.account.givenName" /></label></th>
+						<th><label for="givenName"><spring:message code="label.system.security.authentication.account.givenName" /></label></th>
 						<td><span id="givenName"><c:out value="${accountDto.givenName}" /></td>
 					</tr>
 					<tr class="b">
-						<th><label for="surname"><spring:message code="label.account.surname" /></label></th>
+						<th><label for="surname"><spring:message code="label.system.security.authentication.account.surname" /></label></th>
 						<td><span id="surname"><c:out value="${accountDto.surname}" /></td>
 					</tr>
 					<tr class="b">
-						<th><label for="mail"><spring:message code="label.account.mail" /></label></th>
+						<th><label for="mail"><spring:message code="label.system.security.authentication.account.mail" /></label></th>
 						<td><span id="mail"><c:out value="${accountDto.mail}" /></td>
 					</tr>
 					<tr class="b">
-						<th><label for="mobile"><spring:message code="label.account.mobile" /></label></th>
+						<th><label for="mobile"><spring:message code="label.system.security.authentication.account.mobile" /></label></th>
 						<td><span id="mobile"><c:out value="${accountDto.mobile}" /></td>
 					</tr>
 					<sec:authorize access="hasRole('ADMINISTRATOR')">
 						<tr class="b">
-							<th><label for="authorities"><spring:message code="label.account.authorities" /></label></th>
+							<th><label for="authorities"><spring:message code="label.system.security.authentication.account.authorities" /></label></th>
 							<td><span id="authorities"><c:out value="${accountDto.authorities}" /></td>
 						</tr>
 						<tr class="b">
-							<th><label for="enabled"><spring:message code="label.account.enabled" /></label></th>
+							<th><label for="enabled"><spring:message code="label.system.security.authentication.account.enabled" /></label></th>
 							<td><span id="enabled"><c:out value="${accountDto.enabled}" /></td>
 						</tr>
 						<tr class="b">
-							<th><label for="accountNonLocked"><spring:message code="label.account.accountNonLocked" /></label></th>
+							<th><label for="accountNonLocked"><spring:message code="label.system.security.authentication.account.accountNonLocked" /></label></th>
 							<td><span id="accountNonLocked"><c:out value="${accountDto.accountNonLocked}" /></td>
 						</tr>
 						<tr class="b">
-							<th><label for="accountNonExpired"><spring:message code="label.account.accountNonExpired" /></label></th>
+							<th><label for="accountNonExpired"><spring:message code="label.system.security.authentication.account.accountNonExpired" /></label></th>
 							<td><span id="accountNonExpired"><c:out value="${accountDto.accountNonExpired}" /></td>
 						</tr>
 						<tr class="b">
-							<th><label for="credentialsNonExpired"><spring:message code="label.account.credentialsNonExpired" /></label></th>
+							<th><label for="credentialsNonExpired"><spring:message code="label.system.security.authentication.account.credentialsNonExpired" /></label></th>
 							<td><span id="credentialsNonExpired"><c:out value="${accountDto.credentialsNonExpired}" /></td>
 						</tr>
 						<tr class="b">
-							<th><label for="graceLoginsRemaining"><spring:message code="label.account.graceLoginsRemaining" /></label></th>
+							<th><label for="graceLoginsRemaining"><spring:message code="label.system.security.authentication.account.graceLoginsRemaining" /></label></th>
 							<td><span id="graceLoginsRemaining"><c:out value="${accountDto.graceLoginsRemaining}" /></td>
 						</tr>
 					</sec:authorize>

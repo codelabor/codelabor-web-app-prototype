@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.codelabor.system.security.authentication.account.dto.AccountDto;
+import org.codelabor.system.security.authentication.account.dto.AccountSearchConditionDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.PreparedStatementSetter;
@@ -369,5 +370,77 @@ public class AccountManagerImpl extends JdbcUserDetailsManager implements Accoun
 
 	protected void deleteUserAuthorities(String username) {
 		getJdbcTemplate().update(deleteUserAuthoritiesSql, username);
+	}
+
+	@Override
+	public List<AccountDto> selectAccountListByConditionWithPagination(AccountSearchConditionDto accountSearchConditionDto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AccountDto> selectAccountListByCondition(AccountSearchConditionDto accountSearchConditionDto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer getNumberOfRow(AccountSearchConditionDto accountSearchConditionDto) {
+		// TODO Auto-generated method stub
+		return Integer.valueOf(0);
+	}
+
+	@Override
+	public int deleteAccount(String username) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteAccountList(List<String> usernameList) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void insertAccount(AccountDto account) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public int insertAccountList(List<String> usernameList) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void updateAccount(AccountDto account) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public AccountDto selectAccount(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AccountDto> selectAccountList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AccountDto> selectAccountListByGroupId(String groupId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AccountDto> selectAccountListByRoleId(String roleId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

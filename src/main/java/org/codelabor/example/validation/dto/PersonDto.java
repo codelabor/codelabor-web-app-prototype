@@ -71,8 +71,7 @@ public class PersonDto { // NOPMD by "SHIN Sang-jae"
 	private Date birthDate;
 
 	public PersonDto() {
-		// This constructor is intentionally empty. Nothing special is needed
-		// here.
+		// This constructor is intentionally empty. Nothing special is needed here.
 	}
 
 	/**
@@ -88,10 +87,8 @@ public class PersonDto { // NOPMD by "SHIN Sang-jae"
 	 * @param zipCode
 	 * @param birthDate
 	 */
-	public PersonDto(String username, String password, String passwordConfirm,
-			String firstName, String lastName, String mobilePhone,
-			String homePhone, String email, String emailConfirm,
-			String zipCode, Date birthDate) {
+	public PersonDto(String username, String password, String passwordConfirm, String firstName, String lastName, String mobilePhone, String homePhone,
+			String email, String emailConfirm, String zipCode, Date birthDate) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -112,7 +109,7 @@ public class PersonDto { // NOPMD by "SHIN Sang-jae"
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -297,27 +294,17 @@ public class PersonDto { // NOPMD by "SHIN Sang-jae"
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = (prime * result)
-				+ ((birthDate == null) ? 0 : birthDate.hashCode());
-		result = (prime * result)
-				+ ((emailConfirm == null) ? 0 : emailConfirm.hashCode());
-		result = (prime * result)
-				+ ((passwordConfirm == null) ? 0 : passwordConfirm.hashCode());
+		result = (prime * result) + ((birthDate == null) ? 0 : birthDate.hashCode());
+		result = (prime * result) + ((emailConfirm == null) ? 0 : emailConfirm.hashCode());
+		result = (prime * result) + ((passwordConfirm == null) ? 0 : passwordConfirm.hashCode());
 		result = (prime * result) + ((email == null) ? 0 : email.hashCode());
-		result = (prime * result)
-				+ ((firstName == null) ? 0 : firstName.hashCode());
-		result = (prime * result)
-				+ ((homePhone == null) ? 0 : homePhone.hashCode());
-		result = (prime * result)
-				+ ((lastName == null) ? 0 : lastName.hashCode());
-		result = (prime * result)
-				+ ((mobilePhone == null) ? 0 : mobilePhone.hashCode());
-		result = (prime * result)
-				+ ((password == null) ? 0 : password.hashCode());
-		result = (prime * result)
-				+ ((username == null) ? 0 : username.hashCode());
-		result = (prime * result)
-				+ ((zipCode == null) ? 0 : zipCode.hashCode());
+		result = (prime * result) + ((firstName == null) ? 0 : firstName.hashCode());
+		result = (prime * result) + ((homePhone == null) ? 0 : homePhone.hashCode());
+		result = (prime * result) + ((lastName == null) ? 0 : lastName.hashCode());
+		result = (prime * result) + ((mobilePhone == null) ? 0 : mobilePhone.hashCode());
+		result = (prime * result) + ((password == null) ? 0 : password.hashCode());
+		result = (prime * result) + ((username == null) ? 0 : username.hashCode());
+		result = (prime * result) + ((zipCode == null) ? 0 : zipCode.hashCode());
 		return result;
 	}
 

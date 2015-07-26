@@ -12,9 +12,9 @@
 	<li><a href="${pageContext.request.contextPath}/themes/maven-default-1.1/css/maven-theme.css">/theme</a></li>
 </ul>
 
-<h5>Emp</h5>
+<h5>CRUD</h5>
 <ul>
-	<li><a href="${pageContext.request.contextPath}/example/emp/listEmp">emp</a></li>
+	<li><a href="${pageContext.request.contextPath}/example/crud/emp/listEmp">emp</a></li>
 </ul>
 
 <h5>Encoding</h5>

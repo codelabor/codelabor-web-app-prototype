@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isErrorPage="true"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglib.jspf"%>
 <!DOCTYPE html>
 <!--
@@ -16,10 +16,13 @@
   - See the License for the specific language governing permissions and
   - limitations under the License.
   -->
+<!--
+  - Author(s): SHIN Sang-jae
+  -->
 <html>
 <head>
-<title><spring:message code="title.buildInfo" /> <system:properties key="servlet.container.id" /></title>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
+<title><spring:message code="title.login" /> <system:properties key="servlet.container.id" /></title>
 <%@ include file="/WEB-INF/jspf/script.jspf"%>
 <%@ include file="/WEB-INF/jspf/style.jspf"%>
 <%@ include file="/WEB-INF/jspf/example/favicon.jspf"%>
@@ -38,33 +41,16 @@
 		<div id="contentBox">
 			<div class="section">
 				<h2>
-					<spring:message code="heading.buildInfo" />
+					<spring:message code="heading.login.success" />
 				</h2>
-				<table class="bodyTable">
-					<tr class="b">
-						<th>attribute</th>
-						<th>value</th>
-					</tr>
-					<tr class="b">
-						<td><spring:message code="label.build.scmBranch" /></td>
-						<td><spring:eval expression="@systemProperties.getProperty('build.scmBranch')" /></td>
-					</tr>
-					<tr class="b">
-						<td><spring:message code="label.build.buildNumber" /></td>
-						<td><spring:eval expression="@systemProperties.getProperty('build.buildNumber')" /></td>
-					</tr>
-					<tr class="b">
-						<td><spring:message code="label.build.timestamp" /></td>
-						<td><spring:eval expression="@systemProperties.getProperty('build.timestamp')" /></td>
-					</tr>
-
-				</table>
+				<hr />
+				<a href="${pageContext.request.contextPath}/example/logout"><spring:message code="button.logout" /></a>
 			</div>
 		</div>
 	</div>
 	<div class="clear">
 		<hr />
 	</div>
-	<%@ include file="/WEB-INF/jspf/example/footer.jspf"%>
+	<%@ include file="/WEB-INF/jspf/example/footer.jspf"%><%@ include file="/WEB-INF/jspf/dump.jspf"%>
 </body>
 </html>

@@ -56,6 +56,28 @@
 				<value>classpath:messages/system/messages</value>
 				<value>classpath:messages/system/title</value>
 
+				<!-- system -->
+				<value>classpath:messages/system/security/alternate</value>
+				<value>classpath:messages/system/security/button</value>
+				<value>classpath:messages/system/security/errors</value>
+				<value>classpath:messages/system/security/caption</value>
+				<value>classpath:messages/system/security/heading</value>
+				<value>classpath:messages/system/security/label</value>
+				<value>classpath:messages/system/security/menu</value>
+				<value>classpath:messages/system/security/messages</value>
+				<value>classpath:messages/system/security/title</value>
+
+				<!-- system -->
+				<value>classpath:messages/system/security/authentication/account/alternate</value>
+				<value>classpath:messages/system/security/authentication/account/button</value>
+				<value>classpath:messages/system/security/authentication/account/errors</value>
+				<value>classpath:messages/system/security/authentication/account/caption</value>
+				<value>classpath:messages/system/security/authentication/account/heading</value>
+				<value>classpath:messages/system/security/authentication/account/label</value>
+				<value>classpath:messages/system/security/authentication/account/menu</value>
+				<value>classpath:messages/system/security/authentication/account/messages</value>
+				<value>classpath:messages/system/security/authentication/account/title</value>
+
 				<!-- common -->
 				<value>classpath:messages/common/alternate</value>
 				<value>classpath:messages/common/button</value>

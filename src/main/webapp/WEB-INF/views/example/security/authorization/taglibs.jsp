@@ -49,6 +49,12 @@
 				<sec:authorize access="!hasRole('ADMINISTRATOR')">
 					<li>You don't have ROLE_ADMINISTRATOR.</li>
 				</sec:authorize>
+				<sec:authorize access="hasRole('MANAGER')">
+					<li>You have ROLE_MANAGER.</li>
+				</sec:authorize>
+				<sec:authorize access="!hasRole('MANAGER')">
+					<li>You don't have ROLE_MANAGER.</li>
+				</sec:authorize>
 				<sec:authorize access="hasRole('DEVELOPER')">
 					<li>You have ROLE_DEVELOPER.</li>
 				</sec:authorize>
@@ -86,6 +92,6 @@
 	<div class="clear">
 		<hr />
 	</div>
-	<%@ include file="/WEB-INF/jspf/example/footer.jspf"%>
+	<%@ include file="/WEB-INF/jspf/example/footer.jspf"%><%@ include file="/WEB-INF/jspf/dump.jspf"%>
 </body>
 </html>

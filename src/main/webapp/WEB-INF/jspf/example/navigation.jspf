@@ -43,19 +43,9 @@
 	<li><a href="${pageContext.request.contextPath}/example/helloworld/sayHelloByJson">json</a></li>
 </ul>
 
-<h5>Info</h5>
-<ul>
-	<li><a href="${pageContext.request.contextPath}/example/info/buildInfo">build info</a></li>
-</ul>
-
 <h5>JSTL</h5>
 <ul>
 	<li><a href="${pageContext.request.contextPath}/example/jstl/fn">jstl</a></li>
-</ul>
-
-<h5>Logback</h5>
-<ul>
-	<li><a href="${pageContext.request.contextPath}/logbackStatus">status</a></li>
 </ul>
 
 <h5>Properties</h5>
@@ -76,5 +66,5 @@
 
 <h5>Authorization</h5>
 <ul>
-	<li><a href="${pageContext.request.contextPath}/example/authorization/taglibs">spring security taglibs</a></li>
+	<li><a href="${pageContext.request.contextPath}/example/security/authorization/taglibs">spring security taglibs</a></li>
 </ul>

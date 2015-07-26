@@ -115,7 +115,7 @@
 	<div class="clear">
 		<hr />
 	</div>
-	<%@ include file="/WEB-INF/jspf/example/footer.jspf"%>
+	<%@ include file="/WEB-INF/jspf/example/footer.jspf"%><%@ include file="/WEB-INF/jspf/dump.jspf"%>
 
 
 </body>

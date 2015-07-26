@@ -30,7 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  */
 @Controller
-@RequestMapping("/example/authentication")
+@RequestMapping("/example/security/authentication")
 public class LoginController {
 
 	private final Logger logger = LoggerFactory
@@ -44,8 +44,8 @@ public class LoginController {
 
 		final ModelAndView mav = new ModelAndView();
 		// TODO if retry count exceeded, deny access and lock account
-		// mav.setViewName("example/authentication/accessDenied");
-		mav.setViewName("forward:/example/authentication/prepareLogin");
+		// mav.setViewName("example/security/authentication/accessDenied");
+		mav.setViewName("forward:/example/security/authentication/prepareLogin");
 		return mav;
 	}
 
@@ -57,7 +57,7 @@ public class LoginController {
 		final ModelAndView mav = new ModelAndView();
 
 		// TODO set last access info (time, ip)
-		mav.setViewName("example/authentication/loginSuccess");
+		mav.setViewName("example/security/authentication/loginSuccess");
 		return mav;
 	}
 
@@ -69,7 +69,7 @@ public class LoginController {
 
 		final ModelAndView mav = new ModelAndView();
 		// TODO set elapsed time
-		mav.setViewName("example/authentication/logoutSuccess");
+		mav.setViewName("example/security/authentication/logoutSuccess");
 		return mav;
 	}
 
@@ -89,7 +89,7 @@ public class LoginController {
 
 		final ModelAndView mav = new ModelAndView();
 		// TODO set retry count
-		mav.setViewName("example/authentication/loginForm");
+		mav.setViewName("example/security/authentication/loginForm");
 		return mav;
 	}
 

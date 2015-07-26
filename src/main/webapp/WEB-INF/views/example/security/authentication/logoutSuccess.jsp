@@ -44,13 +44,13 @@
 					<spring:message code="heading.logout.success" />
 				</h2>
 				<hr />
-				<a href="${pageContext.request.contextPath}/example/authentication/prepareLogin"><spring:message code="button.login" /></a>
+				<a href="${pageContext.request.contextPath}/example/security/authentication/prepareLogin"><spring:message code="button.login" /></a>
 			</div>
 		</div>
 	</div>
 	<div class="clear">
 		<hr />
 	</div>
-	<%@ include file="/WEB-INF/jspf/example/footer.jspf"%>
+	<%@ include file="/WEB-INF/jspf/example/footer.jspf"%><%@ include file="/WEB-INF/jspf/dump.jspf"%>
 </body>
 </html>

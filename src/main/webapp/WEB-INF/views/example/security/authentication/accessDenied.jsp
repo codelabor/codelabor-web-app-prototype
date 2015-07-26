@@ -41,16 +41,14 @@
 		<div id="contentBox">
 			<div class="section">
 				<h2>
-					<spring:message code="heading.login.success" />
+					<spring:message code="heading.access.denied" />
 				</h2>
-				<hr />
-				<a href="${pageContext.request.contextPath}/example/logout"><spring:message code="button.logout" /></a>
 			</div>
 		</div>
 	</div>
 	<div class="clear">
 		<hr />
 	</div>
-	<%@ include file="/WEB-INF/jspf/example/footer.jspf"%>
+	<%@ include file="/WEB-INF/jspf/example/footer.jspf"%><%@ include file="/WEB-INF/jspf/dump.jspf"%>
 </body>
 </html>

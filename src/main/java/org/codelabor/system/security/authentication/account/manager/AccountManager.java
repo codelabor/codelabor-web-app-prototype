@@ -9,6 +9,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public interface AccountManager {
 
+	public abstract int deleteAccount(String username);
+
+	public abstract int deleteAccountList(List<String> usernameList);
+
+	public abstract void insertAccount(AccountDto account);
+
+	public abstract int insertAccountList(List<String> usernameList);
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -23,6 +31,8 @@ public interface AccountManager {
 	 */
 	public abstract void updateUser(UserDetails user);
 
+	public abstract void updateAccount(AccountDto account);
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -30,9 +40,17 @@ public interface AccountManager {
 	 */
 	public abstract UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
-	public abstract List<AccountDto> selectAccountListByConditionWithPagination(AccountSearchConditionDto accountSearchConditionDto);
+	public abstract AccountDto selectAccount(String username);
+
+	public abstract List<AccountDto> selectAccountList();
 
 	public abstract List<AccountDto> selectAccountListByCondition(AccountSearchConditionDto accountSearchConditionDto);
+
+	public abstract List<AccountDto> selectAccountListByConditionWithPagination(AccountSearchConditionDto accountSearchConditionDto);
+
+	public abstract List<AccountDto> selectAccountListByGroupId(String groupId);
+
+	public abstract List<AccountDto> selectAccountListByRoleId(String roleId);
 
 	public abstract Integer getNumberOfRow(AccountSearchConditionDto accountSearchConditionDto);
 

@@ -387,6 +387,60 @@ public class AccountManagerImpl extends JdbcUserDetailsManager implements Accoun
 	@Override
 	public Integer getNumberOfRow(AccountSearchConditionDto accountSearchConditionDto) {
 		// TODO Auto-generated method stub
+		return Integer.valueOf(0);
+	}
+
+	@Override
+	public int deleteAccount(String username) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteAccountList(List<String> usernameList) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void insertAccount(AccountDto account) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public int insertAccountList(List<String> usernameList) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void updateAccount(AccountDto account) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public AccountDto selectAccount(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AccountDto> selectAccountList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AccountDto> selectAccountListByGroupId(String groupId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AccountDto> selectAccountListByRoleId(String roleId) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

@@ -28,6 +28,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private AccountManager accountManager;
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -48,6 +49,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public int insertAccount(AccountDto accountDto) {
+		logger.debug("accountDto before manipulation: {}", accountDto);
 		// encode password
 		accountDto.setPassword(passwordEncoder.encode(accountDto.getPassword()));
 
@@ -73,6 +75,7 @@ public class AccountServiceImpl implements AccountService {
 			accountDto.setGraceLoginsRemaining(SecurityConstants.DEFAULT_GRACE_LOGINS_REMAINING);
 		}
 
+		logger.debug("accountDto after manipulation: {}", accountDto);
 		accountManager.createUser(accountDto);
 		return 1;
 	}
@@ -88,6 +91,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public int updateAccount(AccountDto accountDto) {
+		logger.debug("accountDto before manipulation: {}", accountDto);
 		// encode password
 		accountDto.setPassword(passwordEncoder.encode(accountDto.getPassword()));
 
@@ -102,6 +106,7 @@ public class AccountServiceImpl implements AccountService {
 			accountDto.setCredentialsNonExpired(originAccountDto.getCredentialsNonExpired());
 			accountDto.setGraceLoginsRemaining(originAccountDto.getGraceLoginsRemaining());
 		}
+		logger.debug("accountDto after manipulation: {}", accountDto);
 		accountManager.updateUser(accountDto);
 		return 1;
 	}

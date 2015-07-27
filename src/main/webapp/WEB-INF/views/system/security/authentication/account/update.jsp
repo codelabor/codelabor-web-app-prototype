@@ -86,14 +86,6 @@
 							<td><input name="mobile" value="${accountDto.mobile}" placeholder="" required="required" form="accountDto" /><span><form:errors
 										path="mobile" /></span></td>
 						</tr>
-						<sec:authorize access="!hasRole('ADMINISTRATOR')">
-							<form:hidden path="authorities" />
-							<form:hidden path="enabled" />
-							<form:hidden path="accountNonLocked" />
-							<form:hidden path="accountNonExpired" />
-							<form:hidden path="credentialsNonExpired" />
-							<form:hidden path="graceLoginsRemaining" />
-						</sec:authorize>
 						<sec:authorize access="hasRole('ADMINISTRATOR')">
 							<tr class="b">
 								<th><label for="authorities"><spring:message code="label.system.security.authentication.account.authorities" /></label></th>
@@ -102,22 +94,25 @@
 							<tr class="b">
 								<th><label for="enabled"><spring:message code="label.system.security.authentication.account.enabled" /></label></th>
 								<td><spring:message code="label.system.security.authentication.account.enabled" /> <form:radiobutton path="enabled" value="true" />&nbsp; <spring:message
-										code="label.system.security.authentication.account.disabled" /> <form:radiobutton path="enabled" value="false" /> <span><form:errors path="enabled" /></span></td>
+										code="label.system.security.authentication.account.disabled" /> <form:radiobutton path="enabled" value="false" /> <span><form:errors
+											path="enabled" /></span></td>
 							</tr>
 							<tr class="b">
 								<th><label for="accountNonLocked"><spring:message code="label.system.security.authentication.account.accountNonLocked" /></label></th>
-								<td><spring:message code="label.system.security.authentication.account.enabled" /> <form:radiobutton path="accountNonLocked" value="true" />&nbsp; <spring:message
-										code="label.system.security.authentication.account.disabled" /> <form:radiobutton path="accountNonLocked" value="false" /> <span><form:errors path="accountNonLocked" /></span></td>
+								<td><spring:message code="label.system.security.authentication.account.enabled" /> <form:radiobutton path="accountNonLocked" value="true" />&nbsp;
+									<spring:message code="label.system.security.authentication.account.disabled" /> <form:radiobutton path="accountNonLocked" value="false" /> <span><form:errors
+											path="accountNonLocked" /></span></td>
 							</tr>
 							<tr class="b">
 								<th><label for="accountNonExpired"><spring:message code="label.system.security.authentication.account.accountNonExpired" /></label></th>
-								<td><spring:message code="label.system.security.authentication.account.enabled" /> <form:radiobutton path="accountNonExpired" value="true" />&nbsp; <spring:message
-										code="label.system.security.authentication.account.disabled" /> <form:radiobutton path="accountNonExpired" value="false" /> <span><form:errors path="accountNonExpired" /></span></td>
+								<td><spring:message code="label.system.security.authentication.account.enabled" /> <form:radiobutton path="accountNonExpired" value="true" />&nbsp;
+									<spring:message code="label.system.security.authentication.account.disabled" /> <form:radiobutton path="accountNonExpired" value="false" /> <span><form:errors
+											path="accountNonExpired" /></span></td>
 							</tr>
 							<tr class="b">
 								<th><label for="credentialsNonExpired"><spring:message code="label.system.security.authentication.account.credentialsNonExpired" /></label></th>
-								<td><spring:message code="label.system.security.authentication.account.enabled" /> <form:radiobutton path="credentialsNonExpired" value="true" />&nbsp; <spring:message
-										code="label.system.security.authentication.account.disabled" /> <form:radiobutton path="credentialsNonExpired" value="false" /> <span><form:errors
+								<td><spring:message code="label.system.security.authentication.account.enabled" /> <form:radiobutton path="credentialsNonExpired" value="true" />&nbsp;
+									<spring:message code="label.system.security.authentication.account.disabled" /> <form:radiobutton path="credentialsNonExpired" value="false" /> <span><form:errors
 											path="credentialsNonExpired" /></span></td>
 							</tr>
 							<tr class="b">

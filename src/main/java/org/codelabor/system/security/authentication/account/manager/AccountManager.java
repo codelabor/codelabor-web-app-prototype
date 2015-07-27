@@ -4,18 +4,11 @@ import java.util.List;
 
 import org.codelabor.system.security.authentication.account.dto.AccountDto;
 import org.codelabor.system.security.authentication.account.dto.AccountSearchConditionDto;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public interface AccountManager {
-
-	public abstract int deleteAccount(String username);
-
-	public abstract int deleteAccountList(List<String> usernameList);
-
-	public abstract void insertAccount(AccountDto account);
-
-	public abstract int insertAccountList(List<String> usernameList);
 
 	/*
 	 * (non-Javadoc)
@@ -31,8 +24,6 @@ public interface AccountManager {
 	 */
 	public abstract void updateUser(UserDetails user);
 
-	public abstract void updateAccount(AccountDto account);
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -40,7 +31,7 @@ public interface AccountManager {
 	 */
 	public abstract UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
-	public abstract AccountDto selectAccount(String username);
+	public abstract void deleteUser(String username);
 
 	public abstract List<AccountDto> selectAccountList();
 
@@ -53,5 +44,9 @@ public interface AccountManager {
 	public abstract List<AccountDto> selectAccountListByRoleId(String roleId);
 
 	public abstract Integer getNumberOfRow(AccountSearchConditionDto accountSearchConditionDto);
+
+	public abstract int deleteAccountList(List<String> id);
+
+	public abstract List<GrantedAuthority> loadUserAuthorities(String username);
 
 }

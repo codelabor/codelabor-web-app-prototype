@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,6 +29,7 @@ public class AccountManagerImpl extends JdbcUserDetailsManager implements Accoun
 	private final Logger logger = LoggerFactory.getLogger(AccountManagerImpl.class);
 
 	// from JdbcDaoImpl
+	protected String rolePrefix = "";
 	protected String authoritiesByUsernameQuery = DEF_AUTHORITIES_BY_USERNAME_QUERY;
 	protected String groupAuthoritiesByUsernameQuery = DEF_GROUP_AUTHORITIES_BY_USERNAME_QUERY;
 	protected String usersByUsernameQuery = DEF_USERS_BY_USERNAME_QUERY;
@@ -92,7 +94,6 @@ public class AccountManagerImpl extends JdbcUserDetailsManager implements Accoun
 				}
 			}
 		});
-
 		if (getEnableAuthorities()) {
 			insertUserAuthorities(user);
 		}
@@ -106,9 +107,8 @@ public class AccountManagerImpl extends JdbcUserDetailsManager implements Accoun
 	@Override
 	public void updateUser(UserDetails user) {
 		validateUserDetails(user);
+		AccountDto accountDto = (AccountDto) user;
 		getJdbcTemplate().update(updateUserSql, new PreparedStatementSetter() {
-			AccountDto accountDto = (AccountDto) user;
-
 			public void setValues(PreparedStatement ps) throws SQLException {
 				ps.setString(1, accountDto.getPassword());
 				ps.setString(2, accountDto.getGivenName());
@@ -157,7 +157,6 @@ public class AccountManagerImpl extends JdbcUserDetailsManager implements Accoun
 						.valueOf(accountNonLocked), Boolean.valueOf(accountNonExpired), Boolean.valueOf(credentialsNonExpired), Integer
 						.valueOf(graceLoginsRemaining));
 			}
-
 		});
 	}
 
@@ -336,13 +335,10 @@ public class AccountManagerImpl extends JdbcUserDetailsManager implements Accoun
 	 */
 	protected UserDetails createUserDetails(String username, UserDetails userFromUserQuery, List<GrantedAuthority> combinedAuthorities) {
 		String returnUsername = userFromUserQuery.getUsername();
-
 		if (!usernameBasedPrimaryKey) {
 			returnUsername = username;
 		}
-
 		AccountDto accountDto = (AccountDto) userFromUserQuery;
-
 		return new AccountDto(returnUsername, accountDto.getPassword(), accountDto.getGivenName(), accountDto.getSurname(), accountDto.getMail(),
 				accountDto.getMobile(), combinedAuthorities, accountDto.getEnabled(), accountDto.getAccountNonExpired(), accountDto.getCredentialsNonExpired(),
 				accountDto.getAccountNonLocked(), accountDto.getGraceLoginsRemaining());
@@ -391,42 +387,6 @@ public class AccountManagerImpl extends JdbcUserDetailsManager implements Accoun
 	}
 
 	@Override
-	public int deleteAccount(String username) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int deleteAccountList(List<String> usernameList) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void insertAccount(AccountDto account) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public int insertAccountList(List<String> usernameList) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void updateAccount(AccountDto account) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public AccountDto selectAccount(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<AccountDto> selectAccountList() {
 		// TODO Auto-generated method stub
 		return null;
@@ -443,4 +403,46 @@ public class AccountManagerImpl extends JdbcUserDetailsManager implements Accoun
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public int deleteAccountList(List<String> id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void deleteUser(String username) {
+		if (getEnableAuthorities()) {
+			deleteUserAuthorities(username);
+		}
+		getJdbcTemplate().update(deleteUserSql, username);
+		userCache.removeUserFromCache(username);
+		this.loadUserAuthorities(username);
+	}
+
+	public List<GrantedAuthority> loadUserAuthorities(String username) {
+		return getJdbcTemplate().query(authoritiesByUsernameQuery, new String[] { username }, new RowMapper<GrantedAuthority>() {
+			public GrantedAuthority mapRow(ResultSet rs, int rowNum) throws SQLException {
+				String roleName = rolePrefix + rs.getString(2);
+
+				return new SimpleGrantedAuthority(roleName);
+			}
+		});
+	}
+
+	/**
+	 * Allows a default role prefix to be specified. If this is set to a non-empty value, then it is automatically prepended to any roles read in from the db.
+	 * This may for example be used to add the <tt>ROLE_</tt> prefix expected to exist in role names (by default) by some other Spring Security classes, in the
+	 * case that the prefix is not already present in the db.
+	 *
+	 * @param rolePrefix
+	 *            the new prefix
+	 */
+	public void setRolePrefix(String rolePrefix) {
+		this.rolePrefix = rolePrefix;
+	}
+
+	protected String getRolePrefix() {
+		return rolePrefix;
+	}
+
 }

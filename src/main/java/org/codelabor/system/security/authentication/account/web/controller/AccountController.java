@@ -32,7 +32,7 @@ import org.codelabor.system.dto.StringIdListDto;
 import org.codelabor.system.security.SecurityConstants;
 import org.codelabor.system.security.authentication.account.dto.AccountDto;
 import org.codelabor.system.security.authentication.account.dto.AccountSearchConditionDto;
-import org.codelabor.system.security.authentication.account.manager.AccountManager;
+import org.codelabor.system.security.authentication.account.service.AccountService;
 import org.codelabor.system.security.propertyeditors.SimpleGrantedAuthoritiesPropertiesEditor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +41,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -73,10 +72,7 @@ public class AccountController {
 	private static final String EXPORT_VIEW_NAME = "accountListExcelView";
 
 	@Autowired
-	private AccountManager accountManager;
-
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private AccountService accountService;
 
 	// @Autowired
 	// private DeptService deptService;
@@ -102,35 +98,8 @@ public class AccountController {
 			mav.addObject("authoritiesMap", this.getAuthoritiesMap());
 			mav.setViewName(CREATE_VIEW_NAME);
 		} else {
-
-			// encode password
-			accountDto.setPassword(passwordEncoder.encode(accountDto.getPassword()));
-			accountDto.setPasswordConfirm(null);
-
-			// use default value or not
-			if (accountDto.getAuthorities().isEmpty()) {
-				Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-				authorities.add(new SimpleGrantedAuthority(SecurityConstants.DEFAULT_ROLE));
-				accountDto.setAuthorities(authorities);
-			}
-			if (accountDto.getEnabled() == null) {
-				accountDto.setEnabled(SecurityConstants.DEFAULT_ENABLED);
-			}
-			if (accountDto.getAccountNonExpired() == null) {
-				accountDto.setAccountNonExpired(SecurityConstants.DEFAULT_ACCOUNT_NON_EXPIRED);
-			}
-			if (accountDto.getCredentialsNonExpired() == null) {
-				accountDto.setCredentialsNonExpired(SecurityConstants.DEFAULT_CREDENTIALS_NON_EXPIRED);
-			}
-			if (accountDto.getAccountNonLocked() == null) {
-				accountDto.setAccountNonLocked(SecurityConstants.DEFAULT_ACCOUNT_NON_LOCKED);
-			}
-			if (accountDto.getGraceLoginsRemaining() == null) {
-				accountDto.setGraceLoginsRemaining(SecurityConstants.DEFAULT_GRACE_LOGINS_REMAINING);
-			}
-
 			// invoke service
-			accountManager.createUser(accountDto);
+			accountService.insertAccount(accountDto);
 			int affectedRowCount = 1;
 
 			StringBuilder sb = new StringBuilder();
@@ -169,15 +138,15 @@ public class AccountController {
 
 			List<AccountDto> accountDtoList = null;
 			if ((pageNo != null) && (pageNo > 0)) {
-				accountDtoList = accountManager.selectAccountListByConditionWithPagination(accountSearchConditionDto);
+				accountDtoList = accountService.selectAccountListByConditionWithPagination(accountSearchConditionDto);
 			} else {
-				accountDtoList = accountManager.selectAccountListByCondition(accountSearchConditionDto);
+				accountDtoList = accountService.selectAccountListByCondition(accountSearchConditionDto);
 			}
 			mav.addObject(accountDtoList);
 			mav.addObject(accountSearchConditionDto);
 			mav.setViewName(LIST_VIEW_NAME);
 		} else {
-			int affectedRowCount = accountManager.deleteAccountList(stringIdListDto.getId());
+			int affectedRowCount = accountService.deleteAccountList(stringIdListDto.getId());
 			StringBuilder sb = new StringBuilder();
 			sb.append("redirect:").append(LIST_URL);
 			logger.debug("view name: {}", sb.toString());
@@ -723,15 +692,15 @@ public class AccountController {
 
 			List<AccountDto> accountDtoList = null;
 			if ((pageNo != null) && (pageNo > 0)) {
-				accountDtoList = accountManager.selectAccountListByConditionWithPagination(accountSearchConditionDto);
+				accountDtoList = accountService.selectAccountListByConditionWithPagination(accountSearchConditionDto);
 			} else {
-				accountDtoList = accountManager.selectAccountListByCondition(accountSearchConditionDto);
+				accountDtoList = accountService.selectAccountListByCondition(accountSearchConditionDto);
 			}
 			if (accountDtoList == null) {
 				accountDtoList = Collections.emptyList();
 			}
 
-			Integer numberOfRow = accountManager.getNumberOfRow(accountSearchConditionDto);
+			Integer numberOfRow = accountService.getNumberOfRow(accountSearchConditionDto);
 
 			// set message
 			String message = messageSource.getMessage("success.search.completed.with.count", new Object[] { numberOfRow }, locale);
@@ -782,7 +751,7 @@ public class AccountController {
 		logger.debug("username: {}", username);
 		ModelAndView mav = new ModelAndView();
 
-		AccountDto accountDto = (AccountDto) accountManager.loadUserByUsername(username);
+		AccountDto accountDto = (AccountDto) accountService.selectAccount(username);
 
 		// clear password
 		accountDto.setPassword(null);
@@ -798,7 +767,7 @@ public class AccountController {
 	public ModelAndView readAccount(String username) {
 		logger.debug("readAccount");
 		logger.debug("username: {}", username);
-		AccountDto accountDto = (AccountDto) accountManager.loadUserByUsername(username);
+		AccountDto accountDto = (AccountDto) accountService.selectAccount(username);
 		logger.debug("accountDto: {}", accountDto);
 
 		ModelAndView mav = new ModelAndView();
@@ -818,7 +787,8 @@ public class AccountController {
 			}
 			mav.setViewName(UPDATE_VIEW_NAME);
 		} else {
-			accountManager.updateUser(accountDto);
+
+			accountService.updateAccount(accountDto);
 			int affectedRowCount = 1;
 
 			StringBuilder sb = new StringBuilder();

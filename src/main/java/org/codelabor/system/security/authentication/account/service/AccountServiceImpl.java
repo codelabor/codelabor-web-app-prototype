@@ -94,9 +94,8 @@ public class AccountServiceImpl implements AccountService {
 		// TODO: 불필요한 조회를 하고 있음, SQL를 2개로 분리하여 DB TX를 1개로 줄일 것
 		if (!hasRole(SecurityConstants.ROLE_ADMINISTRATOR)) {
 			AccountDto originAccountDto = (AccountDto) accountManager.loadUserByUsername(accountDto.getUsername());
-			List<? extends GrantedAuthority> grantedAuthorities = accountManager.loadUserAuthorities(originAccountDto.getUsername());
-			logger.debug("grantedAuthorities: {}", grantedAuthorities);
-			accountDto.setAuthorities(grantedAuthorities);
+			// set role derived from user (not group)
+			accountDto.setAuthorities(accountManager.loadUserAuthorities(originAccountDto.getUsername()));
 			accountDto.setEnabled(originAccountDto.getEnabled());
 			accountDto.setAccountNonLocked(originAccountDto.getAccountNonLocked());
 			accountDto.setAccountNonExpired(originAccountDto.getAccountNonExpired());

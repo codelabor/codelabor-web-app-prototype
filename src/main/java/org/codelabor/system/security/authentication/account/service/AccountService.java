@@ -31,4 +31,6 @@ public interface AccountService {
 
 	public abstract Integer getNumberOfRow(AccountSearchConditionDto accountSearchConditionDto);
 
+	public abstract void changePassword(String oldPassword, String newPassword);
+
 }

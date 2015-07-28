@@ -18,6 +18,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -144,6 +145,10 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public Integer getNumberOfRow(AccountSearchConditionDto accountSearchConditionDto) {
 		return accountManager.getNumberOfRow(accountSearchConditionDto);
+	}
+
+	public void changePassword(String oldPassword, String newPassword) {
+		((JdbcUserDetailsManager) accountManager).changePassword(oldPassword, passwordEncoder.encode(newPassword));
 	}
 
 	/**

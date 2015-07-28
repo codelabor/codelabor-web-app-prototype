@@ -162,7 +162,6 @@
 		<appender-ref ref="FILE-SYSTEM" />
 	</logger>
 	<logger name="org.codelabor.system.security" level="debug">
-		<appender-ref ref="STDOUT-DEFAULT" />
 		<appender-ref ref="FILE-SYSTEM" />
 	</logger>
 

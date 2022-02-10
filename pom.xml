@@ -295,7 +295,7 @@
 		<org.mybatis.spring.version>1.2.3</org.mybatis.spring.version>
 		<hibernate.validator.version>5.1.3.Final</hibernate.validator.version>
 		<mysql.version>5.1.36</mysql.version>
-		<postgresql.version>9.4-1201-jdbc41</postgresql.version>
+		<postgresql.version>42.2.25</postgresql.version>
 
 		<!-- Encoding -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
